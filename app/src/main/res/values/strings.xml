@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Chaos Tiler</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+
+    <string name="todo">TODO</string>
+    <string name="square">Square</string>
+    <string name="scratch">Scratch</string>
+    <string name="hexagon">Hexagon</string>
+    <string name="resume_calc">Resume Calculating</string>
+    <string name="stop_calc">Stop Calculating</string>
+    <string name="tile_image">Tile Image</string>
+    <string name="generate_square_image">Generate Square Image</string>
+    <string name="generate_scratch_image">Generate Scratch Image</string>
+    <string name="generate_hexagon_image">Generate Hexagon Image</string>
+    <string name="tile_editor"><![CDATA[Tile Editor   —>]]></string>
+    <string name="choose_palette">Choose Palette</string>
+    <string name="palette_r"><![CDATA[>]]></string>
+    <string name="palette_l"><![CDATA[<]]></string>
+    <string name="goto_generate_tile"><![CDATA[<-- Generate Tile]]></string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="third_fragment">Third Fragment</string>
+    <string name="save_wallpaper">Save Wallpaper</string>
+    <string name="goto_save_wallpaper"><![CDATA[Save Wallpaper -->]]></string>
+    <string name="goto_tile_editor"><![CDATA[<-- Tile Editor]]></string>
+    <string name="adjust_palette_spread">Adjust Palette Spread</string>
+    <string name="choose_blur">Choose Blur</string>
+    <string name="palette_scale">Palette Scale</string>
+    <string name="add_new_palette">Add New Palette</string>
+    <string name="fragment_generate">Generate Fragment</string>
+    <string name="fullscreen_image">Fullscreen Image</string>
+    <string name="max_hits">Max Hits :</string>
+    <string name="save_image">Save Image</string>
+    <string name="set_to_zero">Set To Zero</string>
+</resources>

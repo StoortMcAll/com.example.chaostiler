@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintChoosePalette"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/button_background"
+
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:showIn="@layout/fragment_first">
+
+    <Button
+        android:id="@+id/palette_left"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="@color/button_background"
+        android:contentDescription="@string/generate_square_image"
+        android:insetTop="2dp"
+        android:insetBottom="2dp"
+        android:text="@string/palette_l"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        android:textColorHighlight="@color/text_color_highlights"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@+id/palette_right"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/button_stroke" />
+
+    <Button
+        android:id="@+id/palette_right"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:backgroundTint="@color/button_background"
+        android:contentDescription="@string/generate_scratch_image"
+        android:insetTop="2dp"
+        android:insetBottom="2dp"
+        android:text="@string/palette_r"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toStartOf="@id/palette"
+        app:layout_constraintStart_toEndOf="@id/palette_left"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/button_stroke" />
+
+    <TextView
+        android:id="@+id/palette"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="@color/button_background"
+        android:contentDescription="@string/generate_hexagon_image"
+        android:insetTop="2dp"
+        android:insetBottom="2dp"
+        android:text="@string/choose_palette"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/palette_right"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/button_stroke" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
