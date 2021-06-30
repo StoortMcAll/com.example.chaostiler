@@ -36,6 +36,9 @@ class SecondFragment : Fragment() {
 
         tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
+        view.findViewById<Button>(R.id.blur_left).setOnClickListener(){
+
+        }
 
         view.findViewById<Button>(R.id.palette_left).setOnClickListener() {
             colorClass.Decrease_SpreadID()
