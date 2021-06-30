@@ -14,7 +14,7 @@
         layout="@layout/choose_palette"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/switch_to_editor"
+        app:layout_constraintBottom_toTopOf="@id/addNewPaletteConstraint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

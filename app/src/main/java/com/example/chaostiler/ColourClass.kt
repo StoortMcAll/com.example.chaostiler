@@ -187,7 +187,7 @@ class ColorClass {
 
 
         private fun Process_ColorSpread() {
-            if (mColorDataList.size < 2) return;
+            if (mColorDataList.size < 2) return
 
             var index: Int = 1
 
@@ -216,9 +216,9 @@ class ColorClass {
         }
 
         private fun Color_Channel_Range(range: Int, r1: Int, r2: Int): IntArray {
-            var results: IntArray = IntArray(range)
+            var results = IntArray(range)
 
-            results[0] = r1;
+            results[0] = r1
 
             val dx: Double = (r2 - r1) / range.toDouble()
 
@@ -227,10 +227,10 @@ class ColorClass {
                     results[i] = r1
             } else {
                 for (i in 1 until range)
-                    results[i] = (r1 + (dx * i)).toInt();
+                    results[i] = (r1 + (dx * i)).toInt()
             }
 
-            return results;
+            return results
         }
     }
 

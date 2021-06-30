@@ -9,12 +9,14 @@
     android:layout_height="match_parent"
     style="@style/Theme.NoTitle"
     tools:context=".ThirdFragment">
+<!--
 
     <FrameLayout
         android:id="@+id/fullScreenFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/button_stroke">
+-->
 
         <com.example.chaostiler.MyImageView
             android:id="@+id/fullscreenImageView"
@@ -29,26 +31,26 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <Button
-            android:id="@+id/backto_secondFragment"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
-            android:backgroundTint="@color/progress_background_tint"
-            android:insetTop="2dp"
-            android:insetBottom="2dp"
-            android:text="@string/goto_tile_editor"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textColorHighlight="@color/text_color_highlights"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/button_stroke" />
+    <Button
+        android:id="@+id/backto_secondFragment"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginStart="2dp"
+        android:backgroundTint="@color/progress_background_tint"
+        android:insetTop="2dp"
+        android:insetBottom="2dp"
+        android:text="@string/goto_tile_editor"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        android:textColorHighlight="@color/text_color_highlights"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/button_stroke" />
 
+<!--
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/include"
@@ -59,28 +61,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" >
+-->
 
 
-            <Button
-                android:id="@+id/save_image"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:backgroundTint="@color/progress_background_tint"
-                android:insetTop="2dp"
-                android:insetBottom="2dp"
-                android:text="@string/save_image"
-                android:textAllCaps="false"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-                app:layout_constraintBottom_toTopOf="@id/save_wallpaper"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:strokeColor="@color/button_stroke" />
+        <Button
+            android:id="@+id/save_image"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:backgroundTint="@color/progress_background_tint"
+            android:insetTop="2dp"
+            android:insetBottom="2dp"
+            android:text="@string/save_image"
+            android:textAllCaps="false"
+            android:textColor="@color/text_color"
+            android:textColorHighlight="@color/text_color_highlights"
+            app:layout_constraintBottom_toTopOf="@id/save_wallpaper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="@color/button_stroke" />
 
-            <Button
+        <Button
                 android:id="@+id/save_wallpaper"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
@@ -99,9 +102,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:strokeColor="@color/button_stroke" />
+<!--
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+       // </androidx.constraintlayout.widget.ConstraintLayout>
+-->
+<!--
 
     </FrameLayout>
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

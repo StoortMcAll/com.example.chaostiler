@@ -75,9 +75,9 @@ class SecondFragment : Fragment() {
 
             Bitmap_ColorSpread.mNewColors = true
 
-            sk?.invalidate()
-
             applyPaletteChangeToBitmap()
+
+            sk?.invalidate()
         }
 
 
