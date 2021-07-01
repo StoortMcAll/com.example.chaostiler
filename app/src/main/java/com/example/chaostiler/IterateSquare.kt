@@ -11,7 +11,7 @@ val parentJob = Job()
 val coroutineScope = CoroutineScope(
     Dispatchers.Default + parentJob)
 
-var maxCount = 5000
+var maxCount = 7500
 
 // endregion
 
@@ -85,9 +85,8 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
 
     // region Variable Declaration
 
-if (maxCount < 100){
-    maxCount = 5000
-}
+    maxCount = 7500
+
     var hits : ArrayList<Hit> = arrayListOf()
 
     var xnew: Double

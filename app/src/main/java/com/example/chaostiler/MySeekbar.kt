@@ -22,7 +22,7 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
 
     lateinit var bitmapColorSpread : Bitmap_ColorSpread
 
-    var sbTexture : Bitmap = Bitmap.createBitmap(256, 1, Bitmap.Config.ARGB_8888)
+    var sbTexture : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
 
     private var mSeekBarHintPaint: Paint? = null
     private var mHintTextColor: Int = 0
@@ -115,7 +115,7 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
         if (ib != null) ib.background = sbTexture.toDrawable(resources)
 
         if (isFinalValue){
-            applyPaletteChangeToBitmap()
+            applyPaletteChangeToBitmap(pixelDataClone)
         }
 
         isFinalValue = false

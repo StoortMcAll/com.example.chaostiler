@@ -49,5 +49,15 @@ class PixelData(private val width : Int, private val height : Int) {
 
         aPixelArray.fill(0, 0, aPixelArray.count() - 1)
     }
+
+    fun Clone(): PixelData {
+        var clonePD = PixelData(width, height)
+
+        clonePD.mMaxHits = mMaxHits
+
+        clonePD.aPixelArray = aPixelArray.clone()
+
+        return clonePD
+    }
 }
 

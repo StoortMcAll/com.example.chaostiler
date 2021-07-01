@@ -30,14 +30,16 @@ class SecondFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        applyPaletteChangeToBitmap()
-        
+        clonePixelData()
+
         tileImageView = view.findViewById<MyImageView>(R.id.tile_image_view)
 
         tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
-        view.findViewById<Button>(R.id.blur_left).setOnClickListener(){
+        applyPaletteChangeToBitmap(pixelDataClone)
 
+        view.findViewById<Button>(R.id.blur_left).setOnClickListener(){
+            blurLeft()
         }
 
         view.findViewById<Button>(R.id.palette_left).setOnClickListener() {
@@ -47,7 +49,7 @@ class SecondFragment : Fragment() {
 
             Bitmap_ColorSpread.mNewColors = true
 
-            applyPaletteChangeToBitmap()
+            applyPaletteChangeToBitmap(pixelDataClone)
 
             sk?.invalidate()
 
@@ -60,14 +62,14 @@ class SecondFragment : Fragment() {
 
             Bitmap_ColorSpread.mNewColors = true
 
-            applyPaletteChangeToBitmap()
+            applyPaletteChangeToBitmap(pixelDataClone)
 
             sk?.invalidate()
 
         }
 
         view.findViewById<Button>(R.id.set_to_zero).setOnClickListener() {
-            //setToZero()
+            setToZero()
         }
 
 
@@ -78,7 +80,7 @@ class SecondFragment : Fragment() {
 
             Bitmap_ColorSpread.mNewColors = true
 
-            applyPaletteChangeToBitmap()
+            applyPaletteChangeToBitmap(pixelDataClone)
 
             sk?.invalidate()
         }

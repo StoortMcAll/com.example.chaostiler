@@ -29,54 +29,48 @@ lateinit var maxHitsView : TextView
 // endregion
 
 
-fun applyPaletteChangeToBitmap(){
+fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
     coroutineScope.launch(Dispatchers.Default) {
-        setTileViewBitnap()
+        setTileViewBitnap(pixeldatacopy)
+    }
+}
+
+fun blurLeft(){
+    coroutineScope.launch(Dispatchers.Default) {
+        prepareBlurData()
+
+        setTileViewBitnap(pixelDataClone)
     }
 }
 
 fun setToZero() {
     coroutineScope.launch(Dispatchers.Default) {
         runSetToZero()
+
+        setTileViewBitnap(pixelDataClone)
     }
 }
 
-fun runSetToZero(){
-    coroutineScope.launch(Dispatchers.Default) {
-        val size = width * height
+fun runSetToZero() {
+    val size = width * height
 
-        var min = 9999
+    var min = 9999
 
-        while (pixelData.mPixelArrayBusy) {
+    while (pixelDataClone.mPixelArrayBusy) {
+    }
+
+    for (i in 0 until size) {
+        if (pixelDataClone.aPixelArray[i] < min) {
+            min = pixelDataClone.aPixelArray[i]
         }
+    }
 
+    if (min > 0) {
         for (i in 0 until size) {
-            if (pixelData.aPixelArray[i] < min) {
-                min = pixelData.aPixelArray[i]
-            }
-
-            if (min > 0) {
-
-                for (i in 0 until size) {
-                    pixelData.aPixelArray[i] = pixelData.aPixelArray[i] - min
-                }
-            }
+            pixelDataClone.aPixelArray[i] = pixelDataClone.aPixelArray[i] - min
         }
 
-        pixelData.mMaxHits -= min
-
-        aColors = buildPixelArrayFromColorSpread(pixelData)
-
-        bmTexture.setPixels(aColors,
-            0,
-            MainActivity.width,
-            0,
-            0,
-            MainActivity.width,
-            MainActivity.height)
-
-        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
-
+        pixelDataClone.mMaxHits -= min
     }
 }
 
@@ -139,8 +133,8 @@ fun runFormula() {
 }
 
 
-fun setTileViewBitnap() {
-    aColors = buildPixelArrayFromColorSpread(pixelData)
+fun setTileViewBitnap(pixeldatacopy: PixelData) {
+    aColors = buildPixelArrayFromColorSpread(pixeldatacopy)
 
     bmTexture.setPixels(aColors,
         0,
@@ -153,7 +147,7 @@ fun setTileViewBitnap() {
     tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 }
 
-fun buildPixelArrayFromColorSpread(pixeldata: PixelData) : IntArray {
+fun buildPixelArrayFromColorSpreadBlur(pixeldata: PixelData) : IntArray {
     val colrange = colorClass.getCurrentRange()
 
     val colrangecount = colrange.mColorSpreadCount * Bitmap_ColorSpread.maxRangeValue
@@ -165,9 +159,32 @@ fun buildPixelArrayFromColorSpread(pixeldata: PixelData) : IntArray {
 
     for (i in 0  until count){
         cl = (pixeldata.aPixelArray[i] * mult).toInt()
-       // cl = pixeldata.aPixelArray[i]
+        // cl = pixeldata.aPixelArray[i]
 
         if (cl > colrangecount) cl = colrangecount.toInt()
+
+        cols[i] = colrange.aColorSpread[cl]
+    }
+
+    return  cols
+}
+
+fun buildPixelArrayFromColorSpread(pixeldata: PixelData) : IntArray {
+    val colrange = colorClass.getCurrentRange()
+
+    val colrangecount = colrange.mColorSpreadCount * Bitmap_ColorSpread.maxRangeValue
+
+    val mult = colrangecount  / pixeldata.mMaxHits.toDouble()
+    val cols = IntArray(MainActivity.width * MainActivity.height)
+    val count = pixeldata.arraySize
+    var cl : Int
+    val maxval = colrangecount.toInt()
+
+    for (i in 0  until count){
+        cl = (pixeldata.aPixelArray[i] * mult).toInt()
+       // cl = pixeldata.aPixelArray[i]
+
+        if (cl > maxval) cl = maxval
 
         cols[i] = colrange.aColorSpread[cl]
     }

@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         val width = 512; val height = 512
 
-        var mSeekbarMax = 255
+        var mSeekbarMax = 256
 
         var bmImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 

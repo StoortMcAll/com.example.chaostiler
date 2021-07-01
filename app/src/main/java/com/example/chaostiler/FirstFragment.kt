@@ -39,6 +39,8 @@ class FirstFragment : Fragment() {
 
         mStopCalc = view.findViewById(R.id.resume)
 
+        applyPaletteChangeToBitmap(pixelData)
+
         tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
         view.findViewById<Button>(R.id.run_square).setOnClickListener {
@@ -52,7 +54,7 @@ class FirstFragment : Fragment() {
 
             Bitmap_ColorSpread.mNewColors = true
 
-            applyPaletteChangeToBitmap()
+            applyPaletteChangeToBitmap(pixelData)
         }
 
         view.findViewById<Button>(R.id.palette_right).setOnClickListener() {
@@ -60,7 +62,7 @@ class FirstFragment : Fragment() {
 
             Bitmap_ColorSpread.mNewColors = true
 
-            applyPaletteChangeToBitmap()
+            applyPaletteChangeToBitmap(pixelData)
         }
 
 

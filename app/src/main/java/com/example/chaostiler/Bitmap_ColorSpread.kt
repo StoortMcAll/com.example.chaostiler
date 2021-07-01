@@ -4,6 +4,7 @@ package com.example.chaostiler
 
 import android.graphics.Bitmap
 import com.example.chaostiler.MainActivity.Companion.colorClass
+import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
 
 //endregion
 
@@ -13,7 +14,7 @@ class Bitmap_ColorSpread {
     // region Variable Declaration
 
     companion object {
-        private var colArray = IntArray(256)
+        private var colArray = IntArray(mSeekbarMax)
 
         var mNewColors = false
 
@@ -28,7 +29,7 @@ class Bitmap_ColorSpread {
     }
 
     fun drawBitmap(maxPos : Int, currentPos : Int) : Bitmap {
-        var bitmap : Bitmap = Bitmap.createBitmap(256, 1, Bitmap.Config.ARGB_8888)
+        var bitmap : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
 
         val curRange = colorClass.getCurrentRange()
 
