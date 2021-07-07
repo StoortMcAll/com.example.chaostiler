@@ -176,6 +176,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/first_maxhits"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/max_hits"
+            android:textAllCaps="false"
+            android:textColor="@color/text_color"
+            app:layout_constraintBottom_toTopOf="@+id/naviConstraint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include_choose_palette" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

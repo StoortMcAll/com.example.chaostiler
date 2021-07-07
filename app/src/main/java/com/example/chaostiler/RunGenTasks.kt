@@ -3,18 +3,19 @@ package com.example.chaostiler
 // region Variable Declaration
 
 import android.graphics.Bitmap
+import android.util.Log
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
-import com.example.chaostiler.GenerateFragment.Companion.genView
+import com.example.chaostiler.FirstFragment.Companion.mMaxHitsText
 import com.example.chaostiler.MainActivity.Companion.colorClass
 import com.example.chaostiler.MainActivity.Companion.height
 import com.example.chaostiler.MainActivity.Companion.width
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 var doingCalc = false
+var jobRunning = false
 
 var square = SquareValues(0.23, 0.7157, -0.4212, 1.3134, -2.632, 1.59, 1.205, -1.34)
 
@@ -23,8 +24,6 @@ var bmTexture = Bitmap.createBitmap(MainActivity.width, MainActivity.height, Bit
 var aColors = IntArray(MainActivity.width * MainActivity.height)
 
 lateinit var tileImageView: MyImageView
-
-lateinit var maxHitsView : TextView
 
 // endregion
 
@@ -75,63 +74,53 @@ fun runSetToZero() {
 }
 
 
-fun startNew_RunFormula() {
-    square = SquareValues(MainActivity.rand.nextInt(until = 3))
+fun startNew_RunFormula(isNewRun : Boolean, runCounter : Int) {
+    if (isNewRun) {
+        square = SquareValues(MainActivity.rand.nextInt(until = 3))
 
-    pixelData.clearData()
-
-    maxCount = 5000
+        pixelData.clearData()
+        pixelDataClone.clearData()
+    }
+    maxCounter = maxCount
 
     doingCalc = true
 
-    coroutineScope.launch(Dispatchers.Default) {
-        runFormula()
-    }
+    Log.d("RunCount", runCounter.toString())
+    do {
+        val hits = runSquare(MainActivity.width, MainActivity.height, square)
+
+        pixelData.addHitsToPixelArray(hits)
+
+        aColors = buildPixelArrayFromColorSpread(pixelData)
+
+        bmTexture.setPixels(aColors,
+            0,
+            width,
+            0,
+            0,
+            width,
+            height)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            upDataUI()
+        }
+
+    } while (doingCalc)
+    Log.d("RunCountEnd", runCounter.toString())
 }
 
+ fun upDataUI(){
 
-fun resume_RunFormula() {
-    maxCount = 5000
+        val value = pixelData.mMaxHits.toString()
 
-    doingCalc = true
+        var text = "Max Hits  $value"
 
-    coroutineScope.launch(Dispatchers.Default) {
-        runFormula()
-    }
+        mMaxHitsText.text = text.subSequence(0, text.length)
+
+        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+
+
 }
-
-fun runFormula() {
-    coroutineScope.launch(Dispatchers.Default) {
-      //  GenerateFragment.genView.addView(MainActivity.tv_dynamic)
-
-        do {
-            val hits = runSquare(MainActivity.width, MainActivity.height, square)
-
-            pixelData.addHitsToPixelArray(hits)
-
-            val value = pixelData.mMaxHits.toString()
-
-            val text = "Max Hits  $value"
-
-            maxHitsView.text = text
-
-            aColors = buildPixelArrayFromColorSpread(pixelData)
-
-            bmTexture.setPixels(aColors,
-                0,
-                MainActivity.width,
-                0,
-                0,
-                MainActivity.width,
-                MainActivity.height)
-
-            tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
-        } while (doingCalc)
-
-   //     genView.removeView(MainActivity.tv_dynamic)
-    }
-}
-
 
 fun setTileViewBitnap(pixeldatacopy: PixelData) {
     aColors = buildPixelArrayFromColorSpread(pixeldatacopy)
@@ -170,19 +159,20 @@ fun buildPixelArrayFromColorSpreadBlur(pixeldata: PixelData) : IntArray {
 }
 
 fun buildPixelArrayFromColorSpread(pixeldata: PixelData) : IntArray {
+    val cols = IntArray(MainActivity.width * MainActivity.height)
+
     val colrange = colorClass.getCurrentRange()
 
     val colrangecount = colrange.mColorSpreadCount * Bitmap_ColorSpread.maxRangeValue
 
     val mult = colrangecount  / pixeldata.mMaxHits.toDouble()
-    val cols = IntArray(MainActivity.width * MainActivity.height)
+
     val count = pixeldata.arraySize
     var cl : Int
     val maxval = colrangecount.toInt()
 
     for (i in 0  until count){
         cl = (pixeldata.aPixelArray[i] * mult).toInt()
-       // cl = pixeldata.aPixelArray[i]
 
         if (cl > maxval) cl = maxval
 

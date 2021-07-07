@@ -13,6 +13,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import java.time.LocalDateTime
 import kotlin.random.Random
 
@@ -22,15 +24,13 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     companion object{
-        lateinit var mainContext : Context
+       // lateinit var mainContext : Context
 
         lateinit var wm : WindowMetrics
 
         lateinit var tv_dynamic : TextView
 
         var rand  = Random(0)
-
-        var mainCounter = 0
 
         val width = 512; val height = 512
 
@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         var clickPos = PointF(0.0f, 0.0f)
 
         var mViewSize = Point(0, 0)
+
+        var scopeIO = CoroutineScope(Dispatchers.IO)
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -60,19 +62,19 @@ class MainActivity : AppCompatActivity() {
         tv_dynamic = TextView(this)
         tv_dynamic.textSize = 20f
         tv_dynamic.width = 0
-        tv_dynamic.text="@string/max_hits"
+        tv_dynamic.text=""
         tv_dynamic.isAllCaps = false
         tv_dynamic.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
         rand = Random(LocalDateTime.now().second + LocalDateTime.now().hour)
 
-        var vl = IntArray(10)
+      /*  var vl = IntArray(10)
         for (i in 0 until 10){
             vl[i] = rand.nextInt()
-        }
-        mainContext = this.baseContext
+        }*/
+       // mainContext = this.baseContext
 
-        var disp = mainContext.display
+       // var disp = mainContext.display
 
         val outPoint = Point()
         if (Build.VERSION.SDK_INT >= 19) {
@@ -89,11 +91,11 @@ class MainActivity : AppCompatActivity() {
             mViewSize.x = outPoint.y
         }
 
-        val ds = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      /*  val ds = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             baseContext.display
         } else {
             baseContext.display
-        }
+        }*/
 
     }
 

@@ -9,19 +9,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.chaostiler.MainActivity.Companion.colorClass
+import kotlinx.coroutines.*
 
 // endregion
 
 
 class FirstFragment : Fragment() {
+    lateinit var mStartSquare : Button
+    lateinit var mResumeButton : Button
 
-    lateinit var mStopCalc : Button
+    companion object {
+        var newRunCount = 0
+
+        lateinit var mMaxHitsText: TextView
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -33,20 +41,30 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        makeVisible(view)
+        var job : Job? = null
 
         tileImageView = view.findViewById(R.id.tile_image_view)
-
-        mStopCalc = view.findViewById(R.id.resume)
+        mMaxHitsText = view.findViewById(R.id.first_maxhits)
+        mStartSquare = view.findViewById(R.id.run_square)
+        mResumeButton = view.findViewById(R.id.resume)
 
         applyPaletteChangeToBitmap(pixelData)
 
         tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
-        view.findViewById<Button>(R.id.run_square).setOnClickListener {
-            GenerateFragment.startNew = true
+        mStartSquare.setOnClickListener {
+            makeInvisible(view)
 
-            findNavController().navigate(R.id.action_FirstFragment_to_GenerateFragment)
+            if (job != null){
+                if (job?.isActive == true) {
+                    job?.cancel(null)
+                }
+            }
+            MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
+            job = MainActivity.scopeIO.launch {
+                startNew_RunFormula(true, newRunCount)
+                newRunCount++
+            }
         }
 
         view.findViewById<Button>(R.id.palette_left).setOnClickListener() {
@@ -65,29 +83,76 @@ class FirstFragment : Fragment() {
             applyPaletteChangeToBitmap(pixelData)
         }
 
+        mResumeButton.setOnClickListener {
+            if (mResumeButton.text == "Pause") {
+                doingCalc = false
+                job?.cancel(null)
+                //while (job?.isCompleted == false) { }
+                makeVisible(view)
+            }
+            else{
+                makeInvisible(view)
+                MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
+                job = MainActivity.scopeIO.launch {
+                    startNew_RunFormula(false, newRunCount)
+                }
 
-        view.findViewById<Button>(R.id.resume).setOnClickListener {
-            GenerateFragment.startNew = false
-
-            findNavController().navigate(R.id.action_FirstFragment_to_GenerateFragment)
+            }
         }
 
         view.findViewById<Button>(R.id.switch_to_editor).setOnClickListener {
-
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
+        makeVisible(view)
     }
 
     fun makeVisible(view: View) {
+        view.findViewById<ConstraintLayout>(R.id.constraintGenerators).isVisible = true
+
+        var resumgen = view.findViewById<ConstraintLayout>(R.id.resume_generate)
+        var resumbut = view.findViewById<Button>(R.id.resume)
+        var chspal = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
+        var navi = view.findViewById<ConstraintLayout>(R.id.naviConstraint)
+
         if (pixelData.mMaxHits > 0) {
-            var resum = view.findViewById<ConstraintLayout>(R.id.resume_generate)
-            var navi = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
-            var chspal = view.findViewById<ConstraintLayout>(R.id.naviConstraint)
-            if (!navi.isVisible) navi.isVisible = true
-            if (!chspal.isVisible) chspal.isVisible = true
-            if (!resum.isVisible) resum.isVisible = true
+            navi.isVisible = true
+            chspal.isVisible = true
+            resumgen.isVisible = true
+            mMaxHitsText.isVisible = true
+
+            val value = pixelData.mMaxHits.toString()
+            var text = "Max Hits  $value"
+            mMaxHitsText.text = text.subSequence(0, text.length)
+
+            text = "Resume"
+            resumbut.text = text.subSequence(0, text.length)
         }
+        else{
+            navi.isVisible = false
+            chspal.isVisible = false
+            resumgen.isVisible = false
+            mMaxHitsText.isVisible = false
+        }
+    }
+
+    fun makeInvisible(view: View) {
+        var resumgen = view.findViewById<ConstraintLayout>(R.id.resume_generate)
+        var resumbut = view.findViewById<Button>(R.id.resume)
+        var chspal = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
+        var navi = view.findViewById<ConstraintLayout>(R.id.naviConstraint)
+
+        navi.isVisible = false
+        chspal.isVisible = true
+        resumgen.isVisible = true
+        mMaxHitsText.isVisible = true
+
+        val value = pixelData.mMaxHits.toString()
+        var text = "Max Hits  $value"
+        mMaxHitsText.text = text.subSequence(0, text.length)
+
+        text = "Pause"
+        resumbut.text = text.subSequence(0, text.length)
     }
 
 }

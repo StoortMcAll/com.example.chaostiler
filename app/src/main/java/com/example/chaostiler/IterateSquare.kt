@@ -2,7 +2,7 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
-import com.example.chaostiler.MainActivity.Companion.mainCounter
+import android.util.Log
 import kotlinx.coroutines.*
 import kotlin.math.cos
 import kotlin.math.sin
@@ -11,7 +11,10 @@ val parentJob = Job()
 val coroutineScope = CoroutineScope(
     Dispatchers.Default + parentJob)
 
-var maxCount = 7500
+val maxCount = 1000
+var maxCounter = maxCount
+
+var mainCounter = 0
 
 // endregion
 
@@ -85,7 +88,7 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
 
     // region Variable Declaration
 
-    maxCount = 7500
+    maxCounter = maxCount
 
     var hits : ArrayList<Hit> = arrayListOf()
 
@@ -131,9 +134,10 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
 
         hits.add(Hit((x * wide).toInt(), (y * high).toInt()))
 
-    } while (counter++ < maxCount);
+    } while (counter++ < maxCounter);
 
-    mainCounter += maxCount
+    mainCounter += maxCounter
+    Log.d("Iterations", mainCounter.toString())
 
     square.x = x; square.y = y;
 

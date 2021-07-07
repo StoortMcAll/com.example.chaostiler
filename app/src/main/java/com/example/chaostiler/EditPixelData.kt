@@ -4,9 +4,6 @@ import com.example.chaostiler.MainActivity.Companion.height
 import com.example.chaostiler.MainActivity.Companion.width
 
 
-lateinit var pixelDataClone : PixelData
-
-
 fun clonePixelData() {
     pixelDataClone = pixelData.Clone()
 }

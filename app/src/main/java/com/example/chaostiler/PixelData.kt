@@ -8,7 +8,7 @@ import com.example.chaostiler.MainActivity.Companion.width
 data class Hit(val x: Int, val y: Int)
 
 var pixelData = PixelData(width, height)
-
+var pixelDataClone = PixelData(width, height)
 // endregion
 
 
@@ -36,8 +36,10 @@ class PixelData(private val width : Int, private val height : Int) {
             index = it.x + it.y * width
             aPixelArray[index]++
 
-            if (aPixelArray[index] > mMaxHits)
+            if (aPixelArray[index] > mMaxHits) {
+                val tt: Int = aPixelArray[index]
                 mMaxHits = aPixelArray[index]
+            }
         }
 
         mPixelArrayBusy = false
@@ -47,7 +49,7 @@ class PixelData(private val width : Int, private val height : Int) {
     {
         mMaxHits = 0
 
-        aPixelArray.fill(0, 0, aPixelArray.count() - 1)
+        aPixelArray.fill(0, 0, aPixelArray.count())
     }
 
     fun Clone(): PixelData {

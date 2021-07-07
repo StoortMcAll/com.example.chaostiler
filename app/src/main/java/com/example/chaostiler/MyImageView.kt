@@ -114,9 +114,9 @@ class MyImageView @JvmOverloads constructor(
                 canvas.drawRect(0.0f, 0.0f, wd.toFloat(), ht.toFloat(), paint)
 
                 if (isWallpaper) {
-                    bitmapToFile(texture, "TestPic.png")
-                    texture.width
-                    texture.height
+                    //bitmapToFile(texture, "TestPic.png")
+                    //texture.width
+                    //texture.height
                     wallpaperManager.setBitmap(texture)
                 } else {
                     bitmapToFile(texture, "TestPic.png")
