@@ -16,12 +16,11 @@
     <string name="generate_scratch_image">Generate Scratch Image</string>
     <string name="generate_hexagon_image">Generate Hexagon Image</string>
     <string name="tile_editor"><![CDATA[Tile Editor   —>]]></string>
-    <string name="choose_palette">Choose Palette</string>
+    <string name="choose_palette">Palette</string>
     <string name="palette_r"><![CDATA[>]]></string>
     <string name="palette_l"><![CDATA[<]]></string>
     <string name="goto_generate_tile"><![CDATA[<-- Generate Tile]]></string>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="undo_all_changes">Undo All Changes</string>
     <string name="third_fragment">Third Fragment</string>
     <string name="save_wallpaper">Save Wallpaper</string>
     <string name="goto_save_wallpaper"><![CDATA[Save Wallpaper -->]]></string>
@@ -29,7 +28,7 @@
     <string name="adjust_palette_spread">Adjust Palette Spread</string>
     <string name="choose_blur">Choose Blur</string>
     <string name="palette_scale">Palette Scale</string>
-    <string name="add_new_palette">Add New Palette</string>
+    <string name="add_new_palette">Add New</string>
     <string name="fragment_generate">Generate Fragment</string>
     <string name="fullscreen_image">Fullscreen Image</string>
     <string name="max_hits">Max Hits :</string>

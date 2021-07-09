@@ -85,6 +85,7 @@ class ColorClass {
     fun getCurrentRange() : ColorRangeClass{
         if (isQueuedChange){
             set_CurrentColorRange_to(mQueuedID)
+            //isQueuedChange = false
         }
         return aCurrentRange
     }
@@ -167,7 +168,7 @@ class ColorClass {
 
         // region Variable Declaration
 
-        var prog = 255
+        var prog = 0
 
         var mColorRangeID = id
 

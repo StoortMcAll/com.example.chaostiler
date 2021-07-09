@@ -10,7 +10,6 @@ import androidx.core.graphics.drawable.toDrawable
 import com.example.chaostiler.Bitmap_ColorSpread.Companion.mNewColors
 import com.example.chaostiler.MainActivity.Companion.colorClass
 import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
-//import com.example.chaostiler.MainActivity.Companion.mSeekbarProgress
 
 
 class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
@@ -73,7 +72,6 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
 
                     colorClass.getCurrentRange().prog = progress
 
-                   // mSeekbarProgress = progress
                     isFirstDraw = true
                 }
 
@@ -108,15 +106,15 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
     private fun drawSpread() {
         mSeekbarMax = this.max
 
-        sbTexture = bitmapColorSpread.drawBitmap(mSeekbarMax, progress)
+        sbTexture = bitmapColorSpread.drawBitmap2(mSeekbarMax, progress, pixelDataClone)
 
         val ib = rootView.findViewById<ImageButton>(R.id.palette_scaler)
 
         if (ib != null) ib.background = sbTexture.toDrawable(resources)
 
-        if (isFinalValue){
+        //if (isFinalValue){
             applyPaletteChangeToBitmap(pixelDataClone)
-        }
+        //}
 
         isFinalValue = false
         isFirstDraw = false

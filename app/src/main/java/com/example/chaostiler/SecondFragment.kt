@@ -18,6 +18,8 @@ import com.example.chaostiler.MainActivity.Companion.colorClass
 
 class SecondFragment : Fragment() {
 
+    lateinit var seekbar: MySeekbar
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
@@ -30,16 +32,26 @@ class SecondFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        clonePixelData()
+        pixelDataClone = pixelData.Clone()
 
-        tileImageView = view.findViewById<MyImageView>(R.id.tile_image_view)
+        seekbar = view.findViewById(R.id.seekBar)
+        seekbar.progress = colorClass.getCurrentRange().prog
+
+        tileImageView = view.findViewById(R.id.tile_image_view)
 
         tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
         applyPaletteChangeToBitmap(pixelDataClone)
 
+        view.findViewById<Button>(R.id.undo_all_changes).setOnClickListener(){
+            undoAllChanges()
+        }
+
         view.findViewById<Button>(R.id.blur_left).setOnClickListener(){
             blurLeft()
+        }
+        view.findViewById<Button>(R.id.blur_right).setOnClickListener(){
+            blurRight()
         }
 
         view.findViewById<Button>(R.id.palette_left).setOnClickListener() {
@@ -47,12 +59,13 @@ class SecondFragment : Fragment() {
 
             var sk = activity?.findViewById<MySeekbar>(R.id.seekBar)
 
+            sk?.progress = colorClass.getCurrentRange().prog
+
             Bitmap_ColorSpread.mNewColors = true
 
             applyPaletteChangeToBitmap(pixelDataClone)
 
             sk?.invalidate()
-
         }
 
         view.findViewById<Button>(R.id.palette_right).setOnClickListener() {
@@ -60,12 +73,13 @@ class SecondFragment : Fragment() {
 
             var sk = activity?.findViewById<MySeekbar>(R.id.seekBar)
 
+            sk?.progress = colorClass.getCurrentRange().prog
+
             Bitmap_ColorSpread.mNewColors = true
 
             applyPaletteChangeToBitmap(pixelDataClone)
 
             sk?.invalidate()
-
         }
 
         view.findViewById<Button>(R.id.set_to_zero).setOnClickListener() {
@@ -73,10 +87,14 @@ class SecondFragment : Fragment() {
         }
 
 
-        view.findViewById<Button>(R.id.addNewPalette).setOnClickListener() {
+        var addnewrange = view.findViewById<Button>(R.id.add_new_palette)
+        addnewrange.isCursorVisible = true
+        addnewrange.setOnClickListener() {
             colorClass.addNew_RandomPrimarysRange()
 
             var sk = activity?.findViewById<MySeekbar>(R.id.seekBar)
+
+            sk?.progress = colorClass.getCurrentRange().prog
 
             Bitmap_ColorSpread.mNewColors = true
 

@@ -2,16 +2,18 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
-import android.util.Log
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlin.math.cos
 import kotlin.math.sin
 
-val parentJob = Job()
-val coroutineScope = CoroutineScope(
-    Dispatchers.Default + parentJob)
+//val parentJob = Job()
+/*val coroutineScope = CoroutineScope(
+    Dispatchers.IO)*/
+// + parentJob)
 
-val maxCount = 1000
+val maxCount = 5000
 var maxCounter = maxCount
 
 var mainCounter = 0
@@ -62,8 +64,8 @@ class SquareValues{
                 omega = getRand(-1.0, 1.0)
             }
             else->{
-                alpha = getRand(-3.0, 3.0)
-                beta = getRand(-2.0, 2.0)
+                alpha = getRand(-4.0, 3.0)
+                beta = getRand(-4.0, 3.0)
                 gamma = getRand(-2.0, 2.0)
                 lambda = getRand(-2.0, 2.0)
                 ma = getRand(-2.0, 2.0)
@@ -137,7 +139,6 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
     } while (counter++ < maxCounter);
 
     mainCounter += maxCounter
-    Log.d("Iterations", mainCounter.toString())
 
     square.x = x; square.y = y;
 

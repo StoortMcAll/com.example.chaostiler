@@ -14,9 +14,6 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
-        <action
-            android:id="@+id/action_FirstFragment_to_GenerateFragment"
-            app:destination="@id/GenerateFragment" />
     </fragment>
 
     <fragment
@@ -42,16 +39,6 @@
         <action
             android:id="@+id/action_ThirdFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/GenerateFragment"
-        android:name="com.example.chaostiler.GenerateFragment"
-        android:label="fragment_generate"
-        tools:layout="@layout/fragment_generate" >
-        <action
-            android:id="@+id/action_GenerateFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
     </fragment>
 
 </navigation>

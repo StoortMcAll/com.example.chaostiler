@@ -9,6 +9,7 @@ data class Hit(val x: Int, val y: Int)
 
 var pixelData = PixelData(width, height)
 var pixelDataClone = PixelData(width, height)
+
 // endregion
 
 
@@ -22,6 +23,10 @@ class PixelData(private val width : Int, private val height : Int) {
 
     var mMaxHits : Int = 0
 
+    var mHitsCount = 0
+
+    var aHitStats : MutableList<Int> = mutableListOf(arraySize)
+
     var aPixelArray : IntArray = IntArray(arraySize)
 
     // endregion
@@ -29,17 +34,25 @@ class PixelData(private val width : Int, private val height : Int) {
 
     fun addHitsToPixelArray(hits : ArrayList<Hit>) {
         var index : Int
+        var value : Int
 
         mPixelArrayBusy = true
 
+        mHitsCount += hits.size
+
         hits.forEach {
             index = it.x + it.y * width
+            value = aPixelArray[index]
             aPixelArray[index]++
 
-            if (aPixelArray[index] > mMaxHits) {
-                val tt: Int = aPixelArray[index]
-                mMaxHits = aPixelArray[index]
+            aHitStats[value]--
+            value++
+            if (value > mMaxHits) {
+                mMaxHits++
+                aHitStats.add(0)
             }
+
+            aHitStats[value]++
         }
 
         mPixelArrayBusy = false
@@ -49,7 +62,11 @@ class PixelData(private val width : Int, private val height : Int) {
     {
         mMaxHits = 0
 
+        mHitsCount = 0
+
         aPixelArray.fill(0, 0, aPixelArray.count())
+
+        aHitStats = mutableListOf(arraySize)
     }
 
     fun Clone(): PixelData {
@@ -57,7 +74,11 @@ class PixelData(private val width : Int, private val height : Int) {
 
         clonePD.mMaxHits = mMaxHits
 
+        clonePD.mHitsCount = mHitsCount
+
         clonePD.aPixelArray = aPixelArray.clone()
+
+        clonePD.aHitStats = aHitStats.subList(0, aHitStats.lastIndex)
 
         return clonePD
     }

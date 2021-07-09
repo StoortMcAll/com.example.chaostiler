@@ -26,8 +26,6 @@ class FirstFragment : Fragment() {
     lateinit var mResumeButton : Button
 
     companion object {
-        var newRunCount = 0
-
         lateinit var mMaxHitsText: TextView
     }
 
@@ -50,20 +48,18 @@ class FirstFragment : Fragment() {
 
         applyPaletteChangeToBitmap(pixelData)
 
-        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+        //tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
         mStartSquare.setOnClickListener {
             makeInvisible(view)
 
-            if (job != null){
-                if (job?.isActive == true) {
-                    job?.cancel(null)
+            if (job == null || job?.isActive == false) {
+                MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
+                job = MainActivity.scopeIO.launch {
+                    startNew_RunFormula(true)
                 }
-            }
-            MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
-            job = MainActivity.scopeIO.launch {
-                startNew_RunFormula(true, newRunCount)
-                newRunCount++
+            } else {
+                job?.cancel(null)
             }
         }
 
@@ -72,7 +68,8 @@ class FirstFragment : Fragment() {
 
             Bitmap_ColorSpread.mNewColors = true
 
-            applyPaletteChangeToBitmap(pixelData)
+            if (doingCalc == false)
+                applyPaletteChangeToBitmap(pixelData)
         }
 
         view.findViewById<Button>(R.id.palette_right).setOnClickListener() {
@@ -80,21 +77,22 @@ class FirstFragment : Fragment() {
 
             Bitmap_ColorSpread.mNewColors = true
 
-            applyPaletteChangeToBitmap(pixelData)
+            if (doingCalc == false)
+                applyPaletteChangeToBitmap(pixelData)
         }
 
         mResumeButton.setOnClickListener {
             if (mResumeButton.text == "Pause") {
                 doingCalc = false
                 job?.cancel(null)
-                //while (job?.isCompleted == false) { }
+
                 makeVisible(view)
             }
             else{
                 makeInvisible(view)
                 MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
                 job = MainActivity.scopeIO.launch {
-                    startNew_RunFormula(false, newRunCount)
+                    startNew_RunFormula(false)
                 }
 
             }
@@ -107,12 +105,29 @@ class FirstFragment : Fragment() {
         makeVisible(view)
     }
 
+    fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
+        MainActivity.scopeIO.launch {
+            setTileViewBitmap(pixeldatacopy)
+        }
+    }
+
+    fun setTileViewBitmap(pixeldatacopy: PixelData) {
+        aColors = buildPixelArrayFromColorsIncremental(pixeldatacopy)
+
+        bmTexture.setPixels(aColors, 0,
+            MainActivity.width, 0, 0,
+            MainActivity.width,
+            MainActivity.height)
+
+        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+    }
+
     fun makeVisible(view: View) {
         view.findViewById<ConstraintLayout>(R.id.constraintGenerators).isVisible = true
-
         var resumgen = view.findViewById<ConstraintLayout>(R.id.resume_generate)
         var resumbut = view.findViewById<Button>(R.id.resume)
         var chspal = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
+        view.findViewById<Button>(R.id.add_new_palette).isVisible = false
         var navi = view.findViewById<ConstraintLayout>(R.id.naviConstraint)
 
         if (pixelData.mMaxHits > 0) {
@@ -122,7 +137,8 @@ class FirstFragment : Fragment() {
             mMaxHitsText.isVisible = true
 
             val value = pixelData.mMaxHits.toString()
-            var text = "Max Hits  $value"
+            val iters = pixelData.mHitsCount.toString()
+            var text = "Hits : Max - $value   Total - $iters"
             mMaxHitsText.text = text.subSequence(0, text.length)
 
             text = "Resume"
@@ -137,18 +153,17 @@ class FirstFragment : Fragment() {
     }
 
     fun makeInvisible(view: View) {
-        var resumgen = view.findViewById<ConstraintLayout>(R.id.resume_generate)
+        view.findViewById<ConstraintLayout>(R.id.constraintGenerators).isVisible = false
+        view.findViewById<ConstraintLayout>(R.id.resume_generate).isVisible = true
+        view.findViewById<ConstraintLayout>(R.id.include_choose_palette).isVisible = true
+        view.findViewById<ConstraintLayout>(R.id.naviConstraint).isVisible = false
         var resumbut = view.findViewById<Button>(R.id.resume)
-        var chspal = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
-        var navi = view.findViewById<ConstraintLayout>(R.id.naviConstraint)
 
-        navi.isVisible = false
-        chspal.isVisible = true
-        resumgen.isVisible = true
         mMaxHitsText.isVisible = true
 
         val value = pixelData.mMaxHits.toString()
-        var text = "Max Hits  $value"
+        val iters = pixelData.mHitsCount.toString()
+        var text = "Hits : Max - $value   Total - $iters"
         mMaxHitsText.text = text.subSequence(0, text.length)
 
         text = "Pause"
