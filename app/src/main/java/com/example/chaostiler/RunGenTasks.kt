@@ -3,7 +3,8 @@ package com.example.chaostiler
 // region Variable Declaration
 
 import android.graphics.Bitmap
-import com.example.chaostiler.FirstFragment.Companion.mMaxHitsText
+import android.widget.TextView
+//import com.example.chaostiler.FirstFragment.mMaxHitsText
 import com.example.chaostiler.MainActivity.Companion.colorClass
 import com.example.chaostiler.MainActivity.Companion.height
 import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
@@ -14,11 +15,12 @@ var doingCalc = false
 
 var square = SquareValues(0.23, 0.7157, -0.4212, 1.3134, -2.632, 1.59, 1.205, -1.34)
 
-var bmTexture = Bitmap.createBitmap(MainActivity.width, MainActivity.height, Bitmap.Config.ARGB_8888)
+var bmTexture = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
-var aColors = IntArray(MainActivity.width * MainActivity.height)
+var aColors = IntArray(width * height)
 
 lateinit var tileImageView: MyImageView
+lateinit var mMaxHitsText: TextView
 
 var job : Job? = null
 
@@ -60,29 +62,32 @@ fun setToZero() {
 fun runSetToZero() {
     val arraySize = pixelDataClone.arraySize
 
-    var min = 9999
+    var min = 0
 
     while (pixelDataClone.mPixelArrayBusy) {
     }
 
-    for (i in 0 until arraySize) {
-        if (pixelDataClone.aPixelArray[i] < min) {
-            min = pixelDataClone.aPixelArray[i]
-        }
+    while (pixelDataClone.aHitStats[min] == 0){
+        min++
     }
 
     if (min > 0) {
         for (i in 0 until arraySize) {
-            pixelDataClone.aPixelArray[i] = pixelDataClone.aPixelArray[i] - min
+            pixelDataClone.aPixelArray[i] -= min
         }
 
         pixelDataClone.mMaxHits -= min
         pixelDataClone.mHitsCount -= min * arraySize
+
+        while (pixelDataClone.aHitStats[0] == 0){
+            pixelDataClone.aHitStats.removeFirst()
+        }
     }
 }
 
-
-fun startNew_RunFormula(isNewRun : Boolean) {
+//var begin = System.nanoTime()
+//var end = System.nanoTime()
+fun startNewRunFormula(isNewRun : Boolean) {
     if (isNewRun) {
         square = SquareValues(MainActivity.rand.nextInt(until = 3))
 
@@ -114,7 +119,8 @@ fun startNew_RunFormula(isNewRun : Boolean) {
 
      val value = pixelData.mMaxHits.toString()
      val iters = pixelData.mHitsCount.toString()
-     var text = "Hits : Max - $value   Total - $iters"
+
+     val text = "Hits : Max - $value   Total - $iters "
      mMaxHitsText.text = text.subSequence(0, text.length)
 
      tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
@@ -126,9 +132,6 @@ fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
         job = MainActivity.scopeIO.launch {
             setTileViewBitmap(pixeldatacopy)
         }
-    }
-    else{
-        val isa = MainActivity.scopeIO.isActive
     }
 }
 
@@ -173,7 +176,7 @@ fun buildPixelArrayFromColorStats(pixeldata: PixelData) : IntArray {
 
     val percentage = FloatArray(pixeldata.mMaxHits + 1){0.0F}
 
-    for (i in 1..pixeldata.mMaxHits - 1){
+    for (i in 1 until pixeldata.mMaxHits){
         percentage[i] = percentage[i - 1] + (pixeldata.aHitStats[i - 1] / count.toFloat())
     }
     percentage[pixeldata.mMaxHits] = 1.0F
@@ -210,11 +213,11 @@ fun buildPixelArrayFromColorStats(pixeldata: PixelData) : IntArray {
 
 //Standard Spread
 fun buildPixelArrayFromColorSpread(pixeldata: PixelData) : IntArray {
-    val cols = IntArray(MainActivity.width * MainActivity.height)
+    val cols = IntArray(width * height)
 
     val colrange = colorClass.getCurrentRange()
 
-    val colrangecount = colrange.mColorSpreadCount * Bitmap_ColorSpread.maxRangeValue
+    val colrangecount = colrange.mColorSpreadCount * BitmapColorSpread.maxRangeValue
 
     val mult = colrangecount  / pixeldata.mMaxHits.toDouble()
 

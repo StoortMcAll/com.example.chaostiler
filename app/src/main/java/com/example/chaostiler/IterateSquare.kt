@@ -2,18 +2,10 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlin.math.cos
 import kotlin.math.sin
 
-//val parentJob = Job()
-/*val coroutineScope = CoroutineScope(
-    Dispatchers.IO)*/
-// + parentJob)
-
-val maxCount = 5000
+const val maxCount = 5000
 var maxCounter = maxCount
 
 var mainCounter = 0
@@ -81,18 +73,15 @@ class SquareValues{
         return value
     }
 
-    inline fun yesNo(): Boolean {
-        return MainActivity.rand.nextBoolean()
-    }
 }
 
 fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
 
     // region Variable Declaration
 
-    maxCounter = maxCount
+    maxCount.also { maxCounter = it }
 
-    var hits : ArrayList<Hit> = arrayListOf()
+    val hits : ArrayList<Hit> = arrayListOf()
 
     var xnew: Double
     var ynew: Double
@@ -109,7 +98,6 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
     val p2 = 2.0 * Math.PI
 
     // endregion
-
 
     do {
         p2x = p2 * x; p2y = p2 * y
@@ -128,19 +116,19 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
         ynew += square.ma * y
 
         xnew = (xnew - xnew.toInt()) + 1
-        xnew -= xnew.toInt();
-        ynew = (ynew - ynew.toInt()) + 1;
-        ynew -= ynew.toInt();
+        xnew -= xnew.toInt()
+        ynew = (ynew - ynew.toInt()) + 1
+        ynew -= ynew.toInt()
 
-        x = xnew; y = ynew;
+        x = xnew; y = ynew
 
         hits.add(Hit((x * wide).toInt(), (y * high).toInt()))
 
-    } while (counter++ < maxCounter);
+    } while (counter++ < maxCounter)
 
     mainCounter += maxCounter
 
-    square.x = x; square.y = y;
+    square.x = x; square.y = y
 
     return hits
 }

@@ -2,8 +2,6 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
-import android.app.WallpaperManager
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
+import com.example.chaostiler.MainActivity.Companion.mEnableDataClone
 
 // endregion
 
@@ -28,6 +27,8 @@ class ThirdFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mEnableDataClone = false
 
         tileImageView = view.findViewById(R.id.fullscreenImageView)
 

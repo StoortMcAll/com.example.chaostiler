@@ -9,7 +9,7 @@ import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
 //endregion
 
 
-class Bitmap_ColorSpread {
+class BitmapColorSpread {
 
     // region Variable Declaration
 
@@ -25,7 +25,7 @@ class Bitmap_ColorSpread {
 
 
     fun drawBitmap(maxPos : Int, currentPos : Int) : Bitmap {
-        var bitmap : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
+        val bitmap : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
 
         val curRange = colorClass.getCurrentRange()
 
@@ -54,7 +54,7 @@ class Bitmap_ColorSpread {
     }
 
     fun drawBitmap2(maxPos : Int, currentPos : Int, pixelDataCopy : PixelData) : Bitmap {
-        var bitmap : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
+        val bitmap : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
 
         val curRange = colorClass.getCurrentRange()
 
@@ -67,7 +67,7 @@ class Bitmap_ColorSpread {
         maxRangeValue = currentPos * (1.0 / maxPos.toDouble())
 
         val percentage = FloatArray(pixelDataCopy.mMaxHits + 1){0.0F}
-        for (i in 1..pixelDataCopy.mMaxHits - 1){
+        for (i in 1 until pixelDataCopy.mMaxHits){
             percentage[i] = percentage[i - 1] + (pixelDataCopy.aHitStats[i - 1] / pixelDataCopy.arraySize.toFloat())
         }
         percentage[pixelDataCopy.mMaxHits] = 1.0F
@@ -81,7 +81,7 @@ class Bitmap_ColorSpread {
         var df : Int
         var fpos : Float
 
-        for (x in 0..wd - 1) {
+        for (x in 0 until wd) {
             fpos = maxhits * (x * dx)
 
             basecol = ((x * dx) * colorscount).toInt()

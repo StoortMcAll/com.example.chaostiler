@@ -78,7 +78,10 @@ class PixelData(private val width : Int, private val height : Int) {
 
         clonePD.aPixelArray = aPixelArray.clone()
 
-        clonePD.aHitStats = aHitStats.subList(0, aHitStats.lastIndex)
+        clonePD.aHitStats = mutableListOf()
+        for (i in 0 until aHitStats.size) {
+            clonePD.aHitStats.add(aHitStats[i])
+        }
 
         return clonePD
     }

@@ -32,7 +32,7 @@ class MyImageView @JvmOverloads constructor(
     private var mScaleFitToCanvas = 1.0f
 
     private var paint = Paint()
-    lateinit var shader: Shader
+    private lateinit var shader: Shader
     private val shaderMatrix = Matrix()
 
     private var pIndex0 : Int = 0
@@ -52,7 +52,7 @@ class MyImageView @JvmOverloads constructor(
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             mScaleFactor *= detector.scaleFactor
 
-            mScaleFactor = 0.25f.coerceAtLeast(mScaleFactor.coerceAtMost(6.0f))
+            mScaleFactor = 0.125f.coerceAtLeast(mScaleFactor.coerceAtMost(6.0f))
 
             return true
         }
@@ -79,7 +79,7 @@ class MyImageView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setOffsetScale(){
+    private fun setOffsetScale(){
         shaderMatrix.setTranslate(offset.x, offset.y)
 
         shaderMatrix.preScale(mScaleFactor, mScaleFactor)
@@ -107,7 +107,7 @@ class MyImageView @JvmOverloads constructor(
                 val wd = mViewSize.x
                 val ht = mViewSize.y
 
-                var texture = Bitmap.createBitmap(wd, ht, Bitmap.Config.ARGB_8888)
+                val texture = Bitmap.createBitmap(wd, ht, Bitmap.Config.ARGB_8888)
 
                 val canvas = Canvas(texture)
 
@@ -126,7 +126,7 @@ class MyImageView @JvmOverloads constructor(
         }
     }
 
-    fun bitmapToFile(bitmap: Bitmap, fileNameToSave: String): File? { // File name like "image.png"
+    private fun bitmapToFile(bitmap: Bitmap, fileNameToSave: String): File? { // File name like "image.png"
         var file: File? = null
         return try {
 
@@ -158,12 +158,12 @@ class MyImageView @JvmOverloads constructor(
 
                 pIndex0 = motionEvent.findPointerIndex(0)
 
-                clickPos.x = motionEvent.getX(pIndex0)
-                clickPos.y = motionEvent.getY(pIndex0)
+                motionEvent.getX(pIndex0).also { clickPos.x = it }
+                motionEvent.getY(pIndex0).also { clickPos.y = it }
 
-                texCoord = WinPosToTextureCoord(PointF(clickPos.x, clickPos.y))
+                texCoord = winPosToTextureCoord(PointF(clickPos.x, clickPos.y))
 
-                offset = CalcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
+                offset = calcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
             }
             MotionEvent.ACTION_MOVE -> {
                 if (motionEvent.pointerCount > 1) {
@@ -183,30 +183,30 @@ class MyImageView @JvmOverloads constructor(
                     if (isSingleTouch) {
                         isSingleTouch = false
 
-                        texCoord = WinPosToTextureCoord(PointF(clickPos.x, clickPos.y))
+                        texCoord = winPosToTextureCoord(PointF(clickPos.x, clickPos.y))
                     }
 
-                    offset = CalcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
+                    offset = calcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
                 }
                 else {
                     if (!isSingleTouch) {
                         isSingleTouch = true
 
-                        if (motionEvent.findPointerIndex(0) == -1)
-                            pIndex0 = motionEvent.findPointerIndex(1)
+                        pIndex0 = if (motionEvent.findPointerIndex(0) == -1)
+                            motionEvent.findPointerIndex(1)
                         else
-                            pIndex0 = motionEvent.findPointerIndex(0)
+                            motionEvent.findPointerIndex(0)
 
                         clickPos.x = motionEvent.getX(pIndex0)
                         clickPos.y = motionEvent.getY(pIndex0)
 
-                        texCoord = WinPosToTextureCoord(PointF(clickPos.x, clickPos.y))
+                        texCoord = winPosToTextureCoord(PointF(clickPos.x, clickPos.y))
                     } else {
                         clickPos.x = motionEvent.getX(pIndex0)
                         clickPos.y = motionEvent.getY(pIndex0)
                     }
 
-                    offset = CalcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
+                    offset = calcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
                 }
             }
         }
@@ -220,9 +220,8 @@ class MyImageView @JvmOverloads constructor(
 
 
     @SuppressLint("SetTextI18n")
-    private fun WinPosToTextureCoord(winLocation: PointF) : PointF{
-        var textureCoord = winLocation - offset
-
+    private fun winPosToTextureCoord(winLocation: PointF) : PointF{
+        val textureCoord = winLocation - offset
 
         if ( textureCoord.x < 0.0f) {
             textureCoord.x += bmImage.width * mScaleFactor
@@ -240,7 +239,7 @@ class MyImageView @JvmOverloads constructor(
         return textureCoord
     }
 
-    private fun CalcOffset(winLocation: PointF, textureCoord: PointF) : PointF{
+    private fun calcOffset(winLocation: PointF, textureCoord: PointF) : PointF{
         winLocation.x -= textureCoord.x * mScaleFactor
 
         if (winLocation.x < 0)

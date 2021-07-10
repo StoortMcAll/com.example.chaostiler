@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.widget.ImageButton
 import android.widget.SeekBar
 import androidx.core.graphics.drawable.toDrawable
-import com.example.chaostiler.Bitmap_ColorSpread.Companion.mNewColors
+import com.example.chaostiler.BitmapColorSpread.Companion.mNewColors
 import com.example.chaostiler.MainActivity.Companion.colorClass
 import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
 
@@ -19,7 +19,7 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
     var isFirstDraw = true
     var isFinalValue = false
 
-    lateinit var bitmapColorSpread : Bitmap_ColorSpread
+    lateinit var bitmapColorSpread : BitmapColorSpread
 
     var sbTexture : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
 
@@ -40,7 +40,6 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
             R.styleable.SeekbarHint,
             0, 0
         )
-
         try {
             mHintTextColor = a.getColor(R.styleable.SeekbarHint_hint_text_color, 0)
             mHintTextSize = a.getDimension(R.styleable.SeekbarHint_hint_text_size, 0f)
@@ -63,7 +62,7 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
         mSeekBarHintPaint!!.color = mHintTextColor
         mSeekBarHintPaint!!.textSize = mHintTextSize
 
-        bitmapColorSpread = Bitmap_ColorSpread()
+        bitmapColorSpread = BitmapColorSpread()
 
         this.setOnSeekBarChangeListener(
             object : OnSeekBarChangeListener {

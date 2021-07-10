@@ -8,8 +8,6 @@ import android.graphics.PointF
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
@@ -23,19 +21,15 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     companion object{
-       // lateinit var mainContext : Context
-
-        lateinit var wm : WindowMetrics
-
-        lateinit var tv_dynamic : TextView
-
         var rand  = Random(0)
 
-        val width = 512; val height = 512
+        const val width = 512; const val height = 512
 
         var mSeekbarMax = 256
 
-        var bmImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        var mEnableDataClone = true
+
+        var bmImage : Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
         var mScaleFactor = 1.0f
         var offset: PointF = PointF(0.0f, 0.0f)
@@ -58,22 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         hideSystemUI()
 
-        tv_dynamic = TextView(this)
-        tv_dynamic.textSize = 20f
-        tv_dynamic.width = 0
-        tv_dynamic.text=""
-        tv_dynamic.isAllCaps = false
-        tv_dynamic.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
         rand = Random(LocalDateTime.now().second + LocalDateTime.now().hour)
-
-      /*  var vl = IntArray(10)
-        for (i in 0 until 10){
-            vl[i] = rand.nextInt()
-        }*/
-       // mainContext = this.baseContext
-
-       // var disp = mainContext.display
 
         val outPoint = Point()
         if (Build.VERSION.SDK_INT >= 19) {
@@ -135,10 +114,10 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
-
+/*
     private fun setFullScreen() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-    }
+    }*/
 }

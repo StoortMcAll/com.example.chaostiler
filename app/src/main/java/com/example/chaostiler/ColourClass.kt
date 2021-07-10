@@ -3,13 +3,35 @@ package com.example.chaostiler
 // region Variable Declaration
 
 import android.graphics.Color
-import android.widget.ImageButton
-import java.time.LocalDateTime
-import kotlin.random.Random
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
+import kotlin.math.abs
+import kotlin.math.max
 
-data class dColorDataItem(val range: Int = 0, val color: Int = 0)
+private const val mInitialColorRangeSeekbarProgress = 255
 
-data class dPrimaryColors(val size : Int, val colors : IntArray)
+data class DColorDataItem(val range: Int = 0, val color: Int = 0)
+
+data class DPrimaryColors(val size : Int, val colors : IntArray) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DPrimaryColors
+
+        if (size != other.size) return false
+        if (!colors.contentEquals(other.colors)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = size
+        result = 31 * result + colors.contentHashCode()
+        return result
+    }
+}
 
 // endregion
 
@@ -24,7 +46,7 @@ class ColorClass {
         private var isQueuedChange = true
         private var mQueuedID = 0
 
-        private val aPrimarys = dPrimaryColors(mPrimaryColourCount, intArrayOf(
+        private val aPrimaries = DPrimaryColors(mPrimaryColourCount, intArrayOf(
                 Color.RED, Color.GREEN, Color.BLUE,
 
                 Color.argb(255, 255,255, 0),
@@ -66,32 +88,30 @@ class ColorClass {
 
 
     init {
-        add_ColorRange(listOf(
-                 dColorDataItem(0, Color.BLACK),
-                 dColorDataItem(128, Color.RED),
-                 dColorDataItem(192, Color.YELLOW),
-                 dColorDataItem(255, Color.WHITE)))
+        addColorRanges(listOf(
+                 DColorDataItem(0, Color.BLACK),
+                 DColorDataItem(128, Color.RED),
+                 DColorDataItem(192, Color.YELLOW),
+                 DColorDataItem(255, Color.WHITE)))
 
-        add_ColorRange(listOf(
-                dColorDataItem(0, Color.BLACK),
-                dColorDataItem(128, Color.BLUE),
-                dColorDataItem(192, Color.MAGENTA),
-                dColorDataItem(255, Color.WHITE)))
-
-        //set_CurrentColorRange_to(0)
+        addColorRanges(listOf(
+                DColorDataItem(0, Color.BLACK),
+                DColorDataItem(128, Color.BLUE),
+                DColorDataItem(192, Color.MAGENTA),
+                DColorDataItem(255, Color.WHITE)))
     }
 
 
     fun getCurrentRange() : ColorRangeClass{
         if (isQueuedChange){
-            set_CurrentColorRange_to(mQueuedID)
-            //isQueuedChange = false
+            selectCurrentColorRange(mQueuedID)
+            isQueuedChange = false
         }
         return aCurrentRange
     }
 
 
-    private fun set_CurrentColorRange_to(rangeID : Int){
+    private fun selectCurrentColorRange(rangeID : Int){
         var index = 0
         do {
             if (mColorRangeList[index].mColorRangeID == rangeID){
@@ -109,7 +129,7 @@ class ColorClass {
     }
 
 
-    fun Increase_SpreadID(){
+    fun increaseSpreadID(){
         mQueuedID = mCurrentRangeID + 1
 
         if (mQueuedID > mColorRangeList.size - 1)
@@ -118,7 +138,7 @@ class ColorClass {
         isQueuedChange = true
     }
 
-    fun Decrease_SpreadID(){
+    fun decreaseSpreadID(){
         mQueuedID = mCurrentRangeID - 1
 
         if (mQueuedID < 0)
@@ -127,29 +147,29 @@ class ColorClass {
         isQueuedChange = true
     }
 
-    fun addNew_RandomPrimarysRange() {
+    fun addNewRandomPrimariesRange() {
         var dataitemcount = 2 + MainActivity.rand.nextInt(0, 4)
 
         var range = 0; var add = 64
 
-        var dataitemslist = ArrayList<dColorDataItem>(dataitemcount + 1)
+        val dataitemslist = ArrayList<DColorDataItem>(dataitemcount + 1)
 
         if (dataitemcount == 2) add = 256
         if (dataitemcount == 3) add = 128
 
-        dataitemslist.add(dColorDataItem(range, Color.BLACK))
+        dataitemslist.add(DColorDataItem(range, Color.BLACK))
 
         do{
             range+= add
 
             add *= 2
 
-            dataitemslist.add(dColorDataItem(range,
-                aPrimarys.colors[MainActivity.rand.nextInt(0,  aPrimarys.size)]))
+            dataitemslist.add(DColorDataItem(range,
+                aPrimaries.colors[MainActivity.rand.nextInt(0,  aPrimaries.size)]))
 
         }while(--dataitemcount > 0)
 
-        add_ColorRange(dataitemslist)
+        addColorRanges(dataitemslist)
 
         mQueuedID = mColorRangeList.count() - 1
 
@@ -157,18 +177,63 @@ class ColorClass {
     }
 
 
-    private fun add_ColorRange(colorRanges: List<dColorDataItem>){
+    fun addNewRandomColorsRange() {
+        var counter = MainActivity.rand.nextInt(0, 5) * 128 + 256
+
+        var colorDataItem = DColorDataItem(0, Color.BLACK)
+
+        val tempColorDataItemList = mutableListOf(colorDataItem)
+
+        var range = 0
+
+        do{
+            val r1 = colorDataItem.color.red
+            val g1 = colorDataItem.color.green
+            val b1 = colorDataItem.color.blue
+
+            val r2 = MainActivity.rand.nextInt(0, 256)
+            val g2 = MainActivity.rand.nextInt(0, 256)
+            val b2 = MainActivity.rand.nextInt(0, 256)
+
+            val color = Color.argb(255, r2, g2, b2)
+
+            val df1 = df(r1, r2)
+            val df2 = df(g1, g2)
+            val df3 = df(b1, b2)
+
+            range += max(max(df1, df2), df3)
+
+            colorDataItem = DColorDataItem(range, color)
+
+            tempColorDataItemList.add(colorDataItem)
+
+            counter -= range
+        }while(counter > 0)
+
+        addColorRanges(tempColorDataItemList)
+
+        mColorRangeList.lastIndex.also { mQueuedID = it }
+
+        isQueuedChange = true
+    }
+
+    private fun df(d1 : Int, d2 : Int) : Int{
+        return abs(d1 - d2)
+    }
+
+
+    private fun addColorRanges(colorRanges: List<DColorDataItem>){
         mColorRangeList.add(ColorRangeClass(mCurrentRangeCount, colorRanges))
 
         mCurrentRangeCount++
     }
 
 
-    class ColorRangeClass(id : Int, colorDataList: List<dColorDataItem>) {
+    class ColorRangeClass(id : Int, colorDataList: List<DColorDataItem>) {
 
         // region Variable Declaration
 
-        var prog = 0
+        var prog = mInitialColorRangeSeekbarProgress
 
         var mColorRangeID = id
 
@@ -180,17 +245,15 @@ class ColorClass {
 
         // endregion
 
-
         init {
-
-            Process_ColorSpread()
+            processColorSpread()
         }
 
 
-        private fun Process_ColorSpread() {
+        private fun processColorSpread() {
             if (mColorDataList.size < 2) return
 
-            var index: Int = 1
+            var index = 1
 
             var col1: Int
             var col2: Int
@@ -203,9 +266,9 @@ class ColorClass {
                 col1 = mColorDataList[cr - 1].color
                 col2 = mColorDataList[cr].color
 
-                val r: IntArray = Color_Channel_Range(maxd, Color.red(col1), Color.red(col2))
-                val g: IntArray = Color_Channel_Range(maxd, Color.green(col1), Color.green(col2))
-                val b: IntArray = Color_Channel_Range(maxd, Color.blue(col1), Color.blue(col2))
+                val r: IntArray = colorChannelRange(maxd, Color.red(col1), Color.red(col2))
+                val g: IntArray = colorChannelRange(maxd, Color.green(col1), Color.green(col2))
+                val b: IntArray = colorChannelRange(maxd, Color.blue(col1), Color.blue(col2))
 
                 var n = 0
                 do {
@@ -216,8 +279,8 @@ class ColorClass {
             }
         }
 
-        private fun Color_Channel_Range(range: Int, r1: Int, r2: Int): IntArray {
-            var results = IntArray(range)
+        private fun colorChannelRange(range: Int, r1: Int, r2: Int): IntArray {
+            val results = IntArray(range)
 
             results[0] = r1
 

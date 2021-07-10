@@ -2,15 +2,17 @@ package com.example.chaostiler
 
 import com.example.chaostiler.MainActivity.Companion.height
 import com.example.chaostiler.MainActivity.Companion.width
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 fun prepareBlurData2(){
-    var widewidth = width + 2
-    var wideheight = height + 2
-    var widehitarray = IntArray(widewidth * wideheight)
-    var array = pixelDataClone.aPixelArray
+    val widewidth = width + 2
+    val wideheight = height + 2
+    val widehitarray = IntArray(widewidth * wideheight)
+    val array = pixelDataClone.aPixelArray
 
-    var posy = width * (height - 1)
+    val posy = width * (height - 1)
     var wposy = widewidth * (wideheight - 1)
     for (x in 0 until width){
         widehitarray[1 + x] = array[posy + x]
@@ -18,7 +20,7 @@ fun prepareBlurData2(){
     }
 
     var posx = width - 1
-    var wposx = widewidth * 2 - 1
+    val wposx = widewidth * 2 - 1
     for (y in 0 until height){
         widehitarray[widewidth + y * widewidth] = array[y * width + posx]
         widehitarray[widewidth * y + wposx] = array[y * width]
@@ -34,8 +36,8 @@ fun prepareBlurData2(){
     }
 
     var max = pixelDataClone.mMaxHits
-    var hits = 0.0
-    var valu = 0
+    var hits : Double
+    var valu : Int
     posx = 0
     for (y in 1 until widewidth - 1){
         wposy = widewidth * y
@@ -61,12 +63,12 @@ fun prepareBlurData2(){
     pixelDataClone.mMaxHits = max
 }
 fun prepareBlurData(){
-    var widewidth = width + 2
-    var wideheight = height + 2
-    var widehitarray = IntArray(widewidth * wideheight)
-    var array = pixelDataClone.aPixelArray
+    val widewidth = width + 2
+    val wideheight = height + 2
+    val widehitarray = IntArray(widewidth * wideheight)
+    val array = pixelDataClone.aPixelArray
 
-    var posy = width * (height - 1)
+    val posy = width * (height - 1)
     var wposy = widewidth * (wideheight - 1)
     for (x in 0 until width){
         widehitarray[1 + x] = array[posy + x]
@@ -74,7 +76,7 @@ fun prepareBlurData(){
     }
 
     var posx = width - 1
-    var wposx = widewidth * 2 - 1
+    val wposx = widewidth * 2 - 1
     for (y in 0 until height){
         widehitarray[widewidth + y * widewidth] = array[y * width + posx]
         widehitarray[widewidth * y + wposx] = array[y * width]
@@ -91,25 +93,25 @@ fun prepareBlurData(){
     }
 
     var max = pixelDataClone.mMaxHits
-    var hits = 0.0
-    var valu = 0
+    var hits : Double
+    var valu : Int
     posx = 0
     for (y in 1 until widewidth - 1){
         wposy = widewidth * y
         for (x in 1 until wideheight - 1){
-            hits = Math.pow(widehitarray[wposy + x].toDouble(), 2.0) * 8.0
-            hits += Math.pow(widehitarray[wposy + x - 1].toDouble(), 2.0) * 2.0
-            hits += Math.pow(widehitarray[wposy + x + 1].toDouble(), 2.0) * 2.0
-            hits += Math.pow(widehitarray[wposy + x - widewidth].toDouble(), 2.0) * 2.0
-            hits += Math.pow(widehitarray[wposy + x + widewidth].toDouble(), 2.0) * 2.0
-            hits += Math.pow(widehitarray[wposy + x - 1 - widewidth].toDouble(), 2.0)
-            hits += Math.pow(widehitarray[wposy + x + 1 - widewidth].toDouble(), 2.0)
-            hits += Math.pow(widehitarray[wposy + x - 1 + widewidth].toDouble(), 2.0)
-            hits += Math.pow(widehitarray[wposy + x + 1 + widewidth].toDouble(), 2.0)
+            hits = widehitarray[wposy + x].toDouble().pow(2.0) * 8.0
+            hits += widehitarray[wposy + x - 1].toDouble().pow(2.0) * 2.0
+            hits += widehitarray[wposy + x + 1].toDouble().pow(2.0) * 2.0
+            hits += widehitarray[wposy + x - widewidth].toDouble().pow(2.0) * 2.0
+            hits += widehitarray[wposy + x + widewidth].toDouble().pow(2.0) * 2.0
+            hits += widehitarray[wposy + x - 1 - widewidth].toDouble().pow(2.0)
+            hits += widehitarray[wposy + x + 1 - widewidth].toDouble().pow(2.0)
+            hits += widehitarray[wposy + x - 1 + widewidth].toDouble().pow(2.0)
+            hits += widehitarray[wposy + x + 1 + widewidth].toDouble().pow(2.0)
 
             hits /= 20.0
 
-            valu = Math.sqrt(hits).toInt()
+            valu = sqrt(hits).toInt()
 
             array[posx++] = valu
 

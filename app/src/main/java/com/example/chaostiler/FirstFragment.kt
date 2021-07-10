@@ -9,25 +9,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.chaostiler.MainActivity.Companion.colorClass
+import com.example.chaostiler.MainActivity.Companion.mEnableDataClone
 import kotlinx.coroutines.*
 
 // endregion
 
 
 class FirstFragment : Fragment() {
-    lateinit var mStartSquare : Button
-    lateinit var mResumeButton : Button
-
-    companion object {
-        lateinit var mMaxHitsText: TextView
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -39,51 +33,51 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mEnableDataClone = true
+
         var job : Job? = null
 
         tileImageView = view.findViewById(R.id.tile_image_view)
         mMaxHitsText = view.findViewById(R.id.first_maxhits)
-        mStartSquare = view.findViewById(R.id.run_square)
-        mResumeButton = view.findViewById(R.id.resume)
 
         applyPaletteChangeToBitmap(pixelData)
 
-        //tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
-
-        mStartSquare.setOnClickListener {
+        view.findViewById<Button>(R.id.run_square).setOnClickListener {
             makeInvisible(view)
 
             if (job == null || job?.isActive == false) {
                 MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
                 job = MainActivity.scopeIO.launch {
-                    startNew_RunFormula(true)
+                    startNewRunFormula(true)
                 }
             } else {
                 job?.cancel(null)
             }
         }
 
-        view.findViewById<Button>(R.id.palette_left).setOnClickListener() {
-            colorClass.Decrease_SpreadID()
+        view.findViewById<Button>(R.id.palette_left).setOnClickListener {
+            colorClass.decreaseSpreadID()
 
-            Bitmap_ColorSpread.mNewColors = true
+            BitmapColorSpread.mNewColors = true
 
-            if (doingCalc == false)
+            if (!doingCalc) {
                 applyPaletteChangeToBitmap(pixelData)
+            }
         }
 
-        view.findViewById<Button>(R.id.palette_right).setOnClickListener() {
-            colorClass.Increase_SpreadID()
+        view.findViewById<Button>(R.id.palette_right).setOnClickListener {
+            colorClass.increaseSpreadID()
 
-            Bitmap_ColorSpread.mNewColors = true
+            BitmapColorSpread.mNewColors = true
 
-            if (doingCalc == false)
+            if (!doingCalc) {
                 applyPaletteChangeToBitmap(pixelData)
+            }
         }
 
-        mResumeButton.setOnClickListener {
-            if (mResumeButton.text == "Pause") {
-                doingCalc = false
+        view.findViewById<Button>(R.id.resume).setOnClickListener {
+            if (doingCalc) {
+                false.also { doingCalc = it }
                 job?.cancel(null)
 
                 makeVisible(view)
@@ -92,7 +86,7 @@ class FirstFragment : Fragment() {
                 makeInvisible(view)
                 MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
                 job = MainActivity.scopeIO.launch {
-                    startNew_RunFormula(false)
+                    startNewRunFormula(false)
                 }
 
             }
@@ -105,13 +99,13 @@ class FirstFragment : Fragment() {
         makeVisible(view)
     }
 
-    fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
+    private fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
         MainActivity.scopeIO.launch {
             setTileViewBitmap(pixeldatacopy)
         }
     }
 
-    fun setTileViewBitmap(pixeldatacopy: PixelData) {
+    private fun setTileViewBitmap(pixeldatacopy: PixelData) {
         aColors = buildPixelArrayFromColorsIncremental(pixeldatacopy)
 
         bmTexture.setPixels(aColors, 0,
@@ -122,13 +116,14 @@ class FirstFragment : Fragment() {
         tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
     }
 
-    fun makeVisible(view: View) {
+    private fun makeVisible(view: View) {
         view.findViewById<ConstraintLayout>(R.id.constraintGenerators).isVisible = true
-        var resumgen = view.findViewById<ConstraintLayout>(R.id.resume_generate)
-        var resumbut = view.findViewById<Button>(R.id.resume)
-        var chspal = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
+        val resumgen = view.findViewById<ConstraintLayout>(R.id.resume_generate)
+        val resumbut = view.findViewById<Button>(R.id.resume)
+        val chspal = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
         view.findViewById<Button>(R.id.add_new_palette).isVisible = false
-        var navi = view.findViewById<ConstraintLayout>(R.id.naviConstraint)
+        view.findViewById<Button>(R.id.add_new_palette2).isVisible = false
+        val navi = view.findViewById<ConstraintLayout>(R.id.naviConstraint)
 
         if (pixelData.mMaxHits > 0) {
             navi.isVisible = true
@@ -152,12 +147,12 @@ class FirstFragment : Fragment() {
         }
     }
 
-    fun makeInvisible(view: View) {
+    private fun makeInvisible(view: View) {
         view.findViewById<ConstraintLayout>(R.id.constraintGenerators).isVisible = false
         view.findViewById<ConstraintLayout>(R.id.resume_generate).isVisible = true
         view.findViewById<ConstraintLayout>(R.id.include_choose_palette).isVisible = true
         view.findViewById<ConstraintLayout>(R.id.naviConstraint).isVisible = false
-        var resumbut = view.findViewById<Button>(R.id.resume)
+        val resumbut = view.findViewById<Button>(R.id.resume)
 
         mMaxHitsText.isVisible = true
 
