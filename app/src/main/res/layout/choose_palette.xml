@@ -30,12 +30,12 @@
         android:textColor="@color/text_color"
         android:textColorHighlight="@color/text_color_highlights"
         app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toStartOf="@+id/palette_right"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:strokeColor="@color/button_stroke" />
 
     <Button

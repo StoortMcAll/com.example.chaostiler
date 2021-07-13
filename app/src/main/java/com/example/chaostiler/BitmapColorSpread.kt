@@ -24,24 +24,33 @@ class BitmapColorSpread {
     // endregion
 
 
-    fun drawBitmap(maxPos : Int, currentPos : Int) : Bitmap {
+    fun drawBitmap(maxPos : Int, currentPos : Int, pixelDataCopy : PixelData) : Bitmap {
         val bitmap : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
 
         val curRange = colorClass.getCurrentRange()
 
         val mColors = curRange.aColorSpread
 
-        val colorscount = curRange.mColorSpreadCount
+        val maxhits = pixelDataCopy.mMaxHits
 
-        maxRangeValue = 0.25 + 0.75 * (currentPos *  (1.0 / maxPos.toDouble()))
+        maxRangeValue = currentPos * (1.0 / maxPos.toDouble())
+
+        val colorscount : Int
+        if (maxhits > curRange.mColorSpreadCount) {
+            colorscount = curRange.mColorSpreadCount
+
+        } else{
+            colorscount = maxhits + ((curRange.mColorSpreadCount - maxhits) * maxRangeValue).toInt()
+        }
+
 
         val bmWid = bitmap.width
         val wd = bmWid - 1
-        val dx = 1.0f / wd
+        val widthover1 = 1.0f / wd
         var value: Int
 
         for (x in 0..wd) {
-            value = (colorscount * (maxRangeValue * (x * dx))).toInt()
+            value = (colorscount * (x * widthover1)).toInt()
 
             colArray[x] = mColors[value]
         }

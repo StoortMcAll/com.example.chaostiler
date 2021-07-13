@@ -120,6 +120,7 @@ class FirstFragment : Fragment() {
         view.findViewById<ConstraintLayout>(R.id.constraintGenerators).isVisible = true
         val resumgen = view.findViewById<ConstraintLayout>(R.id.resume_generate)
         val resumbut = view.findViewById<Button>(R.id.resume)
+        var analysis = view.findViewById<ConstraintLayout>(R.id.data_colour_constraint)
         val chspal = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
         view.findViewById<Button>(R.id.add_new_palette).isVisible = false
         view.findViewById<Button>(R.id.add_new_palette2).isVisible = false
@@ -128,6 +129,7 @@ class FirstFragment : Fragment() {
         if (pixelData.mMaxHits > 0) {
             navi.isVisible = true
             chspal.isVisible = true
+            analysis.isVisible = false
             resumgen.isVisible = true
             mMaxHitsText.isVisible = true
 
@@ -142,6 +144,7 @@ class FirstFragment : Fragment() {
         else{
             navi.isVisible = false
             chspal.isVisible = false
+            analysis.isVisible = false
             resumgen.isVisible = false
             mMaxHitsText.isVisible = false
         }
@@ -150,6 +153,7 @@ class FirstFragment : Fragment() {
     private fun makeInvisible(view: View) {
         view.findViewById<ConstraintLayout>(R.id.constraintGenerators).isVisible = false
         view.findViewById<ConstraintLayout>(R.id.resume_generate).isVisible = true
+        view.findViewById<ConstraintLayout>(R.id.data_colour_constraint).isVisible = false
         view.findViewById<ConstraintLayout>(R.id.include_choose_palette).isVisible = true
         view.findViewById<ConstraintLayout>(R.id.naviConstraint).isVisible = false
         val resumbut = view.findViewById<Button>(R.id.resume)

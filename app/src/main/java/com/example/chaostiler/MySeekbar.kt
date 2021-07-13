@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.widget.ImageButton
 import android.widget.SeekBar
 import androidx.core.graphics.drawable.toDrawable
+import com.example.chaostiler.MainActivity.Companion.DataProcess
 import com.example.chaostiler.BitmapColorSpread.Companion.mNewColors
 import com.example.chaostiler.MainActivity.Companion.colorClass
 import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
@@ -105,7 +106,12 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
     private fun drawSpread() {
         mSeekbarMax = this.max
 
-        sbTexture = bitmapColorSpread.drawBitmap2(mSeekbarMax, progress, pixelDataClone)
+        if (colorClass.getCurrentRange().dataProcess == DataProcess.LINEAR) {
+            sbTexture = bitmapColorSpread.drawBitmap(mSeekbarMax, progress, pixelDataClone)
+        }
+        else{
+            sbTexture = bitmapColorSpread.drawBitmap2(mSeekbarMax, progress, pixelDataClone)
+        }
 
         val ib = rootView.findViewById<ImageButton>(R.id.palette_scaler)
 

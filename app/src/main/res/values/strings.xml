@@ -37,4 +37,10 @@
     <string name="max_hits">Max Hits :</string>
     <string name="save_image">Save Image</string>
     <string name="set_to_zero">Zero Minimum</string>
+    <string name="linear">Linear</string>
+    <string name="statistical">Statistical</string>
+    <string name="perform_blur_on_image">Perform blur on image</string>
+    <string name="perform_blur_on_image_analysing_all_8_surrounding_pixel">Perform blur on image analysing all 8 surrounding pixel</string>
+    <string name="perform_blur_on_image_analysing_just_4_cardinal_points_surrounding_pixels">Perform blur on image analysing just 4 cardinal points surrounding pixels</string>
+    <string name="reset_the_minimum_hits_per_pixel_to_0">Reset the minimum hits per pixel to 0</string>
 </resources>

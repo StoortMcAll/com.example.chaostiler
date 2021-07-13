@@ -9,7 +9,7 @@ import androidx.core.graphics.red
 import kotlin.math.abs
 import kotlin.math.max
 
-private const val mInitialColorRangeSeekbarProgress = 255
+private const val mInitialColorRangeSeekbarProgress = 0
 
 data class DColorDataItem(val range: Int = 0, val color: Int = 0)
 
@@ -89,15 +89,20 @@ class ColorClass {
 
     init {
         addColorRanges(listOf(
+            DColorDataItem(0, Color.BLACK),
+            DColorDataItem(112, Color.argb(255, 128, 128, 128)),
+            DColorDataItem(255, Color.WHITE)))
+
+        addColorRanges(listOf(
                  DColorDataItem(0, Color.BLACK),
-                 DColorDataItem(128, Color.RED),
-                 DColorDataItem(192, Color.YELLOW),
+                 DColorDataItem(112, Color.RED),
+                 DColorDataItem(208, Color.YELLOW),
                  DColorDataItem(255, Color.WHITE)))
 
         addColorRanges(listOf(
                 DColorDataItem(0, Color.BLACK),
-                DColorDataItem(128, Color.BLUE),
-                DColorDataItem(192, Color.MAGENTA),
+                DColorDataItem(112, Color.BLUE),
+                DColorDataItem(208, Color.MAGENTA),
                 DColorDataItem(255, Color.WHITE)))
     }
 
@@ -186,6 +191,7 @@ class ColorClass {
 
         var range = 0
 
+        var max : Int
         do{
             val r1 = colorDataItem.color.red
             val g1 = colorDataItem.color.green
@@ -201,13 +207,15 @@ class ColorClass {
             val df2 = df(g1, g2)
             val df3 = df(b1, b2)
 
-            range += max(max(df1, df2), df3)
+            max = max(max(df1, df2), df3)
+
+            range += max
 
             colorDataItem = DColorDataItem(range, color)
 
             tempColorDataItemList.add(colorDataItem)
 
-            counter -= range
+            counter -= max
         }while(counter > 0)
 
         addColorRanges(tempColorDataItemList)
@@ -237,6 +245,8 @@ class ColorClass {
 
         var mColorRangeID = id
 
+        var dataProcess = MainActivity.Companion.DataProcess.LINEAR
+
         private val mColorDataList = colorDataList
 
         val mColorSpreadCount = colorDataList.last().range
@@ -259,6 +269,7 @@ class ColorClass {
             var col2: Int
 
             aColorSpread[0] = mColorDataList[0].color
+            aColorSpread[aColorSpread.lastIndex] = mColorDataList[mColorDataList.lastIndex].color
 
             for (cr in 1 until mColorDataList.size) {
                 val maxd: Int = mColorDataList[cr].range - mColorDataList[cr- 1].range

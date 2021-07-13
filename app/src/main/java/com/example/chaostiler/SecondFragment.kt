@@ -2,7 +2,6 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +11,9 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.chaostiler.MainActivity.Companion.colorClass
+import com.example.chaostiler.MainActivity.Companion.DataProcess
 import com.example.chaostiler.MainActivity.Companion.mEnableDataClone
+import kotlin.String as KotlinString
 
 // endregion
 
@@ -27,6 +28,7 @@ class SecondFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_second, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if((this.activity as AppCompatActivity).supportActionBar?.isShowing == false)
             (this.activity as AppCompatActivity).supportActionBar?.show()
@@ -40,16 +42,39 @@ class SecondFragment : Fragment() {
         seekbar = view.findViewById(R.id.seekBar)
         seekbar.progress = colorClass.getCurrentRange().prog
 
+        val settozero = view.findViewById<Button>(R.id.set_to_zero)
+
+        isLinearView = view.findViewById<Button>(R.id.data_to_colour_type)
+
+        setAnalysisButtonVisible()
+
+        if (pixelDataClone.aHitStats[0] == 0) {
+            settozero.disable()
+        } else{
+            settozero.enable()
+        }
+
         tileImageView = view.findViewById(R.id.tile_image_view)
 
-        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
-
-        applyPaletteChangeToBitmap(pixelDataClone)
+        setTileViewBitmap(pixelDataClone)
 
         view.findViewById<Button>(R.id.undo_all_changes).setOnClickListener {
             undoAllChanges()
+
+            setAnalysisButtonVisible()
+
+            if (pixelDataClone.aHitStats[0] == 0) {
+                settozero.disable()
+            } else{
+                settozero.enable()
+            }
         }
 
+        view.findViewById<Button>(R.id.data_to_colour_type).setOnClickListener {
+            switchProcessType(pixelDataClone)
+
+            setAnalysisButtonVisible()
+        }
 
         view.findViewById<Button>(R.id.blur_left).setOnClickListener {
             blurLeft()
@@ -69,6 +94,8 @@ class SecondFragment : Fragment() {
 
             BitmapColorSpread.mNewColors = true
 
+            setAnalysisButtonVisible()
+
             applyPaletteChangeToBitmap(pixelDataClone)
 
             sk?.invalidate()
@@ -83,6 +110,8 @@ class SecondFragment : Fragment() {
 
             BitmapColorSpread.mNewColors = true
 
+            setAnalysisButtonVisible()
+
             applyPaletteChangeToBitmap(pixelDataClone)
 
             sk?.invalidate()
@@ -91,6 +120,8 @@ class SecondFragment : Fragment() {
 
         view.findViewById<Button>(R.id.set_to_zero).setOnClickListener {
             setToZero()
+
+            settozero.disable()
         }
 
 
@@ -102,6 +133,8 @@ class SecondFragment : Fragment() {
             sk?.progress = colorClass.getCurrentRange().prog
 
             BitmapColorSpread.mNewColors = true
+
+            setAnalysisButtonVisible()
 
             applyPaletteChangeToBitmap(pixelDataClone)
 
@@ -116,6 +149,8 @@ class SecondFragment : Fragment() {
             sk?.progress = colorClass.getCurrentRange().prog
 
             BitmapColorSpread.mNewColors = true
+
+            setAnalysisButtonVisible()
 
             applyPaletteChangeToBitmap(pixelDataClone)
 
@@ -135,5 +170,13 @@ class SecondFragment : Fragment() {
 
             findNavController().navigate(R.id.action_SecondFragment_to_ThirdFragment)
         }
+    }
+
+    private fun setAnalysisButtonVisible(){
+        val text : KotlinString
+        if (colorClass.getCurrentRange().dataProcess == DataProcess.LINEAR) {
+            text = "Linear" } else {
+            text = "Statistical" }
+        isLinearView.text = text.subSequence(0, text.length)
     }
 }

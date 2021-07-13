@@ -2,9 +2,7 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
-import android.graphics.Bitmap
-import android.graphics.Point
-import android.graphics.PointF
+import android.graphics.*
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -21,6 +19,8 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     companion object{
+        enum class DataProcess {LINEAR, STATISTICAL}
+
         var rand  = Random(0)
 
         const val width = 512; const val height = 512
@@ -114,10 +114,20 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
+
 /*
     private fun setFullScreen() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
     }*/
+}
+
+fun View.enable() {
+    background.setColorFilter(null)
+    isClickable = true
+}
+fun View.disable() {
+    background.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY)
+    isClickable = false
 }

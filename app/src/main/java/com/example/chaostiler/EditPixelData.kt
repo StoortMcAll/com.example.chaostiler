@@ -62,6 +62,7 @@ fun prepareBlurData2(){
 
     pixelDataClone.mMaxHits = max
 }
+
 fun prepareBlurData(){
     val widewidth = width + 2
     val wideheight = height + 2

@@ -50,9 +50,16 @@ class MyImageView @JvmOverloads constructor(
 
     private val scaleListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScale(detector: ScaleGestureDetector): Boolean {
-            mScaleFactor *= detector.scaleFactor
+            var msc = mScaleFactor * detector.scaleFactor
 
-            mScaleFactor = 0.125f.coerceAtLeast(mScaleFactor.coerceAtMost(6.0f))
+            if (msc < 0.25f){
+                msc = 0.25f
+            }
+            else if (msc > 6.0f) {
+                msc = 6.0f
+            }
+
+            mScaleFactor = msc
 
             return true
         }
@@ -60,6 +67,8 @@ class MyImageView @JvmOverloads constructor(
 
 
     init {
+        this.isClickable = false
+
         mScaleDetector = ScaleGestureDetector(context, scaleListener)
 
         bmImage = Bitmap.createBitmap(MainActivity.width, MainActivity.height, Bitmap.Config.ARGB_8888)
@@ -157,6 +166,14 @@ class MyImageView @JvmOverloads constructor(
                 isSingleTouch = true
 
                 pIndex0 = motionEvent.findPointerIndex(0)
+
+                if (pIndex0 == -1) {
+                    pIndex0 = motionEvent.findPointerIndex(1)
+                }
+
+                if (pIndex0 == -1) {
+                    return true
+                }
 
                 motionEvent.getX(pIndex0).also { clickPos.x = it }
                 motionEvent.getY(pIndex0).also { clickPos.y = it }
