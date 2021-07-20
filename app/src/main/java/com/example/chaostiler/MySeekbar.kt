@@ -8,8 +8,7 @@ import android.widget.ImageButton
 import android.widget.SeekBar
 import androidx.core.graphics.drawable.toDrawable
 import com.example.chaostiler.MainActivity.Companion.DataProcess
-import com.example.chaostiler.BitmapColorSpread.Companion.mNewColors
-import com.example.chaostiler.MainActivity.Companion.colorClass
+import com.example.chaostiler.MainActivity.Companion.bitmapColorSpread
 import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
 
 
@@ -20,7 +19,7 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
     var isFirstDraw = true
     var isFinalValue = false
 
-    lateinit var bitmapColorSpread : BitmapColorSpread
+    val bitmapColorSpread = MainActivity.bitmapColorSpread
 
     var sbTexture : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
 
@@ -57,40 +56,62 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
 
     private fun init() {
         max = mSeekbarMax
-        progress = colorClass.getCurrentRange().prog
+        if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
+            progress = bitmapColorSpread.aCurrentRange.progressIncrement
+        }
+        else{
+            progress = bitmapColorSpread.aCurrentRange.progressStatistic
+        }
+        secondaryProgress = bitmapColorSpread.aCurrentRange.progressSecond
 
         mSeekBarHintPaint = TextPaint()
         mSeekBarHintPaint!!.color = mHintTextColor
         mSeekBarHintPaint!!.textSize = mHintTextSize
 
-        bitmapColorSpread = BitmapColorSpread()
+/*
 
         this.setOnSeekBarChangeListener(
             object : OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-
-                    colorClass.getCurrentRange().prog = progress
-
+                    currentColorClass.aCurrentRange.progressIncrement = progress
                     isFirstDraw = true
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {
-                    colorClass.getCurrentRange().prog = progress
+                    currentColorClass.aCurrentRange.progressIncrement = seekBar.progress
                     isFirstDraw = true
                 }
 
                 override fun onStopTrackingTouch(seekBar: SeekBar) {
-                    colorClass.getCurrentRange().prog = progress
+                    seekBar.secondaryProgress = seekBar.progress
+                    currentColorClass.aCurrentRange.progressIncrement = seekBar.progress
+                    currentColorClass.aCurrentRange.progressSecond = seekBar.secondaryProgress
                     isFirstDraw = true
                     isFinalValue = true
                 }
             })
+*/
 
         invalidate()
     }
 
-    @Synchronized
+/*
+    override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
+        when (motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+            }
+        }
+
+        invalidate()
+
+        return true
+    }
+
+
+*/
+
+   /* @Synchronized
     override fun onDraw(canvas: Canvas) {
         if (mNewColors) {
             isFirstDraw = true
@@ -104,14 +125,9 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
     }
 
     private fun drawSpread() {
-        mSeekbarMax = this.max
+        //bitmapColorSpread.updateColorSpreadBitmap(mSeekbarMax, progress, pixelDataClone)
 
-        if (colorClass.getCurrentRange().dataProcess == DataProcess.LINEAR) {
-            sbTexture = bitmapColorSpread.drawBitmap(mSeekbarMax, progress, pixelDataClone)
-        }
-        else{
-            sbTexture = bitmapColorSpread.drawBitmap2(mSeekbarMax, progress, pixelDataClone)
-        }
+        sbTexture = bitmapColorSpread.seekbarBitmap
 
         val ib = rootView.findViewById<ImageButton>(R.id.palette_scaler)
 
@@ -123,6 +139,6 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
 
         isFinalValue = false
         isFirstDraw = false
-    }
+    }*/
 
 }

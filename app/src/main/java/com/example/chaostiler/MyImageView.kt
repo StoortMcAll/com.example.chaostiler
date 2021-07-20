@@ -47,7 +47,6 @@ class MyImageView @JvmOverloads constructor(
 
     // endregion
 
-
     private val scaleListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             var msc = mScaleFactor * detector.scaleFactor
@@ -75,6 +74,82 @@ class MyImageView @JvmOverloads constructor(
 
         setBitmap(bmImage)
     }
+
+    override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
+        when (motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                isSingleTouch = true
+
+                pIndex0 = motionEvent.findPointerIndex(0)
+
+                if (pIndex0 == -1) {
+                    pIndex0 = motionEvent.findPointerIndex(1)
+                }
+
+                if (pIndex0 == -1) {
+                    return true
+                }
+
+                motionEvent.getX(pIndex0).also { clickPos.x = it }
+                motionEvent.getY(pIndex0).also { clickPos.y = it }
+
+                texCoord = winPosToTextureCoord(PointF(clickPos.x, clickPos.y))
+
+                offset = calcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
+            }
+            MotionEvent.ACTION_MOVE -> {
+                if (motionEvent.pointerCount > 1) {
+                    if (isSingleTouch) {
+                        pIndex0 = motionEvent.findPointerIndex(0)
+                        pIndex1 = motionEvent.findPointerIndex(1)
+                    }
+
+                    clickPos.x = motionEvent.getX(pIndex0)
+                    clickPos.y = motionEvent.getY(pIndex0)
+
+                    clickPos1.x = motionEvent.getX(pIndex1)
+                    clickPos1.y = motionEvent.getY(pIndex1)
+
+                    clickPos = findTouchCenter(PointF(clickPos.x, clickPos.y), PointF(clickPos1.x, clickPos1.y))
+
+                    if (isSingleTouch) {
+                        isSingleTouch = false
+
+                        texCoord = winPosToTextureCoord(PointF(clickPos.x, clickPos.y))
+                    }
+
+                    offset = calcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
+                }
+                else {
+                    if (!isSingleTouch) {
+                        isSingleTouch = true
+
+                        pIndex0 = if (motionEvent.findPointerIndex(0) == -1)
+                            motionEvent.findPointerIndex(1)
+                        else
+                            motionEvent.findPointerIndex(0)
+
+                        clickPos.x = motionEvent.getX(pIndex0)
+                        clickPos.y = motionEvent.getY(pIndex0)
+
+                        texCoord = winPosToTextureCoord(PointF(clickPos.x, clickPos.y))
+                    } else {
+                        clickPos.x = motionEvent.getX(pIndex0)
+                        clickPos.y = motionEvent.getY(pIndex0)
+                    }
+
+                    offset = calcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
+                }
+            }
+        }
+
+        mScaleDetector.onTouchEvent(motionEvent)
+
+        invalidate()
+
+        return true
+    }
+
 
     fun setBitmap(bitmap : Bitmap){
         bmImage = bitmap
@@ -157,82 +232,6 @@ class MyImageView @JvmOverloads constructor(
             e.printStackTrace()
             file // it will return null
         }
-    }
-
-
-    override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
-        when (motionEvent.action) {
-            MotionEvent.ACTION_DOWN -> {
-                isSingleTouch = true
-
-                pIndex0 = motionEvent.findPointerIndex(0)
-
-                if (pIndex0 == -1) {
-                    pIndex0 = motionEvent.findPointerIndex(1)
-                }
-
-                if (pIndex0 == -1) {
-                    return true
-                }
-
-                motionEvent.getX(pIndex0).also { clickPos.x = it }
-                motionEvent.getY(pIndex0).also { clickPos.y = it }
-
-                texCoord = winPosToTextureCoord(PointF(clickPos.x, clickPos.y))
-
-                offset = calcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
-            }
-            MotionEvent.ACTION_MOVE -> {
-                if (motionEvent.pointerCount > 1) {
-                    if (isSingleTouch) {
-                        pIndex0 = motionEvent.findPointerIndex(0)
-                        pIndex1 = motionEvent.findPointerIndex(1)
-                    }
-
-                    clickPos.x = motionEvent.getX(pIndex0)
-                    clickPos.y = motionEvent.getY(pIndex0)
-
-                    clickPos1.x = motionEvent.getX(pIndex1)
-                    clickPos1.y = motionEvent.getY(pIndex1)
-
-                    clickPos = findTouchCenter(PointF(clickPos.x, clickPos.y), PointF(clickPos1.x, clickPos1.y))
-
-                    if (isSingleTouch) {
-                        isSingleTouch = false
-
-                        texCoord = winPosToTextureCoord(PointF(clickPos.x, clickPos.y))
-                    }
-
-                    offset = calcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
-                }
-                else {
-                    if (!isSingleTouch) {
-                        isSingleTouch = true
-
-                        pIndex0 = if (motionEvent.findPointerIndex(0) == -1)
-                            motionEvent.findPointerIndex(1)
-                        else
-                            motionEvent.findPointerIndex(0)
-
-                        clickPos.x = motionEvent.getX(pIndex0)
-                        clickPos.y = motionEvent.getY(pIndex0)
-
-                        texCoord = winPosToTextureCoord(PointF(clickPos.x, clickPos.y))
-                    } else {
-                        clickPos.x = motionEvent.getX(pIndex0)
-                        clickPos.y = motionEvent.getY(pIndex0)
-                    }
-
-                    offset = calcOffset(PointF(clickPos.x, clickPos.y), PointF(texCoord.x, texCoord.y))
-                }
-            }
-        }
-
-        mScaleDetector.onTouchEvent(motionEvent)
-
-        invalidate()
-
-        return true
     }
 
 

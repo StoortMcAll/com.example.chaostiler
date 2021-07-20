@@ -6,10 +6,12 @@ import android.graphics.Color
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
+import com.example.chaostiler.MainActivity.Companion.DataProcess
+import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
 import kotlin.math.abs
 import kotlin.math.max
 
-private const val mInitialColorRangeSeekbarProgress = 0
+private const val mMaximumColorRangeSeekbarProgress = mSeekbarMax
 
 data class DColorDataItem(val range: Int = 0, val color: Int = 0)
 
@@ -38,13 +40,7 @@ data class DPrimaryColors(val size : Int, val colors : IntArray) {
 
 class ColorClass {
 
-    // region Variable Declaration
-
-    companion object {
-        private const val mPrimaryColourCount = 21
-
-        private var isQueuedChange = true
-        private var mQueuedID = 0
+        private val mPrimaryColourCount = 21
 
         private val aPrimaries = DPrimaryColors(mPrimaryColourCount, intArrayOf(
                 Color.RED, Color.GREEN, Color.BLUE,
@@ -76,15 +72,11 @@ class ColorClass {
 
         private var mCurrentRangeID = 0
 
-        private lateinit var aCurrentRange : ColorRangeClass
+        lateinit var aCurrentRange : ColorRangeClass
 
         private var mCurrentRangeCount = 0
 
         private var mColorRangeList = mutableListOf<ColorRangeClass>()
-
-    }
-
-    // endregion
 
 
     init {
@@ -104,55 +96,34 @@ class ColorClass {
                 DColorDataItem(112, Color.BLUE),
                 DColorDataItem(208, Color.MAGENTA),
                 DColorDataItem(255, Color.WHITE)))
+
+        setCurrentColorRange(mCurrentRangeID)
     }
 
 
-    fun getCurrentRange() : ColorRangeClass{
-        if (isQueuedChange){
-            selectCurrentColorRange(mQueuedID)
-            isQueuedChange = false
-        }
+    fun increaseSpreadID() : ColorRangeClass{
+        mCurrentRangeID++
+
+        if (mCurrentRangeID > mColorRangeList.size - 1)
+            mCurrentRangeID = 0
+
+        setCurrentColorRange(mCurrentRangeID)
+
         return aCurrentRange
     }
 
+    fun decreaseSpreadID() : ColorRangeClass{
+        mCurrentRangeID--
 
-    private fun selectCurrentColorRange(rangeID : Int){
-        var index = 0
-        do {
-            if (mColorRangeList[index].mColorRangeID == rangeID){
-                mCurrentRangeID = rangeID
-                aCurrentRange = mColorRangeList[index]
+        if (mCurrentRangeID < 0)
+            mCurrentRangeID = mColorRangeList.size - 1
 
-                return
-            }
-            index++
-        }while (index < mColorRangeList.size)
+        setCurrentColorRange(mCurrentRangeID)
 
-        // If rangeID not valid set to range 0
-        aCurrentRange = mColorRangeList[0]
-        mCurrentRangeID = aCurrentRange.mColorRangeID
+        return aCurrentRange
     }
 
-
-    fun increaseSpreadID(){
-        mQueuedID = mCurrentRangeID + 1
-
-        if (mQueuedID > mColorRangeList.size - 1)
-            mQueuedID = 0
-
-        isQueuedChange = true
-    }
-
-    fun decreaseSpreadID(){
-        mQueuedID = mCurrentRangeID - 1
-
-        if (mQueuedID < 0)
-            mQueuedID = mColorRangeList.size - 1
-
-        isQueuedChange = true
-    }
-
-    fun addNewRandomPrimariesRange() {
+    fun addNewRandomPrimariesRange() : ColorRangeClass{
         var dataitemcount = 2 + MainActivity.rand.nextInt(0, 4)
 
         var range = 0; var add = 64
@@ -176,13 +147,14 @@ class ColorClass {
 
         addColorRanges(dataitemslist)
 
-        mQueuedID = mColorRangeList.count() - 1
+        mCurrentRangeID = mColorRangeList.count() - 1
 
-        isQueuedChange = true
+        setCurrentColorRange(mCurrentRangeID)
+
+        return aCurrentRange
     }
 
-
-    fun addNewRandomColorsRange() {
+    fun addNewRandomColorsRange() : ColorRangeClass {
         var counter = MainActivity.rand.nextInt(0, 5) * 128 + 256
 
         var colorDataItem = DColorDataItem(0, Color.BLACK)
@@ -220,15 +192,33 @@ class ColorClass {
 
         addColorRanges(tempColorDataItemList)
 
-        mColorRangeList.lastIndex.also { mQueuedID = it }
+        mColorRangeList.lastIndex.also { mCurrentRangeID = it }
 
-        isQueuedChange = true
+        setCurrentColorRange(mCurrentRangeID)
+
+        return aCurrentRange
     }
 
     private fun df(d1 : Int, d2 : Int) : Int{
         return abs(d1 - d2)
     }
 
+    private fun setCurrentColorRange(rangeID : Int){
+        var index = 0
+        do {
+            if (mColorRangeList[index].mColorRangeID == rangeID){
+                mCurrentRangeID = rangeID
+                aCurrentRange = mColorRangeList[index]
+
+                return
+            }
+            index++
+        }while (index < mColorRangeList.size)
+
+        // If rangeID not valid set to range 0
+        aCurrentRange = mColorRangeList[0]
+        mCurrentRangeID = aCurrentRange.mColorRangeID
+    }
 
     private fun addColorRanges(colorRanges: List<DColorDataItem>){
         mColorRangeList.add(ColorRangeClass(mCurrentRangeCount, colorRanges))
@@ -236,77 +226,93 @@ class ColorClass {
         mCurrentRangeCount++
     }
 
+}
 
-    class ColorRangeClass(id : Int, colorDataList: List<DColorDataItem>) {
+class ColorRangeClass(id : Int, colorDataList: List<DColorDataItem>) {
 
-        // region Variable Declaration
+    // region Variable Declaration
 
-        var prog = mInitialColorRangeSeekbarProgress
+    var progressIncrement = mMaximumColorRangeSeekbarProgress
+    var progressSecond = mMaximumColorRangeSeekbarProgress
+    var progressStatistic = mMaximumColorRangeSeekbarProgress
 
-        var mColorRangeID = id
+    var mColorRangeID = id
 
-        var dataProcess = MainActivity.Companion.DataProcess.LINEAR
+    var dataProcess = DataProcess.LINEAR
 
-        private val mColorDataList = colorDataList
+    private val mColorDataList = colorDataList
 
-        val mColorSpreadCount = colorDataList.last().range
+    val mColorSpreadCount = colorDataList.last().range
 
-        var aColorSpread : IntArray = IntArray(mColorSpreadCount + 1)
+    var aColorSpread : IntArray = IntArray(mColorSpreadCount + 1)
 
-        // endregion
+    // endregion
 
-        init {
-            processColorSpread()
+    init {
+        processColorSpread()
+    }
+
+    fun getRangeProgress() : Int{
+        if (dataProcess == MainActivity.Companion.DataProcess.LINEAR)
+            return progressIncrement
+
+        return progressStatistic
+    }
+
+    fun setRangeProgress(prog : Int){
+        if (dataProcess == MainActivity.Companion.DataProcess.LINEAR){
+            progressIncrement = prog
         }
-
-
-        private fun processColorSpread() {
-            if (mColorDataList.size < 2) return
-
-            var index = 1
-
-            var col1: Int
-            var col2: Int
-
-            aColorSpread[0] = mColorDataList[0].color
-            aColorSpread[aColorSpread.lastIndex] = mColorDataList[mColorDataList.lastIndex].color
-
-            for (cr in 1 until mColorDataList.size) {
-                val maxd: Int = mColorDataList[cr].range - mColorDataList[cr- 1].range
-
-                col1 = mColorDataList[cr - 1].color
-                col2 = mColorDataList[cr].color
-
-                val r: IntArray = colorChannelRange(maxd, Color.red(col1), Color.red(col2))
-                val g: IntArray = colorChannelRange(maxd, Color.green(col1), Color.green(col2))
-                val b: IntArray = colorChannelRange(maxd, Color.blue(col1), Color.blue(col2))
-
-                var n = 0
-                do {
-                    aColorSpread[index] = Color.argb(255, r[n], g[n], b[n])
-                    index++
-                    n++
-                }while(index < mColorDataList[cr].range)
-            }
-        }
-
-        private fun colorChannelRange(range: Int, r1: Int, r2: Int): IntArray {
-            val results = IntArray(range)
-
-            results[0] = r1
-
-            val dx: Double = (r2 - r1) / range.toDouble()
-
-            if (dx == 0.0) {
-                for (i in 1 until range)
-                    results[i] = r1
-            } else {
-                for (i in 1 until range)
-                    results[i] = (r1 + (dx * i)).toInt()
-            }
-
-            return results
+        else{
+            progressStatistic = prog
         }
     }
 
+    private fun processColorSpread() {
+        if (mColorDataList.size < 2) return
+
+        var index = 1
+
+        var col1: Int
+        var col2: Int
+
+        aColorSpread[0] = mColorDataList[0].color
+        aColorSpread[aColorSpread.lastIndex] = mColorDataList[mColorDataList.lastIndex].color
+
+        for (cr in 1 until mColorDataList.size) {
+            val maxd: Int = mColorDataList[cr].range - mColorDataList[cr- 1].range
+
+            col1 = mColorDataList[cr - 1].color
+            col2 = mColorDataList[cr].color
+
+            val r: IntArray = colorChannelRange(maxd, Color.red(col1), Color.red(col2))
+            val g: IntArray = colorChannelRange(maxd, Color.green(col1), Color.green(col2))
+            val b: IntArray = colorChannelRange(maxd, Color.blue(col1), Color.blue(col2))
+
+            var n = 0
+            do {
+                aColorSpread[index] = Color.argb(255, r[n], g[n], b[n])
+                index++
+                n++
+            }while(index < mColorDataList[cr].range)
+        }
+    }
+
+    private fun colorChannelRange(range: Int, r1: Int, r2: Int): IntArray {
+        val results = IntArray(range)
+
+        results[0] = r1
+
+        val dx: Double = (r2 - r1) / range.toDouble()
+
+        if (dx == 0.0) {
+            for (i in 1 until range)
+                results[i] = r1
+        } else {
+            for (i in 1 until range)
+                results[i] = (r1 + (dx * i)).toInt()
+        }
+
+        return results
+    }
 }

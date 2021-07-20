@@ -2,12 +2,14 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
+import android.content.res.Configuration
 import android.graphics.*
 import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import java.time.LocalDateTime
@@ -19,22 +21,29 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     companion object{
+        enum class QuiltType {Square, Scratch, Hexagonal}
+
         enum class DataProcess {LINEAR, STATISTICAL}
+
+        var quiltType = QuiltType.Square
 
         var rand  = Random(0)
 
         const val width = 512; const val height = 512
 
-        var mSeekbarMax = 256
+        const val mSeekbarMax = 256
 
         var mEnableDataClone = true
 
         var bmImage : Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
+        val bitmapColorSpread = BitmapColorSpread()
+
         var mScaleFactor = 1.0f
+
         var offset: PointF = PointF(0.0f, 0.0f)
 
-        var colorClass = ColorClass()
+        var mCurrentPageID = 0
 
         var clickPos = PointF(0.0f, 0.0f)
 
@@ -77,6 +86,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
 
@@ -115,19 +125,11 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
+
 /*
     private fun setFullScreen() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
     }*/
-}
-
-fun View.enable() {
-    background.setColorFilter(null)
-    isClickable = true
-}
-fun View.disable() {
-    background.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY)
-    isClickable = false
 }

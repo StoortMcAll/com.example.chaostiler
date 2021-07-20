@@ -23,20 +23,29 @@ class SquareValues{
     val lambda : Double
     val ma : Double
     val omega : Double
+    var shift : Double
+    var delta : Double
 
     // endregion
 
     constructor(x: Double, y: Double, alpha: Double, beta: Double,
-            gamma: Double, lambda: Double, ma: Double, omega: Double) {
+            gamma: Double, lambda: Double, ma: Double, omega: Double,
+            shift: Double = 0.0, delta: Double = 0.0) {
         this.x = x; this.y = y
         this.alpha = alpha; this.beta = beta
         this.gamma = gamma; this.lambda = lambda
         this.ma = ma; this.omega = omega
+
+        this.shift = shift
+        this.delta = delta
     }
 
     constructor(randLevel : Int) {
         x = 0.001 + MainActivity.rand.nextDouble() * 0.998
         y = 0.001 + MainActivity.rand.nextDouble() * 0.998
+
+        shift = getRand(-1.0, 1.0)
+        delta = getRand(-1.0, 1.0)
 
         when (randLevel){
             0->{
@@ -50,18 +59,18 @@ class SquareValues{
             1->{
                 alpha = getRand(-2.0, 2.0)
                 beta = getRand(-2.0, 2.0)
-                gamma = getRand(-1.0, 1.0)
-                lambda = getRand(-1.0, 1.0)
-                ma = getRand(-1.0, 1.0)
-                omega = getRand(-1.0, 1.0)
-            }
-            else->{
-                alpha = getRand(-4.0, 3.0)
-                beta = getRand(-4.0, 3.0)
                 gamma = getRand(-2.0, 2.0)
                 lambda = getRand(-2.0, 2.0)
                 ma = getRand(-2.0, 2.0)
                 omega = getRand(-2.0, 2.0)
+            }
+            else->{
+                alpha = getRand(-4.0, 4.0)
+                beta = getRand(-4.0, 4.0)
+                gamma = getRand(-4.0, 4.0)
+                lambda = getRand(-4.0, 4.0)
+                ma = getRand(-4.0, 4.0)
+                omega = getRand(-4.0, 4.0)
             }
         }
     }

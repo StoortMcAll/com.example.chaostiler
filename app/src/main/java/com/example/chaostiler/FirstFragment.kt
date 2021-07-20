@@ -9,19 +9,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.chaostiler.MainActivity.Companion.colorClass
+import com.example.chaostiler.MainActivity.Companion.bitmapColorSpread
 import com.example.chaostiler.MainActivity.Companion.mEnableDataClone
-import kotlinx.coroutines.*
+import com.example.chaostiler.MainActivity.Companion.QuiltType
+import com.example.chaostiler.MainActivity.Companion.quiltType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 // endregion
 
 
 class FirstFragment : Fragment() {
+
+    val mThisPageID = 0
+
+    companion object{
+        lateinit var tileImageView : MyImageView
+        lateinit var mMaxHitsText : TextView
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -32,6 +45,14 @@ class FirstFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+       /* if (MainActivity.mCurrentPageID > mThisPageID){
+            if (activity?.supportFragmentManager?.beginTransaction()) {
+                activity?.supportFragmentManager?.popBackStack()
+                activity?.supportFragmentManager?.popBackStack()
+            }
+        }*/
+        MainActivity.mCurrentPageID = mThisPageID
 
         mEnableDataClone = true
 
@@ -46,8 +67,23 @@ class FirstFragment : Fragment() {
             makeInvisible(view)
 
             if (job == null || job?.isActive == false) {
-                MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
+                //MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
                 job = MainActivity.scopeIO.launch {
+                    quiltType = QuiltType.Square
+                    startNewRunFormula(true)
+                }
+            } else {
+                job?.cancel(null)
+            }
+        }
+
+        view.findViewById<Button>(R.id.run_hex).setOnClickListener {
+            makeInvisible(view)
+
+            if (job == null || job?.isActive == false) {
+                //MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
+                job = MainActivity.scopeIO.launch {
+                    quiltType = QuiltType.Hexagonal
                     startNewRunFormula(true)
                 }
             } else {
@@ -56,9 +92,9 @@ class FirstFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.palette_left).setOnClickListener {
-            colorClass.decreaseSpreadID()
+            bitmapColorSpread.prevPalette()
 
-            BitmapColorSpread.mNewColors = true
+            bitmapColorSpread.updateColorSpreadBitmap(pixelData)
 
             if (!doingCalc) {
                 applyPaletteChangeToBitmap(pixelData)
@@ -66,9 +102,9 @@ class FirstFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.palette_right).setOnClickListener {
-            colorClass.increaseSpreadID()
+            bitmapColorSpread.nextPalette()
 
-            BitmapColorSpread.mNewColors = true
+            bitmapColorSpread.updateColorSpreadBitmap(pixelData)
 
             if (!doingCalc) {
                 applyPaletteChangeToBitmap(pixelData)
@@ -84,7 +120,7 @@ class FirstFragment : Fragment() {
             }
             else{
                 makeInvisible(view)
-                MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
+                //MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
                 job = MainActivity.scopeIO.launch {
                     startNewRunFormula(false)
                 }
@@ -106,7 +142,12 @@ class FirstFragment : Fragment() {
     }
 
     private fun setTileViewBitmap(pixeldatacopy: PixelData) {
-        aColors = buildPixelArrayFromColorsIncremental(pixeldatacopy)
+        if (bitmapColorSpread.aCurrentRange.dataProcess == MainActivity.Companion.DataProcess.LINEAR){
+            aColors = buildPixelArrayFromIncrementalColors(pixeldatacopy)
+        }
+        else{
+            aColors = buildPixelArrayFromStatisticalColors(pixeldatacopy)
+        }
 
         bmTexture.setPixels(aColors, 0,
             MainActivity.width, 0, 0,
@@ -117,34 +158,44 @@ class FirstFragment : Fragment() {
     }
 
     private fun makeVisible(view: View) {
-        view.findViewById<ConstraintLayout>(R.id.constraintGenerators).isVisible = true
+        val generate = view.findViewById<ConstraintLayout>(R.id.constraintGenerators)
         val resumgen = view.findViewById<ConstraintLayout>(R.id.resume_generate)
         val resumbut = view.findViewById<Button>(R.id.resume)
-        var analysis = view.findViewById<ConstraintLayout>(R.id.data_colour_constraint)
+        view.findViewById<ConstraintLayout>(R.id.data_colour_constraint).isVisible = false
         val chspal = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
         view.findViewById<Button>(R.id.add_new_palette).isVisible = false
         view.findViewById<Button>(R.id.add_new_palette2).isVisible = false
         val navi = view.findViewById<ConstraintLayout>(R.id.naviConstraint)
 
         if (pixelData.mMaxHits > 0) {
-            navi.isVisible = true
-            chspal.isVisible = true
-            analysis.isVisible = false
-            resumgen.isVisible = true
-            mMaxHitsText.isVisible = true
+            if (!doingCalc) {
+                generate.isVisible = true
+                navi.isVisible = true
+                chspal.isVisible = true
+                resumgen.isVisible = true
+                mMaxHitsText.isVisible = true
 
-            val value = pixelData.mMaxHits.toString()
-            val iters = pixelData.mHitsCount.toString()
-            var text = "Hits : Max - $value   Total - $iters"
-            mMaxHitsText.text = text.subSequence(0, text.length)
+                val value = pixelData.mMaxHits.toString()
+                val iters = pixelData.mHitsCount.toString()
+                var text = "Hits : Max - $value   Total - $iters"
+                mMaxHitsText.text = text.subSequence(0, text.length)
 
-            text = "Resume"
-            resumbut.text = text.subSequence(0, text.length)
+                resumbut.text = "Resume".subSequence(0, 6)
+            }
+            else{
+                generate.isVisible = false
+                navi.isVisible = false
+                chspal.isVisible = true
+                resumgen.isVisible = true
+                mMaxHitsText.isVisible = true
+
+                val text = "Pause"
+                resumbut.text = "Pause".subSequence(0, 5)
+            }
         }
         else{
             navi.isVisible = false
             chspal.isVisible = false
-            analysis.isVisible = false
             resumgen.isVisible = false
             mMaxHitsText.isVisible = false
         }

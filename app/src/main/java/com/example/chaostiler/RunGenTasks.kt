@@ -3,13 +3,13 @@ package com.example.chaostiler
 // region Variable Declaration
 
 import android.graphics.Bitmap
-import android.widget.Button
-import android.widget.TextView
-import com.example.chaostiler.BitmapColorSpread.Companion.maxRangeValue
-import com.example.chaostiler.MainActivity.Companion.colorClass
+import com.example.chaostiler.FirstFragment.Companion.mMaxHitsText
+import com.example.chaostiler.FirstFragment.Companion.tileImageView
 import com.example.chaostiler.MainActivity.Companion.DataProcess
+import com.example.chaostiler.MainActivity.Companion.bitmapColorSpread
 import com.example.chaostiler.MainActivity.Companion.height
 import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
+import com.example.chaostiler.MainActivity.Companion.quiltType
 import com.example.chaostiler.MainActivity.Companion.width
 import kotlinx.coroutines.*
 
@@ -17,37 +17,27 @@ var doingCalc = false
 
 var square = SquareValues(0.23, 0.7157, -0.4212, 1.3134, -2.632, 1.59, 1.205, -1.34)
 
+var hexagon = HexValues()
+
 var bmTexture = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
 var aColors = IntArray(width * height)
-
-lateinit var tileImageView : MyImageView
-lateinit var mMaxHitsText : TextView
-lateinit var isLinearView : Button
 
 var job : Job? = null
 
 // endregion
 
 
-fun blurLeft(){
-    MainActivity.scopeIO.launch {
-        prepareBlurData()
-
-        setTileViewBitmap(pixelDataClone)
-    }
+fun blurLeft() {
+    prepareBlurData()
 }
 fun blurRight(){
-    MainActivity.scopeIO.launch {
-        prepareBlurData2()
-
-        setTileViewBitmap(pixelDataClone)
-    }
+    prepareBlurData2()
 }
 
 
-fun switchProcessType(pixeldatacopy : PixelData) {
-    val currentRange = colorClass.getCurrentRange()
+fun switchProcessType() {
+    val currentRange = bitmapColorSpread.aCurrentRange
     if (currentRange.dataProcess == DataProcess.LINEAR){
         currentRange.dataProcess = DataProcess.STATISTICAL
     }
@@ -55,28 +45,8 @@ fun switchProcessType(pixeldatacopy : PixelData) {
         currentRange.dataProcess = DataProcess.LINEAR
     }
 
-    MainActivity.scopeIO.launch {
-        setTileViewBitmap(pixeldatacopy)
-    }
 }
 
-
-fun undoAllChanges() {
-    MainActivity.scopeIO.launch {
-        pixelDataClone = pixelData.Clone()
-
-        setTileViewBitmap(pixelDataClone)
-    }
-}
-
-
-fun setToZero() {
-    MainActivity.scopeIO.launch {
-        runSetToZero()
-
-        setTileViewBitmap(pixelDataClone)
-    }
-}
 
 fun runSetToZero() {
     val arraySize = pixelDataClone.arraySize
@@ -104,14 +74,15 @@ fun runSetToZero() {
     }
 }
 
-//var begin = System.nanoTime()
-//var end = System.nanoTime()
+
 fun startNewRunFormula(isNewRun : Boolean) {
     if (isNewRun) {
         square = SquareValues(MainActivity.rand.nextInt(until = 3))
 
+        hexagon = HexValues(MainActivity.rand.nextInt(until = 3))
+
         pixelData.clearData()
-        pixelDataClone.clearData()
+        //pixelDataClone.clearData()
     }
 
     maxCounter = maxCount
@@ -119,18 +90,21 @@ fun startNewRunFormula(isNewRun : Boolean) {
     doingCalc = true
 
     do {
-        val hits = runSquare(width, height, square)
+        val hits : ArrayList<Hit>
+
+        if (quiltType == MainActivity.Companion.QuiltType.Square)
+            hits = runSquare(width, height, square)
+        else
+            hits = runHexagon(width, height, hexagon)
 
         pixelData.addHitsToPixelArray(hits)
 
-        if (colorClass.getCurrentRange().dataProcess == DataProcess.LINEAR){
-            aColors = buildPixelArrayFromColorsIncremental(pixelData)
+        if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR){
+            aColors = buildPixelArrayFromIncrementalColors(pixelData)
         }
         else{
-            aColors = buildPixelArrayFromColorStats(pixelData)
+            aColors = buildPixelArrayFromStatisticalColors(pixelData)
         }
-
-        bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
 
         CoroutineScope(Dispatchers.Main).launch {
             upDataUI()
@@ -140,59 +114,70 @@ fun startNewRunFormula(isNewRun : Boolean) {
 }
 
 fun upDataUI() {
- val value = pixelData.mMaxHits.toString()
- val iters = pixelData.mHitsCount.toString()
+    val value = pixelData.mMaxHits.toString()
+    val iters = pixelData.mHitsCount.toString()
 
- val text = "Hits : Max - $value   Total - $iters "
- mMaxHitsText.text = text.subSequence(0, text.length)
+    val text = "Hits : Max - $value   Total - $iters "
+    mMaxHitsText.text = text.subSequence(0, text.length)
 
- tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+    bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
+
+    tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 }
 
 
-fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
+fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData) : Boolean{
     if (job == null || job?.isActive == false){
         job = MainActivity.scopeIO.launch {
             setTileViewBitmap(pixeldatacopy)
         }
+        return true
+    } else {
+        job?.cancel()
+
+        return false
     }
 }
 
 fun setTileViewBitmap(pixeldatacopy: PixelData) {
-    if (colorClass.getCurrentRange().dataProcess == DataProcess.LINEAR) {
-        aColors = buildPixelArrayFromColorsIncremental(pixeldatacopy)
+    if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
+        aColors = buildPixelArrayFromIncrementalColors(pixeldatacopy)
     } else {
-        aColors = buildPixelArrayFromColorStats(pixeldatacopy)
+        aColors = buildPixelArrayFromStatisticalColors(pixeldatacopy)
     }
-
     bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
 
-    //CoroutineScope(Dispatchers.Main).launch {
-        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
-    //}
+    CoroutineScope(Dispatchers.Main).launch {
+
+
+        tileImageView.setBitmap(bmTexture)//.copy(Bitmap.Config.ARGB_8888, false))
+    }
 }
 
-fun buildPixelArrayFromColorsIncremental(pixeldata: PixelData) : IntArray {
-    val curRange = colorClass.getCurrentRange()
+fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
+    val curRange = bitmapColorSpread.aCurrentRange
 
     val mColors = curRange.aColorSpread
 
-    val maxhits = pixeldata.mMaxHits
-
     val colspreadcount = curRange.mColorSpreadCount
 
-    val colorscount = maxhits + ((curRange.mColorSpreadCount - maxhits) * maxRangeValue).toInt()
+    val seekPosAsFraction = curRange.getRangeProgress() * (1.0 / mSeekbarMax.toDouble())
+
+    val colorscount = 32 + ((colspreadcount - 32) * seekPosAsFraction).toInt()
+
+    //val colorscount = (0.125 + 0.875 * seekPosAsFraction).toFloat()
 
     val count = pixeldata.arraySize
 
     val cols = IntArray(count)
 
-    val maxhitsover1 = 1.0F / maxhits.toFloat()
+    val maxhitsover1 = 1.0F / pixeldata.mMaxHits.toFloat()
 
     var cl : Int
 
     for (i in 0  until count){
         cl = ((pixeldata.aPixelArray[i] * maxhitsover1) * colorscount).toInt()
+        //cl = (pixeldata.aPixelArray[i] * colorscount).toInt()
 
         if (cl > colspreadcount) cl = colspreadcount
 
@@ -202,11 +187,13 @@ fun buildPixelArrayFromColorsIncremental(pixeldata: PixelData) : IntArray {
     return  cols
 }
 
-fun buildPixelArrayFromColorStats(pixeldata: PixelData) : IntArray {
-    val colrange = colorClass.getCurrentRange()
+fun buildPixelArrayFromStatisticalColors(pixeldata: PixelData) : IntArray {
+    val colrange = bitmapColorSpread.aCurrentRange
 
     val colspreadcount = colrange.mColorSpreadCount
-    val colspreadmaxrange = colrange.prog * (1.0 / mSeekbarMax.toFloat())
+
+    val colspreadmaxrange = colrange.getRangeProgress() * (1.0 / mSeekbarMax.toFloat())
+
     val count = pixeldata.arraySize
 
     val cols = IntArray(count)
@@ -241,31 +228,6 @@ fun buildPixelArrayFromColorStats(pixeldata: PixelData) : IntArray {
         cl = percentage[cl].toInt()
 
         if (cl > colspreadcount) cl = colspreadcount
-
-        cols[i] = colrange.aColorSpread[cl]
-    }
-
-    return  cols
-}
-
-//Standard Spread
-fun buildPixelArrayFromColorSpread(pixeldata: PixelData) : IntArray {
-    val cols = IntArray(width * height)
-
-    val colrange = colorClass.getCurrentRange()
-
-    val colrangecount = colrange.mColorSpreadCount * BitmapColorSpread.maxRangeValue
-
-    val mult = colrangecount  / pixeldata.mMaxHits.toDouble()
-
-    val count = pixeldata.arraySize
-    var cl : Int
-    val maxval = colrangecount.toInt()
-
-    for (i in 0  until count){
-        cl = (pixeldata.aPixelArray[i] * mult).toInt()
-
-        if (cl > maxval) cl = maxval
 
         cols[i] = colrange.aColorSpread[cl]
     }

@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/constraint_background"
-    android:foregroundTint="@color/my_yellow"
     tools:context=".FirstFragment">
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_page"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tile_image_generate"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tile_image_generate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintGenerators"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:background="@color/constraint_background"
-            app:layout_constraintBottom_toTopOf="@id/resume_generate"
+            app:layout_constraintVertical_chainStyle="spread_inside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/resume_generate">
 
             <Button
                 android:id="@+id/run_square"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="1dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/button_background"
                 android:contentDescription="@string/generate_square_image"
-                android:insetLeft="2dp"
                 android:insetTop="2dp"
-                android:insetRight="1dp"
                 android:insetBottom="2dp"
                 android:text="@string/square"
                 android:textAllCaps="false"
@@ -57,12 +57,12 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/button_background"
                 android:contentDescription="@string/generate_scratch_image"
-                android:insetLeft="1dp"
                 android:insetTop="2dp"
-                android:insetRight="1dp"
                 android:insetBottom="2dp"
                 android:text="@string/scratch"
                 android:textAllCaps="false"
@@ -78,12 +78,12 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="2dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/button_background"
                 android:contentDescription="@string/generate_hexagon_image"
-                android:insetLeft="1dp"
                 android:insetTop="2dp"
-                android:insetRight="2dp"
                 android:insetBottom="2dp"
                 android:shadowColor="@color/my_yellow"
                 android:text="@string/hexagon"
@@ -102,12 +102,12 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/resume_generate"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:background="@color/constraint_background"
-            app:layout_constraintBottom_toTopOf="@id/include_choose_palette"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintGenerators">
+            app:layout_constraintTop_toBottomOf="@id/constraintGenerators"
+            app:layout_constraintBottom_toTopOf="@id/include_choose_palette">
 
             <Button
                 android:id="@+id/resume"
@@ -116,8 +116,8 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/button_background"
                 android:insetLeft="2dp"
-                android:insetTop="2dp"
                 android:insetRight="2dp"
+                android:insetTop="2dp"
                 android:insetBottom="2dp"
                 android:text="@string/resume_calc"
                 android:textAllCaps="false"
@@ -136,46 +136,47 @@
             android:id="@+id/include_choose_palette"
             layout="@layout/choose_palette"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            app:layout_constraintBottom_toTopOf="@id/data_colour_constraint"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/resume_generate" />
+            app:layout_constraintTop_toBottomOf="@id/resume_generate"
+            app:layout_constraintBottom_toTopOf="@id/data_colour_constraint"/>
 
         <include
             android:id="@+id/data_colour_constraint"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             layout="@layout/analysis_type"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            app:layout_constraintBottom_toTopOf="@id/first_maxhits"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include_choose_palette" />
+            app:layout_constraintTop_toBottomOf="@id/include_choose_palette"
+            app:layout_constraintBottom_toTopOf="@id/first_maxhits"/>
 
         <TextView
             android:id="@+id/first_maxhits"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:text="@string/max_hits"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/text_color"
-            app:layout_constraintBottom_toTopOf="@id/naviConstraint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/data_colour_constraint" />
+            app:layout_constraintTop_toBottomOf="@id/data_colour_constraint"
+            app:layout_constraintBottom_toTopOf="@id/naviConstraint"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/naviConstraint"
             android:layout_width="match_parent"
-            android:layout_height="53dp"
+            android:layout_height="wrap_content"
             android:background="@color/constraint_background"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_maxhits">
+            app:layout_constraintTop_toBottomOf="@id/first_maxhits"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/switch_to_editor"
@@ -194,8 +195,10 @@
                 android:textColorHighlight="@color/text_color_highlights"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
                 app:strokeColor="@color/button_stroke" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -206,11 +209,10 @@
     <include
         android:id="@+id/tile_image_generate"
         layout="@layout/tile_layout"
-        android:backgroundTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_page" />
+        app:layout_constraintStart_toEndOf="@id/main_page"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

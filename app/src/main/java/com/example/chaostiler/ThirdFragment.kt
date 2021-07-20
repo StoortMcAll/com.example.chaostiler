@@ -12,11 +12,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
+import com.example.chaostiler.FirstFragment.Companion.tileImageView
 import com.example.chaostiler.MainActivity.Companion.mEnableDataClone
 
 // endregion
 
 class ThirdFragment : Fragment() {
+
+    val mThisPageID = 2
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
           savedInstanceState: Bundle?): View? {
@@ -27,6 +30,8 @@ class ThirdFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        MainActivity.mCurrentPageID = mThisPageID
 
         mEnableDataClone = false
 
