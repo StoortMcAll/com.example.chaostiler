@@ -2,8 +2,10 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SeekBar
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.chaostiler.FirstFragment.Companion.tileImageView
@@ -21,6 +24,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.concurrent.schedule
 import kotlin.String as KotlinString
 
 // endregion
@@ -31,10 +36,21 @@ class SecondFragment : Fragment() {
     lateinit var isLinearView : Button
     lateinit var imageButton: ImageButton
 
-    var mustCalcTile = false
     val mThisPageID = 1
 
     var jobTextures : Job? = null
+
+    var calcActive = false
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+        }
+        callback.isEnabled
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -47,12 +63,6 @@ class SecondFragment : Fragment() {
             (this.activity as AppCompatActivity).supportActionBar?.show()
         super.onViewCreated(view, savedInstanceState)
 
-        if (MainActivity.mCurrentPageID > mThisPageID) {
-            if (activity?.supportFragmentManager?.backStackEntryCount!! > 1) {
-                activity?.supportFragmentManager?.popBackStack()
-                activity?.supportFragmentManager?.popBackStack()
-            }
-        }
         MainActivity.mCurrentPageID = mThisPageID
 
         if (mEnableDataClone) {
@@ -60,9 +70,9 @@ class SecondFragment : Fragment() {
         }
 
         seekbar = view.findViewById(R.id.seekBar)
-        seekbar.progress = bitmapColorSpread.aCurrentRange.progressIncrement
+      /*  seekbar.progress = bitmapColorSpread.aCurrentRange.progressIncrement
         seekbar.secondaryProgress = bitmapColorSpread.aCurrentRange.progressSecond
-
+*/
         imageButton = view.findViewById(R.id.palette_scaler)
 
         isLinearView = view.findViewById(R.id.data_to_colour_type)
@@ -70,10 +80,9 @@ class SecondFragment : Fragment() {
         setAnalysisButtonTitle()
 
         tileImageView = view.findViewById(R.id.tile_image_view)
+        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
-        updateTextures()
-
-        setTileViewBitmap(pixelDataClone)
+        updateTextures(false)
 
         seekbar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
@@ -84,7 +93,10 @@ class SecondFragment : Fragment() {
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                     if (jobTextures == null || jobTextures?.isActive == false) {
                         bitmapColorSpread.setProgress(seekBar.progress)
-                        updateTextures()
+
+                        if (!calcActive) {
+                            updateTextures()
+                        }
                     }
                 }
 
@@ -97,7 +109,9 @@ class SecondFragment : Fragment() {
                     bitmapColorSpread.setProgress(seekBar.progress)
                     bitmapColorSpread.aCurrentRange.progressSecond = seekBar.progress
 
-                    updateTextures()
+                    if (!calcActive) {
+                        updateTextures()
+                    }
                 }
 
             }
@@ -105,17 +119,29 @@ class SecondFragment : Fragment() {
 
         view.findViewById<Button>(R.id.undo_all_changes).setOnClickListener {
             MainActivity.scopeIO.launch {
-                pixelDataClone = pixelData.Clone()
+                if (!calcActive) {
+                    calcActive = true
 
-                updateTextures()
+                    pixelDataClone = pixelData.Clone()
+
+                    updateTextures()
+
+                    calcActive = false
+                }
             }
         }
 
         view.findViewById<Button>(R.id.set_to_zero).setOnClickListener {
             MainActivity.scopeIO.launch {
-                runSetToZero()
+                if (!calcActive) {
+                    calcActive = true
 
-                updateTextures()
+                    runSetToZero()
+
+                    updateTextures()
+
+                    calcActive = false
+                }
             }
         }
 
@@ -123,84 +149,99 @@ class SecondFragment : Fragment() {
             switchProcessType()
 
             seekbar.progress = bitmapColorSpread.getProgress()
-            seekbar.secondaryProgress = bitmapColorSpread.aCurrentRange.progressSecond
+            seekbar.secondaryProgress = seekbar.progress
 
             setAnalysisButtonTitle()
 
-            updateTextures()
+            if (!calcActive) {
+                updateTextures()
+            }
         }
 
         view.findViewById<Button>(R.id.blur_left).setOnClickListener {
             MainActivity.scopeIO.launch {
-                blurLeft()
+                if (!calcActive) {
+                    calcActive = true
 
-                updateTextures()
+                    blurLeft()
+
+                    updateTextures()
+
+                    calcActive = false
+                }
             }
         }
 
         view.findViewById<Button>(R.id.blur_right).setOnClickListener {
             MainActivity.scopeIO.launch {
-                blurRight()
+                if (!calcActive) {
+                    calcActive = true
+
+                    blurRight()
+
+                    updateTextures()
+
+                    calcActive = false
+                }
+            }
+        }
+
+        view.findViewById<Button>(R.id.palette_left).setOnClickListener {
+            if (!calcActive) {
+                bitmapColorSpread.prevPalette()
+
+                seekbar.progress = bitmapColorSpread.getProgress()
+                seekbar.secondaryProgress = seekbar.progress
+
+                setAnalysisButtonTitle()
 
                 updateTextures()
             }
         }
 
-
-
-        view.findViewById<Button>(R.id.palette_left).setOnClickListener {
-            bitmapColorSpread.prevPalette()
-
-            seekbar.progress = bitmapColorSpread.getProgress()
-            seekbar.secondaryProgress = bitmapColorSpread.aCurrentRange.progressSecond
-
-            setAnalysisButtonTitle()
-
-            updateTextures()
-        }
-
         view.findViewById<Button>(R.id.palette_right).setOnClickListener {
-            bitmapColorSpread.nextPalette()
+            if (!calcActive) {
+                bitmapColorSpread.nextPalette()
 
-            seekbar.progress = bitmapColorSpread.getProgress()
-            seekbar.secondaryProgress = bitmapColorSpread.aCurrentRange.progressSecond
+                seekbar.progress = bitmapColorSpread.getProgress()
+                seekbar.secondaryProgress = seekbar.progress
 
-            setAnalysisButtonTitle()
+                setAnalysisButtonTitle()
 
-
-            updateTextures()
+                updateTextures()
+            }
         }
-
-
 
         view.findViewById<Button>(R.id.add_new_palette).setOnClickListener {
-            bitmapColorSpread.addNewColorA()
+            if (!calcActive) {
+                bitmapColorSpread.addNewColorA()
 
-            seekbar.progress = bitmapColorSpread.getProgress()
-            seekbar.secondaryProgress = bitmapColorSpread.aCurrentRange.progressSecond
+                seekbar.progress = bitmapColorSpread.getProgress()
+                seekbar.secondaryProgress = seekbar.progress
 
-            setAnalysisButtonTitle()
+                setAnalysisButtonTitle()
 
-            updateTextures()
+                updateTextures()
+            }
         }
 
         view.findViewById<Button>(R.id.add_new_palette2).setOnClickListener {
-            bitmapColorSpread.addNewColorB()
+            if (!calcActive) {
+                bitmapColorSpread.addNewColorB()
 
-            seekbar.progress = bitmapColorSpread.getProgress()
-            seekbar.secondaryProgress = bitmapColorSpread.aCurrentRange.progressSecond
+                seekbar.progress = bitmapColorSpread.getProgress()
+                seekbar.secondaryProgress = seekbar.progress
 
-            setAnalysisButtonTitle()
+                setAnalysisButtonTitle()
 
-            updateTextures()
+                updateTextures()
+            }
         }
-
 
         view.findViewById<Button>(R.id.backto_firstfragment).setOnClickListener {
 
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
-
 
         view.findViewById<Button>(R.id.to_savewallpaper).setOnClickListener {
 
@@ -210,7 +251,7 @@ class SecondFragment : Fragment() {
         }
     }
 
-    private fun updateTextures() {
+    private fun updateTextures(setTileView: Boolean = true) {
         jobTextures = CoroutineScope(Dispatchers.IO).launch {
             bitmapColorSpread.updateColorSpreadBitmap(pixelDataClone)
 
@@ -221,7 +262,7 @@ class SecondFragment : Fragment() {
                 }
             }
 
-            setTileViewBitmap(pixelDataClone)
+            if (setTileView) setTileViewBitmap(pixelDataClone)
         }
     }
 

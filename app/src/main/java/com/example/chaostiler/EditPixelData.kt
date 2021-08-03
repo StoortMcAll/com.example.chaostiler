@@ -6,6 +6,61 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 
+fun prepareBlurData3(){
+    val widewidth = width + 2
+    val wideheight = height + 2
+    val widehitarray = DoubleArray(widewidth * wideheight)
+    val array = pixelDataClone.aPixelArray
+
+    var valu : Double
+
+    var i = 0
+    for (y in 1..height){
+        var wposy = widewidth * y
+
+        for (x in 1..width){
+            valu = array[i++].toDouble()
+            widehitarray[x + wposy] += valu
+
+            valu = sqrt(valu)
+            widehitarray[x + wposy - 1] += valu
+            widehitarray[x + wposy + 1] += valu
+            widehitarray[x + wposy - widewidth] += valu
+            widehitarray[x + wposy + widewidth] += valu
+
+            valu = sqrt(valu)
+            widehitarray[x + wposy - 1 - widewidth] += valu
+            widehitarray[x + wposy + 1 - widewidth] += valu
+            widehitarray[x + wposy - 1 + widewidth] += valu
+            widehitarray[x + wposy + 1 + widewidth] += valu
+        }
+    }
+
+    var wposy = widewidth * (wideheight - 1)
+    for (x in 1..width){
+        widehitarray[widewidth + x] += widehitarray[wposy + x]
+        widehitarray[wposy - widewidth + x] += widehitarray[x]
+    }
+
+    val wposx = widewidth - 1
+    for (y in 1..height){
+        wposy = widewidth * y
+        widehitarray[1 + wposy] += widehitarray[wposy + wposx]
+        widehitarray[wposx - 1 + wposy] += widehitarray[wposy]
+    }
+
+    i = 0
+    for (y in 1..height){
+        wposy = widewidth * y
+        for (x in 1..width){
+            array[i++] = widehitarray[wposy + x].toInt()
+        }
+    }
+
+    pixelDataClone.recalcHitStats()
+}
+
+
 fun prepareBlurData2(){
     val widewidth = width + 2
     val wideheight = height + 2
@@ -35,9 +90,7 @@ fun prepareBlurData2(){
         }
     }
 
-    var max = pixelDataClone.mMaxHits
     var hits : Double
-    var valu : Int
     posx = 0
     for (y in 1 until widewidth - 1){
         wposy = widewidth * y
@@ -52,16 +105,13 @@ fun prepareBlurData2(){
             hits += widehitarray[wposy + x - 1 + widewidth] * 0.25
             hits += widehitarray[wposy + x + 1 + widewidth] * 0.25
 
-            valu = (hits / 9.0).toInt()
-
-            array[posx++] = valu
-
-            if(valu > max) max = valu
+            array[posx++] = (hits / 9.0).toInt()
         }
     }
 
-    pixelDataClone.mMaxHits = max
+    pixelDataClone.recalcHitStats()
 }
+
 
 fun prepareBlurData(){
     val widewidth = width + 2
@@ -93,9 +143,7 @@ fun prepareBlurData(){
 
     }
 
-    var max = pixelDataClone.mMaxHits
     var hits : Double
-    var valu : Int
     posx = 0
     for (y in 1 until widewidth - 1){
         wposy = widewidth * y
@@ -112,13 +160,10 @@ fun prepareBlurData(){
 
             hits /= 20.0
 
-            valu = sqrt(hits).toInt()
-
-            array[posx++] = valu
-
-            if(valu > max) max = valu
+            array[posx++] = sqrt(hits).toInt()
         }
     }
 
-    pixelDataClone.mMaxHits = max
+    pixelDataClone.recalcHitStats()
 }
+

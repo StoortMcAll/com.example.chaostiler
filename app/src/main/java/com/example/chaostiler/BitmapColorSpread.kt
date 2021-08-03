@@ -65,6 +65,43 @@ class BitmapColorSpread {
         mNewColors = true
     }
 
+
+    private fun drawColorSpreadForStretch(maxPos : Int, currentPos : Int, maxHits : Int) : Bitmap {
+
+        val curRange = aCurrentRange
+
+        val mColors = curRange.aColorSpread
+
+        val colspreadcount = curRange.mColorSpreadCount
+
+        val seekPosAsFraction = currentPos * (1.0 / maxPos.toDouble())
+
+        val colorscount : Int
+        if (maxHits < colspreadcount){
+            colorscount = maxHits + ((colspreadcount - maxHits) * seekPosAsFraction).toInt()
+        } else{
+            colorscount = colspreadcount
+        }
+
+        val bmWid = seekbarBitmap.width
+        val wd = bmWid - 1
+        val widthover1 = 1.0f / wd
+        var value: Int
+
+        for (x in 0..wd) {
+            value = (colorscount * (x * widthover1)).toInt()
+
+            colArray[x] = mColors[value]
+        }
+
+        seekbarBitmap.setPixels(colArray, 0, bmWid, 0, 0, bmWid, 1)
+
+        mNewColors = true
+
+        return seekbarBitmap
+    }
+
+
     private fun drawColorSpreadForIncremental(maxPos : Int, currentPos : Int) : Bitmap {
 
         val curRange = aCurrentRange

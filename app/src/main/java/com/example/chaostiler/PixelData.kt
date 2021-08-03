@@ -58,6 +58,27 @@ class PixelData(private val width : Int, private val height : Int) {
         mPixelArrayBusy = false
     }
 
+    fun recalcHitStats() {
+        mHitsCount = 0
+        mMaxHits = 0
+        aHitStats = arrayListOf(0)
+
+        var hits : Int
+        for (i in 0..aPixelArray.lastIndex){
+            hits = aPixelArray[i]
+
+            mHitsCount += hits
+
+            while(hits > mMaxHits){
+                mMaxHits++
+                aHitStats.add(0)
+            }
+
+            aHitStats[hits]++
+        }
+    }
+
+
     fun clearData()
     {
         mMaxHits = 0
@@ -79,7 +100,7 @@ class PixelData(private val width : Int, private val height : Int) {
         clonePD.aPixelArray = aPixelArray.clone()
 
         clonePD.aHitStats = mutableListOf()
-        for (i in 0 until aHitStats.size) {
+        for (i in 0..aHitStats.lastIndex) {
             clonePD.aHitStats.add(aHitStats[i])
         }
 

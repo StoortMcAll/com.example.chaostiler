@@ -31,6 +31,7 @@
             android:background="#FFFFFF"
             android:backgroundTint="#000000"
             android:contentDescription="@string/tile_image"
+            android:contextClickable="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

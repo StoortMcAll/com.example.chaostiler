@@ -9,7 +9,8 @@ import android.graphics.*
 import android.os.Build
 import android.os.Environment
 import android.util.AttributeSet
-import android.view.*
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.minus
@@ -18,7 +19,11 @@ import com.example.chaostiler.MainActivity.Companion.clickPos
 import com.example.chaostiler.MainActivity.Companion.mScaleFactor
 import com.example.chaostiler.MainActivity.Companion.mViewSize
 import com.example.chaostiler.MainActivity.Companion.offset
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.text.DecimalFormat
 
 // endregion
 
@@ -198,12 +203,30 @@ class MyImageView @JvmOverloads constructor(
                 canvas.drawRect(0.0f, 0.0f, wd.toFloat(), ht.toFloat(), paint)
 
                 if (isWallpaper) {
-                    //bitmapToFile(texture, "TestPic.png")
-                    //texture.width
-                    //texture.height
                     wallpaperManager.setBitmap(texture)
                 } else {
-                    bitmapToFile(texture, "TestPic.png")
+                    val filename = "TestPic-"
+                    val filetype = ".png"
+                    val pattern = "0000"
+                    val formatter = DecimalFormat(pattern)
+
+                    var filenumber = 0
+                    var filefullname: String
+                    var doesFileExist: Boolean
+                    do {
+                        val filenumberText = formatter.format(filenumber)
+                        filefullname = filename + filenumberText + filetype
+
+                        val file = File(filefullname)
+                        if (file.exists()){
+                            doesFileExist = true
+                            filenumber++
+                        } else{
+                            doesFileExist = false
+                        }
+                    }while(doesFileExist)
+
+                    bitmapToFile(texture, filefullname)
                 }
 
             } catch (ex: IOException) { }
@@ -213,7 +236,7 @@ class MyImageView @JvmOverloads constructor(
     private fun bitmapToFile(bitmap: Bitmap, fileNameToSave: String): File? { // File name like "image.png"
         var file: File? = null
         return try {
-
+               // context.externalMediaDirs
             file = File(Environment.getExternalStorageDirectory().toString() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + fileNameToSave)
             file.createNewFile()
 

@@ -17,12 +17,12 @@ class SquareValues{
 
     var x : Double
     var y : Double
-    val alpha : Double
-    val beta : Double
-    val gamma : Double
-    val lambda : Double
-    val ma : Double
-    val omega : Double
+    var alpha : Double
+    var beta : Double
+    var gamma : Double
+    var lambda : Double
+    var ma : Double
+    var omega : Double
     var shift : Double
     var delta : Double
 
@@ -133,7 +133,7 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
 
         hits.add(Hit((x * wide).toInt(), (y * high).toInt()))
 
-    } while (counter++ < maxCounter)
+    } while (++counter < maxCounter)
 
     mainCounter += maxCounter
 

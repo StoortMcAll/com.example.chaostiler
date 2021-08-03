@@ -2,34 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayoutThird"
+    style="@style/Theme.NoTitle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/Theme.NoTitle"
     tools:context=".ThirdFragment">
-<!--
 
-    <FrameLayout
-        android:id="@+id/fullScreenFrame"
+    <com.example.chaostiler.MyImageView
+        android:id="@+id/fullscreenImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/button_stroke">
--->
-
-        <com.example.chaostiler.MyImageView
-            android:id="@+id/fullscreenImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:background="#FFFFFF"
-            android:contentDescription="@string/fullscreen_image"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+        android:background="#FFFFFF"
+        android:contentDescription="@string/fullscreen_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/backto_secondFragment"
@@ -50,65 +40,51 @@
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/button_stroke" />
 
-<!--
+    <Button
+        android:id="@+id/save_image"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="@color/progress_background_tint"
+        android:insetTop="2dp"
+        android:insetBottom="2dp"
+        android:text="@string/save_image"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        android:textColorHighlight="@color/text_color_highlights"
+        app:layout_constraintBottom_toTopOf="@id/save_wallpaper"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/button_stroke" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/include"
-            layout="@layout/tile_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
--->
+    <Button
+        android:id="@+id/save_wallpaper"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="2dp"
+        android:backgroundTint="@color/progress_background_tint"
+        android:insetTop="2dp"
+        android:insetBottom="2dp"
+        android:text="@string/save_wallpaper"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        android:textColorHighlight="@color/text_color_highlights"
 
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/button_stroke" />
 
-        <Button
-            android:id="@+id/save_image"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
-            android:backgroundTint="@color/progress_background_tint"
-            android:insetTop="2dp"
-            android:insetBottom="2dp"
-            android:text="@string/save_image"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textColorHighlight="@color/text_color_highlights"
-            app:layout_constraintBottom_toTopOf="@id/save_wallpaper"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:strokeColor="@color/button_stroke" />
-
-        <Button
-                android:id="@+id/save_wallpaper"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="2dp"
-                android:backgroundTint="@color/progress_background_tint"
-                android:insetTop="2dp"
-                android:insetBottom="2dp"
-                android:text="@string/save_wallpaper"
-                android:textAllCaps="false"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:strokeColor="@color/button_stroke" />
-<!--
-
-       // </androidx.constraintlayout.widget.ConstraintLayout>
--->
-<!--
-
-    </FrameLayout>
--->
+    <TextView
+        android:id="@+id/shader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80FFFFFF"
+        android:text=""
+        android:visibility="invisible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

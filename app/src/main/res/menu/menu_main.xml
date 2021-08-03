@@ -3,8 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.chaostiler.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/iconocat"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/iconocat_homepage"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_privacy"
+        android:orderInCategory="101"
+        android:title="@string/privacy_policy"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_advertdata"
+        android:orderInCategory="102"
+        android:title="@string/data_agreement"
         app:showAsAction="never" />
 </menu>

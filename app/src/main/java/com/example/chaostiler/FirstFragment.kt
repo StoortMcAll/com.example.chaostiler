@@ -5,11 +5,14 @@ package com.example.chaostiler
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -23,6 +26,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
+import java.util.concurrent.Executor
+import kotlin.concurrent.schedule
+import kotlin.system.exitProcess
 
 // endregion
 
@@ -31,9 +38,28 @@ class FirstFragment : Fragment() {
 
     val mThisPageID = 0
 
+   lateinit var viewThis : View
+
     companion object{
         lateinit var tileImageView : MyImageView
         lateinit var mMaxHitsText : TextView
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (doingCalc) {
+                false.also { doingCalc = it }
+                job?.cancel(null)
+
+                makeVisible(viewThis)
+            }
+            else {
+                exitProcess(0)
+            }
+        }
+        callback.isEnabled
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -46,12 +72,8 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       /* if (MainActivity.mCurrentPageID > mThisPageID){
-            if (activity?.supportFragmentManager?.beginTransaction()) {
-                activity?.supportFragmentManager?.popBackStack()
-                activity?.supportFragmentManager?.popBackStack()
-            }
-        }*/
+        viewThis = view
+
         MainActivity.mCurrentPageID = mThisPageID
 
         mEnableDataClone = true
@@ -59,7 +81,11 @@ class FirstFragment : Fragment() {
         var job : Job? = null
 
         tileImageView = view.findViewById(R.id.tile_image_view)
+        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+
         mMaxHitsText = view.findViewById(R.id.first_maxhits)
+
+        makeVisible(view)
 
         applyPaletteChangeToBitmap(pixelData)
 
@@ -132,13 +158,14 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
-        makeVisible(view)
     }
 
     private fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
-        MainActivity.scopeIO.launch {
+        //MainActivity.scopeIO.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             setTileViewBitmap(pixeldatacopy)
         }
+       // }
     }
 
     private fun setTileViewBitmap(pixeldatacopy: PixelData) {
@@ -154,7 +181,9 @@ class FirstFragment : Fragment() {
             MainActivity.width,
             MainActivity.height)
 
-        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+        CoroutineScope(Dispatchers.Main).launch {
+            tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+        }
     }
 
     private fun makeVisible(view: View) {

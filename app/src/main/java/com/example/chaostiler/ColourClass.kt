@@ -2,6 +2,7 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
+import android.content.Context
 import android.graphics.Color
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
@@ -13,7 +14,8 @@ import kotlin.math.max
 
 private const val mMaximumColorRangeSeekbarProgress = mSeekbarMax
 
-data class DColorDataItem(val range: Int = 0, val color: Int = 0)
+data class DRgbDataItem(val range: Int = 0, val color: Int = 0)
+data class DHsvDataItem(val range: Int = 0, val color: FloatArray)
 
 data class DPrimaryColors(val size : Int, val colors : IntArray) {
     override fun equals(other: Any?): Boolean {
@@ -81,21 +83,21 @@ class ColorClass {
 
     init {
         addColorRanges(listOf(
-            DColorDataItem(0, Color.BLACK),
-            DColorDataItem(112, Color.argb(255, 128, 128, 128)),
-            DColorDataItem(255, Color.WHITE)))
+            DRgbDataItem(0, Color.BLACK),
+            DRgbDataItem(160, Color.argb(255, 128, 128, 128)),
+            DRgbDataItem(255, Color.WHITE)))
 
         addColorRanges(listOf(
-                 DColorDataItem(0, Color.BLACK),
-                 DColorDataItem(112, Color.RED),
-                 DColorDataItem(208, Color.YELLOW),
-                 DColorDataItem(255, Color.WHITE)))
+                 DRgbDataItem(0, Color.BLACK),
+                 DRgbDataItem(160, Color.RED),
+                 DRgbDataItem(224, Color.YELLOW),
+                 DRgbDataItem(255, Color.WHITE)))
 
         addColorRanges(listOf(
-                DColorDataItem(0, Color.BLACK),
-                DColorDataItem(112, Color.BLUE),
-                DColorDataItem(208, Color.MAGENTA),
-                DColorDataItem(255, Color.WHITE)))
+                DRgbDataItem(0, Color.BLUE),
+                DRgbDataItem(160, Color.RED),
+                DRgbDataItem(224, Color.GREEN),
+                DRgbDataItem(255, Color.WHITE)))
 
         setCurrentColorRange(mCurrentRangeID)
     }
@@ -128,19 +130,19 @@ class ColorClass {
 
         var range = 0; var add = 64
 
-        val dataitemslist = ArrayList<DColorDataItem>(dataitemcount + 1)
+        val dataitemslist = ArrayList<DRgbDataItem>(dataitemcount + 1)
 
         if (dataitemcount == 2) add = 256
         if (dataitemcount == 3) add = 128
 
-        dataitemslist.add(DColorDataItem(range, Color.BLACK))
+        dataitemslist.add(DRgbDataItem(range, Color.BLACK))
 
         do{
             range+= add
 
             add *= 2
 
-            dataitemslist.add(DColorDataItem(range,
+            dataitemslist.add(DRgbDataItem(range,
                 aPrimaries.colors[MainActivity.rand.nextInt(0,  aPrimaries.size)]))
 
         }while(--dataitemcount > 0)
@@ -157,7 +159,7 @@ class ColorClass {
     fun addNewRandomColorsRange() : ColorRangeClass {
         var counter = MainActivity.rand.nextInt(0, 5) * 128 + 256
 
-        var colorDataItem = DColorDataItem(0, Color.BLACK)
+        var colorDataItem = DRgbDataItem(0, Color.BLACK)
 
         val tempColorDataItemList = mutableListOf(colorDataItem)
 
@@ -183,7 +185,7 @@ class ColorClass {
 
             range += max
 
-            colorDataItem = DColorDataItem(range, color)
+            colorDataItem = DRgbDataItem(range, color)
 
             tempColorDataItemList.add(colorDataItem)
 
@@ -220,7 +222,7 @@ class ColorClass {
         mCurrentRangeID = aCurrentRange.mColorRangeID
     }
 
-    private fun addColorRanges(colorRanges: List<DColorDataItem>){
+    private fun addColorRanges(colorRanges: List<DRgbDataItem>){
         mColorRangeList.add(ColorRangeClass(mCurrentRangeCount, colorRanges))
 
         mCurrentRangeCount++
@@ -228,7 +230,7 @@ class ColorClass {
 
 }
 
-class ColorRangeClass(id : Int, colorDataList: List<DColorDataItem>) {
+class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>) {
 
     // region Variable Declaration
 
@@ -250,6 +252,7 @@ class ColorRangeClass(id : Int, colorDataList: List<DColorDataItem>) {
 
     init {
         processColorSpread()
+        //processHsvColorSpread()
     }
 
     fun getRangeProgress() : Int{
@@ -267,6 +270,81 @@ class ColorRangeClass(id : Int, colorDataList: List<DColorDataItem>) {
             progressStatistic = prog
         }
     }
+
+
+    private fun processHsvColorSpread() {
+        if (mColorDataList.size < 2) return
+
+        var index = 1
+
+        var col1: Int
+        var col2: Int
+
+        aColorSpread[0] = mColorDataList[0].color
+
+        for (cr in 1 until mColorDataList.size) {
+            val maxd: Int = mColorDataList[cr].range - mColorDataList[cr- 1].range
+
+            col1 = mColorDataList[cr - 1].color
+            col2 = mColorDataList[cr].color
+
+            val cols: IntArray = hsvColorPairToRGBIntArray(maxd, col1, col2)
+
+            for (n in 0..cols.lastIndex) {
+                aColorSpread[index] = cols[n]
+                index++
+            }
+        }
+    }
+
+    private fun hsvColorPairToRGBIntArray(steps : Int, rgb1 : Int, rgb2 : Int) : IntArray{
+        var hsv1 = FloatArray(3)
+        Color.colorToHSV(rgb1, hsv1)
+
+        var hsv2 = FloatArray(3)
+        Color.colorToHSV(rgb2, hsv2)
+
+        val h1 = hsv1[0]
+        var hdif = hsv2[0] - h1
+
+        if (hdif > 0){
+            if (hdif > 180){
+                hdif -= 360
+            }
+        } else{
+            if (hdif < -180){
+                hdif += 360
+            }
+        }
+
+        val oneoversteps = 1.0F / steps
+
+        val addh = hdif * oneoversteps
+        var hres : Float
+
+        val s1 = hsv1[1]
+        val adds = (hsv2[1] - s1) * oneoversteps
+        val v1 = hsv1[2]
+        val addv = (hsv2[2] - v1) * oneoversteps
+
+        val cols = IntArray(steps)
+
+        for (i in 1..steps){
+            hres = h1 + addh * i
+            if(hres < 360){
+                if (hres < 0){
+                    hres += 360
+                }
+            } else{
+                hres -= 360
+            }
+
+            cols[i - 1] = Color.HSVToColor(floatArrayOf(hres, s1 + i * adds, v1 + i * addv))
+        }
+
+        return  cols
+    }
+
 
     private fun processColorSpread() {
         if (mColorDataList.size < 2) return

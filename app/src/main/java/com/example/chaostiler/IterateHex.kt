@@ -8,9 +8,9 @@ val sq3 = sqrt(3.0)
 class HexValues {
     val square : SquareValues
 
-    val k11 : Double; val k12 : Double; val k21 : Double; val k22 : Double
+    var k11 : Double = 1.0; var k12 : Double = 0.0; var k21 : Double = 0.5; val k22 : Double
 
-    val el11 : Double; val el12 : Double; val el21 : Double; val el22 : Double
+    var el11 : Double = 1.0; val el12 : Double; var el21 : Double = 0.0; val el22 : Double
     val el31 : Double; val el32 : Double
 
     val em11 : Double; val em12 : Double; val em21 : Double; val em22 : Double
@@ -28,15 +28,20 @@ class HexValues {
     val ah11 : Double; val ah12 : Double; val ah21 : Double; val ah22 : Double
     val ah31 : Double; val ah32 : Double
 
-    constructor(randomLevel : Int = 0){
-        square = SquareValues(randomLevel)
+    constructor(squareVals : SquareValues, randomLevel : Int){
+        square = squareVals
 
-        k11 = if (headOrTails() == true) 1.0 else getRand(0.0, 1.0)
+     /*   if (headOrTails() == true) k11 += getRand(0.0, 1.0)
+        if (headOrTails() == true) k12 += getRand(0.0, 1.0)
+        if (headOrTails() == true) k21 += getRand(0.0, 1.0)
+        if (headOrTails() == true) el11 += getRand(0.0, 1.0)
+        if (headOrTails() == true) el21 += getRand(0.0, 1.0)*/
+       /* k11 = if (headOrTails() == true) 0.0 else getRand(0.0, 1.0)
         k12 = if (headOrTails() == true) 0.0 else getRand(0.0, 1.0)
         k21 = if (headOrTails() == true) 0.5 else getRand(0.0, 1.0)
         el11 = if (headOrTails() == true) 1.0 else getRand(0.0, 1.0)
         el21 = if (headOrTails() == true) 0.0 else getRand(0.0, 1.0)
-
+*/
         k22 = sq3 / 2.0
         el12 = -1.0 / sq3; el22 = 2.0 / sq3
         el31 = -(el11 + el21); el32 = -(el12 + el22)
@@ -54,18 +59,26 @@ class HexValues {
         enh31 = (3.0 * el31) + el11; enh32 = (3.0 * el32) + el12
 
         a11 = square.beta; a12 = square.gamma
-        a21 = (-a11 - (sq3 * a12)) / 2.0; a22 = ((sq3 * a11) - a12) / 2
+        a21 = (-a11 - (sq3 * a12)) / 2.0; a22 = ((sq3 * a11) - a12) / 2.0
         a31 = -a11 - a21; a32 = -a12 - a22
 
         ah11 = a11; ah12 = -a12
-        ah21 = (-ah11 - (sq3 * ah12)) / 2; ah22 = ((sq3 * ah11) - ah12) / 2
+        ah21 = (-ah11 - (sq3 * ah12)) / 2.0; ah22 = ((sq3 * ah11) - ah12) / 2.0
         ah31 = -ah11 - ah21; ah32 = -ah12 - ah22
     }
 
-    constructor(square : SquareValues, sk11 : Double, sk12 : Double, sk21  : Double,
-                sel11 : Double, sel21 : Double)
+    constructor(squareVals : SquareValues, sk11 : Double = 1.0, sk12 : Double = 0.0,
+                sk21 : Double = 0.5, sel11 : Double = 1.0, sel21 : Double = 0.0)
     {
-        this.square  = square
+        square  = squareVals
+
+        if (headOrTails() == true) squareVals.alpha += getRand(-1.0, 1.0)
+        if (headOrTails() == true) squareVals.beta += getRand(-1.0, 1.0)
+        if (headOrTails() == true) squareVals.gamma += getRand(0.0, 1.0)
+        if (headOrTails() == true) squareVals.delta += getRand(0.0, 1.0)
+        if (headOrTails() == true) squareVals.lambda += getRand(0.0, 1.0)
+        //if (headOrTails() == true) squareVals.ma += getRand(0.0, 1.0)
+        //if (headOrTails() == true) squareVals.omega += getRand(0.0, 1.0)
 
         k11 = sk11; k12 = sk12
         k21 = sk21
@@ -119,46 +132,52 @@ fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<Hit> {
 
     val hits: ArrayList<Hit> = arrayListOf()
 
-    val hexgn = hexagon.square
+    val hex = hexagon.square
 
-    var bx: Double
-    var by: Double
-    var xnew = hexgn.x
-    var ynew = hexgn.y
+    var bx: Double; var by : Double
+    var s11 : Double; var s12 : Double; var s13 : Double
+    var s21 : Double; var s22 : Double; var s23 : Double
+    var s31 : Double; var s32 : Double; var s33 : Double
+    var s3h1 : Double; var s3h2 : Double; var s3h3 : Double
+    var xnew = hex.x
+    var ynew = hex.y
 
     var counter = 0
 
     val p2 = 2.0 * Math.PI
 
+    s11  = sin(0.0)
+    s12 = sin(Math.PI / 2.0)
+    s13 = sin(Math.PI / 4.0)
     // endregion
 
     do {
-        val s11 = sin(p2 * (hexagon.el11 * xnew + hexagon.el12 * ynew))
-        val s12 = sin(p2 * (hexagon.el21 * xnew + hexagon.el22 * ynew))
-        val s13 = sin(p2 * (hexagon.el31 * xnew + hexagon.el32 * ynew))
-        val s21 = sin(p2 * (hexagon.em11 * xnew + hexagon.em12 * ynew))
-        val s22 = sin(p2 * (hexagon.em21 * xnew + hexagon.em22 * ynew))
-        val s23 = sin(p2 * (hexagon.em31 * xnew + hexagon.em32 * ynew))
-        val s31 = sin(p2 * (hexagon.en11 * xnew + hexagon.en12 * ynew))
-        val s32 = sin(p2 * (hexagon.en21 * xnew + hexagon.en22 * ynew))
-        val s33 = sin(p2 * (hexagon.en31 * xnew + hexagon.en32 * ynew))
-        val s3h1 = sin(p2 * (hexagon.enh11 * xnew + hexagon.enh12 * ynew))
-        val s3h2 = sin(p2 * (hexagon.enh21 * xnew + hexagon.enh22 * ynew))
-        val s3h3 = sin(p2 * (hexagon.enh31 * xnew + hexagon.enh32 * ynew))
+        s11 = sin(p2 * (hexagon.el11 * xnew + hexagon.el12 * ynew))
+        s12 = sin(p2 * (hexagon.el21 * xnew + hexagon.el22 * ynew))
+        s13 = sin(p2 * (hexagon.el31 * xnew + hexagon.el32 * ynew))
+        s21 = sin(p2 * (hexagon.em11 * xnew + hexagon.em12 * ynew))
+        s22 = sin(p2 * (hexagon.em21 * xnew + hexagon.em22 * ynew))
+        s23 = sin(p2 * (hexagon.em31 * xnew + hexagon.em32 * ynew))
+        s31 = sin(p2 * (hexagon.en11 * xnew + hexagon.en12 * ynew))
+        s32 = sin(p2 * (hexagon.en21 * xnew + hexagon.en22 * ynew))
+        s33 = sin(p2 * (hexagon.en31 * xnew + hexagon.en32 * ynew))
+        s3h1 = sin(p2 * (hexagon.enh11 * xnew + hexagon.enh12 * ynew))
+        s3h2 = sin(p2 * (hexagon.enh21 * xnew + hexagon.enh22 * ynew))
+        s3h3 = sin(p2 * (hexagon.enh31 * xnew + hexagon.enh32 * ynew))
 
         val sx = (hexagon.el11 * s11 + hexagon.el21 * s12 + hexagon.el31 * s13)
         val sy = (hexagon.el12 * s11 + hexagon.el22 * s12 + hexagon.el32 * s13)
 
-        xnew = hexgn.ma * xnew + hexgn.lambda * sx - hexgn.omega * sy
-        ynew = hexgn.ma * ynew + hexgn.lambda * sy + hexgn.omega * sx
-        xnew += (hexgn.alpha * (hexagon.em11 * s21 + hexagon.em21 * s22 + hexagon.em31 * s23))
-        ynew += (hexgn.alpha * (hexagon.em12 * s21 + hexagon.em22 * s22 + hexagon.em32 * s23))
+        xnew = hex.ma * xnew + hex.lambda * sx - hex.omega * sy
+        ynew = hex.ma * ynew + hex.lambda * sy + hex.omega * sx
+        xnew += (hex.alpha * (hexagon.em11 * s21 + hexagon.em21 * s22 + hexagon.em31 * s23))
+        ynew += (hex.alpha * (hexagon.em12 * s21 + hexagon.em22 * s22 + hexagon.em32 * s23))
         xnew += (hexagon.a11 * s31 + hexagon.a21 * s32 + hexagon.a31 * s33)
         ynew += (hexagon.a12 * s31 + hexagon.a22 * s32 + hexagon.a32 * s33)
         xnew += (hexagon.ah11 * s3h1 + hexagon.ah21 * s3h2 + hexagon.ah31 * s3h3)
         ynew += (hexagon.ah12 * s3h1 + hexagon.ah22 * s3h2 + hexagon.ah32 * s3h3)
 
-        by = 2 * ynew / sq3; bx = xnew - by / 2.0
+        by = 2.0 * ynew / sq3; bx = xnew - (by / 2.0)
 
         bx = (bx - bx.toInt()) + 1
         bx -= bx.toInt()
@@ -170,7 +189,7 @@ fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<Hit> {
 
         hits.add(Hit((bx * wide).toInt(), (by * high).toInt()))
 
-    } while (counter++ < maxCounter)
+    } while (++counter < maxCounter)
 
     mainCounter += maxCounter
 

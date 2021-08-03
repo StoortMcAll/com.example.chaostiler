@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chaos Tiler</string>
+    <string name="app_name">Fractal Wallpaper</string>
     <string name="action_settings">Settings</string>
 
     <string name="first_fragment_label">First Fragment</string>
@@ -43,4 +43,7 @@
     <string name="perform_blur_on_image_analysing_all_8_surrounding_pixel">Perform blur on image analysing all 8 surrounding pixel</string>
     <string name="perform_blur_on_image_analysing_just_4_cardinal_points_surrounding_pixels">Perform blur on image analysing just 4 cardinal points surrounding pixels</string>
     <string name="reset_the_minimum_hits_per_pixel_to_0">Reset the minimum hits per pixel to 0</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="data_agreement">Data Agreement</string>
+    <string name="iconocat_homepage">Iconocat Homepage</string>
 </resources>
