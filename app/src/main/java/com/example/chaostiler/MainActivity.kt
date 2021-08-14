@@ -29,11 +29,15 @@ class MainActivity : AppCompatActivity() {
     private val privacyURL = "/privacy-policy"
 
     companion object{
-        enum class QuiltType {Square, Scratch, Hexagonal}
+        enum class QuiltType {SQUARE, SCRATCH, HEXAGONAL}
 
         enum class DataProcess {LINEAR, STATISTICAL}
 
-        var quiltType = QuiltType.Square
+        enum class ImageFilter {Blur, Gaussian, Motion, BoxBlur}
+
+        var filter = ImageFilter.Blur
+
+        var quiltType = QuiltType.SQUARE
 
         var rand  = Random(0)
 
@@ -58,6 +62,10 @@ class MainActivity : AppCompatActivity() {
         var mViewSize = Point(0, 0)
 
         var scopeIO = CoroutineScope(Dispatchers.IO)
+
+        var icon = initIcon()
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.R)

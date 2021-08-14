@@ -2,7 +2,6 @@ package com.example.chaostiler
 
 // region Variable Declaration
 
-import android.content.Context
 import android.graphics.Color
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
@@ -84,8 +83,11 @@ class ColorClass {
     init {
         addColorRanges(listOf(
             DRgbDataItem(0, Color.BLACK),
-            DRgbDataItem(160, Color.argb(255, 128, 128, 128)),
-            DRgbDataItem(255, Color.WHITE)))
+            DRgbDataItem(192, Color.argb(255, 96, 96, 96)),
+            DRgbDataItem(320, Color.argb(255, 128, 128, 128)),
+            DRgbDataItem(384, Color.argb(255, 224, 224, 224)),
+            DRgbDataItem(511, Color.WHITE)),
+            DataProcess.STATISTICAL)
 
         addColorRanges(listOf(
                  DRgbDataItem(0, Color.BLACK),
@@ -135,7 +137,8 @@ class ColorClass {
         if (dataitemcount == 2) add = 256
         if (dataitemcount == 3) add = 128
 
-        dataitemslist.add(DRgbDataItem(range, Color.BLACK))
+        dataitemslist.add(DRgbDataItem(range,
+            aPrimaries.colors[MainActivity.rand.nextInt(0,  aPrimaries.size)]))
 
         do{
             range+= add
@@ -222,15 +225,15 @@ class ColorClass {
         mCurrentRangeID = aCurrentRange.mColorRangeID
     }
 
-    private fun addColorRanges(colorRanges: List<DRgbDataItem>){
-        mColorRangeList.add(ColorRangeClass(mCurrentRangeCount, colorRanges))
+    private fun addColorRanges(colorRanges: List<DRgbDataItem>, dataprocess : DataProcess = DataProcess.LINEAR){
+        mColorRangeList.add(ColorRangeClass(mCurrentRangeCount, colorRanges, dataprocess))
 
         mCurrentRangeCount++
     }
 
 }
 
-class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>) {
+class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess : DataProcess) {
 
     // region Variable Declaration
 
@@ -240,7 +243,7 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>) {
 
     var mColorRangeID = id
 
-    var dataProcess = DataProcess.LINEAR
+    var dataProcess = dataprocess
 
     private val mColorDataList = colorDataList
 

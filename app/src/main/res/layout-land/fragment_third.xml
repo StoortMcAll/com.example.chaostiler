@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/backto_secondFragment"
+        android:id="@+id/back_to_secondFragment"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,8 @@
         android:backgroundTint="@color/progress_background_tint"
         android:insetTop="2dp"
         android:insetBottom="2dp"
-        android:text="@string/goto_tile_editor"
+        android:text="@string/goto_tile_editor_left"
+        android:contentDescription="@string/content_description_open_editor_frag"
         android:textAllCaps="false"
         android:textColor="@color/text_color"
         android:textColorHighlight="@color/text_color_highlights"
@@ -52,6 +53,7 @@
         android:insetTop="2dp"
         android:insetBottom="2dp"
         android:text="@string/save_image"
+        android:contentDescription="@string/content_description_save_image"
         android:textAllCaps="false"
         android:textColor="@color/text_color"
         android:textColorHighlight="@color/text_color_highlights"
@@ -71,6 +73,7 @@
         android:insetTop="2dp"
         android:insetBottom="2dp"
         android:text="@string/save_wallpaper"
+        android:contentDescription="@string/content_description_open_editor_frag"
         android:textAllCaps="false"
         android:textColor="@color/text_color"
         android:textColorHighlight="@color/text_color_highlights"

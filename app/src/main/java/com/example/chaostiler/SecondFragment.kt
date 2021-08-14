@@ -4,8 +4,6 @@ package com.example.chaostiler
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,19 +11,20 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.chaostiler.FirstFragment.Companion.tileImageView
 import com.example.chaostiler.MainActivity.Companion.DataProcess
 import com.example.chaostiler.MainActivity.Companion.bitmapColorSpread
+import com.example.chaostiler.MainActivity.Companion.filter
+import com.example.chaostiler.MainActivity.Companion.ImageFilter
 import com.example.chaostiler.MainActivity.Companion.mEnableDataClone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.concurrent.schedule
 import kotlin.String as KotlinString
 
 // endregion
@@ -66,7 +65,7 @@ class SecondFragment : Fragment() {
         MainActivity.mCurrentPageID = mThisPageID
 
         if (mEnableDataClone) {
-            pixelDataClone = pixelData.Clone()
+            pixelDataClone = pixelData.clone()
         }
 
         seekbar = view.findViewById(R.id.seekBar)
@@ -84,19 +83,40 @@ class SecondFragment : Fragment() {
 
         updateTextures(false)
 
+       /* seekbar.setOnClickListener( l : context.OnClickListener?) {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                TODO("Not yet implemented")
+            }
+        })*/
         seekbar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
+
+
+                var isStarted = false
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {
                 }
 
                 override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                    if (jobTextures == null || jobTextures?.isActive == false) {
-                        bitmapColorSpread.setProgress(seekBar.progress)
-
-                        if (!calcActive) {
-                            updateTextures()
+                    if (!isStarted) {
+                        if (fromUser) {
+                            isStarted = true
                         }
+                    } else {
+                        seekBar.progress = progress
+                        if (jobTextures == null || jobTextures?.isActive == false) {
+                            bitmapColorSpread.setProgress(seekBar.progress)
+
+                            if (!calcActive) {
+                                updateTextures()
+                            }
+                        }
+
+                        return
+                    }
+
+                    if (isStarted){
+                        seekBar.progress = progress
                     }
                 }
 
@@ -112,6 +132,8 @@ class SecondFragment : Fragment() {
                     if (!calcActive) {
                         updateTextures()
                     }
+
+                    isStarted = false
                 }
 
             }
@@ -122,7 +144,7 @@ class SecondFragment : Fragment() {
                 if (!calcActive) {
                     calcActive = true
 
-                    pixelDataClone = pixelData.Clone()
+                    pixelDataClone = pixelData.clone()
 
                     updateTextures()
 
@@ -158,14 +180,34 @@ class SecondFragment : Fragment() {
             }
         }
 
+        val blurText = view.findViewById<TextView>(R.id.blur)
+        blurText.text = filter.toString()
+
         view.findViewById<Button>(R.id.blur_left).setOnClickListener {
             MainActivity.scopeIO.launch {
                 if (!calcActive) {
                     calcActive = true
 
-                    blurLeft()
+                    when (filter) {
+                        ImageFilter.Blur -> {
+                            filter = ImageFilter.Gaussian
+                        }
+                        ImageFilter.Gaussian -> {
+                            filter = ImageFilter.Motion
+                        }
+                        ImageFilter.Motion -> {
+                            filter = ImageFilter.BoxBlur
+                        }
+                        ImageFilter.BoxBlur -> {
+                            filter = ImageFilter.Blur
+                        }
+                    }
+                    //blurLeft()
 
-                    updateTextures()
+                    //updateTextures()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        blurText.text = filter.toString()
+                    }
 
                     calcActive = false
                 }
@@ -177,7 +219,21 @@ class SecondFragment : Fragment() {
                 if (!calcActive) {
                     calcActive = true
 
-                    blurRight()
+                    when (filter) {
+                        ImageFilter.BoxBlur -> {
+                            BoxBlur.doImageFilter(pixelDataClone)
+                        }
+                        ImageFilter.Blur -> {
+                            Blur.doImageFilter(pixelDataClone)
+                        }
+                        ImageFilter.Gaussian -> {
+                            Gaussian.doImageFilter(pixelDataClone)
+                        }
+                        ImageFilter.Motion -> {
+                            Motion.doImageFilter(pixelDataClone)
+                        }
+                    }
+                    //blurRight()
 
                     updateTextures()
 

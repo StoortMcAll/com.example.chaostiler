@@ -17,7 +17,6 @@ import androidx.core.graphics.minus
 import com.example.chaostiler.MainActivity.Companion.bmImage
 import com.example.chaostiler.MainActivity.Companion.clickPos
 import com.example.chaostiler.MainActivity.Companion.mScaleFactor
-import com.example.chaostiler.MainActivity.Companion.mViewSize
 import com.example.chaostiler.MainActivity.Companion.offset
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -79,6 +78,7 @@ class MyImageView @JvmOverloads constructor(
 
         setBitmap(bmImage)
     }
+
 
     override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {
@@ -190,54 +190,55 @@ class MyImageView @JvmOverloads constructor(
     fun paintWallpaper(isWallpaper : Boolean)
     {
         val wallpaperManager: WallpaperManager = WallpaperManager.getInstance(this.context)
-
         if (wallpaperManager.isWallpaperSupported) {
+
+            val wd = wallpaperManager.desiredMinimumWidth
+            val ht = wallpaperManager.desiredMinimumHeight
+
+            val texture = Bitmap.createBitmap(wd, ht, Bitmap.Config.ARGB_8888)
+
+            val canvas = Canvas(texture)
+
+            canvas.drawRect(0.0f, 0.0f, wd.toFloat(), ht.toFloat(), paint)
+
             try {
-                val wd = mViewSize.x
-                val ht = mViewSize.y
-
-                val texture = Bitmap.createBitmap(wd, ht, Bitmap.Config.ARGB_8888)
-
-                val canvas = Canvas(texture)
-
-                canvas.drawRect(0.0f, 0.0f, wd.toFloat(), ht.toFloat(), paint)
-
                 if (isWallpaper) {
                     wallpaperManager.setBitmap(texture)
                 } else {
-                    val filename = "TestPic-"
-                    val filetype = ".png"
-                    val pattern = "0000"
-                    val formatter = DecimalFormat(pattern)
-
-                    var filenumber = 0
-                    var filefullname: String
-                    var doesFileExist: Boolean
-                    do {
-                        val filenumberText = formatter.format(filenumber)
-                        filefullname = filename + filenumberText + filetype
-
-                        val file = File(filefullname)
-                        if (file.exists()){
-                            doesFileExist = true
-                            filenumber++
-                        } else{
-                            doesFileExist = false
-                        }
-                    }while(doesFileExist)
-
-                    bitmapToFile(texture, filefullname)
+                    bitmapToFile(texture)
                 }
-
             } catch (ex: IOException) { }
         }
     }
 
-    private fun bitmapToFile(bitmap: Bitmap, fileNameToSave: String): File? { // File name like "image.png"
+    private fun bitmapToFile(bitmap: Bitmap): File? {
         var file: File? = null
+
+        val filename = "Wallpaper-"
+        val filetype = ".png"
+        val pattern = "0000"
+        val formatter = DecimalFormat(pattern)
+
+        val filepath = Environment.getExternalStorageDirectory().toString() + File.separator + Environment.DIRECTORY_PICTURES + File.separator
+        var filenumber = 0
+        var filefullname: String
+
+        var doesFileExist: Boolean
+        do {
+            val filenumberText = formatter.format(filenumber++)
+            filefullname = filepath + filename + filenumberText + filetype
+
+            if (File(filefullname).exists()){
+                doesFileExist = true
+            } else{
+                doesFileExist = false
+            }
+        }while(doesFileExist)
+
         return try {
                // context.externalMediaDirs
-            file = File(Environment.getExternalStorageDirectory().toString() + File.separator + Environment.DIRECTORY_PICTURES + File.separator + fileNameToSave)
+
+            file = File(filefullname)
             file.createNewFile()
 
             //Convert bitmap to byte array

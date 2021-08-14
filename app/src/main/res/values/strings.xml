@@ -5,45 +5,69 @@
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
 
-    <string name="todo">TODO</string>
     <string name="square">Square</string>
-    <string name="scratch">Scratch</string>
+    <string name="content_description_square">Generate Square Image Tile</string>
+    <string name="scratch">Icon</string>
+    <string name="content_description_icon">Generate Icon Image Tile</string>
     <string name="hexagon">Hexagon</string>
-    <string name="resume_calc">Resume Calculating</string>
-    <string name="stop_calc">Stop Calculating</string>
+    <string name="content_description_hexagon">Generate Hexagon Image Tile</string>
+    <string name="resume_calc">Resume</string>
+    <string name="stop_calc">Pause</string>
+    <string name="content_description_pause_resume">Pause and Resume Image Tile generation</string>
     <string name="tile_image">Tile Image</string>
-    <string name="generate_square_image">Generate Square Image</string>
-    <string name="generate_scratch_image">Generate Scratch Image</string>
-    <string name="generate_hexagon_image">Generate Hexagon Image</string>
-    <string name="tile_editor"><![CDATA[Tile Editor   —>]]></string>
+    <string name="content_description_tileimage">Drag and zoom the image as it generates</string>
+    <string name="hits_string">Hits : Max - </string>
+    <string name="content_description_hits">Most times any pixel in the Image Tile has been hit</string>
+    <string name="total_string"> Total - </string>
+    <string name="content_description_total">Total number of times the current generation formula has run</string>
+
+    <string name="goto_tile_editor_left"><![CDATA[<— Tile Editor]]></string>
+    <string name="goto_tile_editor_right"><![CDATA[Tile Editor   —>]]></string>
+    <string name="content_description_open_editor_frag">Switch to Image edit page</string>
+
     <string name="choose_palette">Palette</string>
+    <string name="content_description_palette">Select palette</string>
     <string name="right"><![CDATA[>]]></string>
+    <string name="content_description_palette_right">Choose next palette</string>
     <string name="left"><![CDATA[<]]></string>
-    <string name="_a">A</string>
-    <string name="_b">B</string>
-    <string name="goto_generate_tile"><![CDATA[<-- Generate Tile]]></string>
+    <string name="content_description_palette_left">Choose previous palette</string>
+
+    <string name="left_right"><![CDATA[<>]]></string>
+    <string name="content_description_blur_select">Select next Image Filter</string>
+    <string name="perform_blur"><![CDATA[+]]></string>
+    <string name="content_description_blur_perform">Perform Image Filter on Image</string>
+    <string name="blur">Blur</string>
+    <string name="content_description_blur">Chosen Image Filter</string>
+
+    <string name="goto_generate_tile"><![CDATA[<— Generate Tile]]></string>
+    <string name="content_description_open_generate_frag">Switch to Generate Image page</string>
     <string name="undo_all_changes">Undo All Changes</string>
     <string name="third_fragment">Third Fragment</string>
     <string name="save_wallpaper">Save Wallpaper</string>
-    <string name="goto_save_wallpaper"><![CDATA[Save Wallpaper -->]]></string>
-    <string name="goto_tile_editor"><![CDATA[<-- Tile Editor]]></string>
+    <string name="content_description_save_wallpaper">Set Image as Wallpaper</string>
+    <string name="goto_save_wallpaper"><![CDATA[Save Wallpaper —>]]></string>
+    <string name="content_description_open_savewallpaper_frag">Switch to save Image to Wallpaper page</string>
     <string name="adjust_palette_spread">Adjust Palette Spread</string>
-    <string name="choose_blur">Smooth</string>
+    <string name="content_description_adjust_spread">Slider value affecting Colour selection</string>
     <string name="palette_scale">Palette Scale</string>
     <string name="add_new_palette_a">New A</string>
+    <string name="content_description_new_palette_a">Create new ColourRange using formula A</string>
     <string name="add_new_palette_b">New B</string>
+    <string name="content_description_new_palette_b">Create new ColourRange using formula A</string>
     <string name="fragment_generate">Generate Fragment</string>
     <string name="fullscreen_image">Fullscreen Image</string>
-    <string name="max_hits">Max Hits :</string>
     <string name="save_image">Save Image</string>
+    <string name="content_description_save_image">Save Image to Picture folder</string>
     <string name="set_to_zero">Zero Minimum</string>
+    <string name="content_description_set_to_zero">Set minimum pixel Hits back to 0</string>
     <string name="linear">Linear</string>
     <string name="statistical">Statistical</string>
-    <string name="perform_blur_on_image">Perform blur on image</string>
-    <string name="perform_blur_on_image_analysing_all_8_surrounding_pixel">Perform blur on image analysing all 8 surrounding pixel</string>
-    <string name="perform_blur_on_image_analysing_just_4_cardinal_points_surrounding_pixels">Perform blur on image analysing just 4 cardinal points surrounding pixels</string>
+    <string name="content_description_colour_distribution">How to apply ColourRange to generated results </string>
     <string name="reset_the_minimum_hits_per_pixel_to_0">Reset the minimum hits per pixel to 0</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="data_agreement">Data Agreement</string>
     <string name="iconocat_homepage">Iconocat Homepage</string>
+
+    <string name="resume_current_image_generation">Resume current image generation</string>
+    <string name="restore_image_data_back_to_intial_state">Restore Image data back to intial state</string>
 </resources>

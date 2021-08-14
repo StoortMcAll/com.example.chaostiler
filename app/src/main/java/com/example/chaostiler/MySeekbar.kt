@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.widget.ImageButton
 import android.widget.SeekBar
 import androidx.core.graphics.drawable.toDrawable
@@ -15,13 +16,15 @@ import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
 class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
 
     // region Variable Declaration
+/*
 
     var isFirstDraw = true
     var isFinalValue = false
+*/
 
     val bitmapColorSpread = MainActivity.bitmapColorSpread
 
-    var sbTexture : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
+   // var sbTexture : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
 
     private var mSeekBarHintPaint: Paint? = null
     private var mHintTextColor: Int = 0
@@ -96,7 +99,9 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
         invalidate()
     }
 
-/*
+   /* override fun performClick(): Boolean {
+        return super.performClick()
+    }
     override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -108,37 +113,36 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
         return true
     }
 
-
 */
 
-   /* @Synchronized
-    override fun onDraw(canvas: Canvas) {
-        if (mNewColors) {
-            isFirstDraw = true
-        }
-
-        if (isFirstDraw) {
-            drawSpread()
-        }
-
-        super.onDraw(canvas)
-    }
-
-    private fun drawSpread() {
-        //bitmapColorSpread.updateColorSpreadBitmap(mSeekbarMax, progress, pixelDataClone)
-
-        sbTexture = bitmapColorSpread.seekbarBitmap
-
-        val ib = rootView.findViewById<ImageButton>(R.id.palette_scaler)
-
-        if (ib != null) ib.background = sbTexture.toDrawable(resources)
-
-        //if (isFinalValue){
-            applyPaletteChangeToBitmap(pixelDataClone)
-        //}
-
-        isFinalValue = false
-        isFirstDraw = false
-    }*/
+    /* @Synchronized
+     override fun onDraw(canvas: Canvas) {
+         if (mNewColors) {
+             isFirstDraw = true
+         }
+ 
+         if (isFirstDraw) {
+             drawSpread()
+         }
+ 
+         super.onDraw(canvas)
+     }
+ 
+     private fun drawSpread() {
+         //bitmapColorSpread.updateColorSpreadBitmap(mSeekbarMax, progress, pixelDataClone)
+ 
+         sbTexture = bitmapColorSpread.seekbarBitmap
+ 
+         val ib = rootView.findViewById<ImageButton>(R.id.palette_scaler)
+ 
+         if (ib != null) ib.background = sbTexture.toDrawable(resources)
+ 
+         //if (isFinalValue){
+             applyPaletteChangeToBitmap(pixelDataClone)
+         //}
+ 
+         isFinalValue = false
+         isFirstDraw = false
+     }*/
 
 }

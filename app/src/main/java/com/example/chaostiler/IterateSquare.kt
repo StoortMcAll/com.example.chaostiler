@@ -16,7 +16,7 @@ class SquareValues{
     // region Variable Declaration
 
     var x : Double
-    var y : Double
+    var y  : Double
     var alpha : Double
     var beta : Double
     var gamma : Double
@@ -40,48 +40,34 @@ class SquareValues{
         this.delta = delta
     }
 
-    constructor(randLevel : Int) {
-        x = 0.001 + MainActivity.rand.nextDouble() * 0.998
-        y = 0.001 + MainActivity.rand.nextDouble() * 0.998
+    constructor(square : SquareValues, randLevel : Double) {
+        val min = -randLevel
 
-        shift = getRand(-1.0, 1.0)
-        delta = getRand(-1.0, 1.0)
+        x = square.x
+        y = square.y
+        alpha = square.alpha
+        beta = square.beta
+        gamma = square.omega
+        lambda = square.lambda
+        ma = square.ma
+        omega = square.omega
+        delta = square.delta
+        shift = square.shift
 
-        when (randLevel){
-            0->{
-                alpha = getRand(-1.0, 1.0)
-                beta = getRand(-1.0, 1.0)
-                gamma = getRand(-1.0, 1.0)
-                lambda = getRand(-1.0, 1.0)
-                ma = getRand(-1.0, 1.0)
-                omega = getRand(-1.0, 1.0)
-            }
-            1->{
-                alpha = getRand(-2.0, 2.0)
-                beta = getRand(-2.0, 2.0)
-                gamma = getRand(-2.0, 2.0)
-                lambda = getRand(-2.0, 2.0)
-                ma = getRand(-2.0, 2.0)
-                omega = getRand(-2.0, 2.0)
-            }
-            else->{
-                alpha = getRand(-4.0, 4.0)
-                beta = getRand(-4.0, 4.0)
-                gamma = getRand(-4.0, 4.0)
-                lambda = getRand(-4.0, 4.0)
-                ma = getRand(-4.0, 4.0)
-                omega = getRand(-4.0, 4.0)
-            }
-        }
+        if (headOrTails()) alpha += getRand(min, randLevel)
+        if (headOrTails()) beta += getRand(min, randLevel)
+        if (headOrTails()) gamma += getRand(min, randLevel)
+        if (headOrTails()) lambda += getRand(min, randLevel)
+        if (headOrTails()) ma += getRand(min, randLevel)
+        if (headOrTails()) omega += getRand(min, randLevel)
     }
 
-    private fun getRand(min : Double, max : Double) : Double {
-        var value = MainActivity.rand.nextDouble(min, max)
-        if (value == 0.0) value = 0.01
-
-        return value
+    fun getRand(min : Double, max : Double) : Double {
+        return MainActivity.rand.nextDouble(min, max)
     }
-
+    fun headOrTails() : Boolean{
+        return MainActivity.rand.nextInt(until = 4) == 3
+    }
 }
 
 fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
@@ -114,24 +100,24 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
 
         xnew = (square.lambda + square.alpha * cos(p2y)) * sx
         xnew -= square.omega * sy
-        xnew += square.beta * sin(2 * p2x)
-        xnew += square.gamma * sin(3 * p2x) * cos(2 * p2y)
+        xnew += square.beta * sin(2.0 * p2x)
+        xnew += square.gamma * sin(3.0 * p2x) * cos(2 * p2y)
         xnew += square.ma * x
 
         ynew = (square.lambda + square.alpha * cos(p2x)) * sy
         ynew += square.omega * sx
-        ynew += square.beta * sin(2 * p2y)
-        ynew += square.gamma * sin(3 * p2y) * cos(2 * p2x)
+        ynew += square.beta * sin(2.0 * p2y)
+        ynew += square.gamma * sin(3.0 * p2y) * cos(2 * p2x)
         ynew += square.ma * y
 
-        xnew = (xnew - xnew.toInt()) + 1
+        xnew = (xnew - xnew.toLong()) + 1.0
         xnew -= xnew.toInt()
-        ynew = (ynew - ynew.toInt()) + 1
+        ynew = (ynew - ynew.toLong()) + 1.0
         ynew -= ynew.toInt()
 
         x = xnew; y = ynew
 
-        hits.add(Hit((x * wide).toInt(), (y * high).toInt()))
+        hits.add(Hit((xnew * wide).toInt(), (ynew * high).toInt()))
 
     } while (++counter < maxCounter)
 

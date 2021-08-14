@@ -6,6 +6,9 @@ import kotlin.math.sqrt
 val sq3 = sqrt(3.0)
 
 class HexValues {
+
+    // region Variable Declaration
+
     val square : SquareValues
 
     var k11 : Double = 1.0; var k12 : Double = 0.0; var k21 : Double = 0.5; val k22 : Double
@@ -28,61 +31,27 @@ class HexValues {
     val ah11 : Double; val ah12 : Double; val ah21 : Double; val ah22 : Double
     val ah31 : Double; val ah32 : Double
 
-    constructor(squareVals : SquareValues, randomLevel : Int){
-        square = squareVals
+    // endregion
 
-     /*   if (headOrTails() == true) k11 += getRand(0.0, 1.0)
-        if (headOrTails() == true) k12 += getRand(0.0, 1.0)
-        if (headOrTails() == true) k21 += getRand(0.0, 1.0)
-        if (headOrTails() == true) el11 += getRand(0.0, 1.0)
-        if (headOrTails() == true) el21 += getRand(0.0, 1.0)*/
-       /* k11 = if (headOrTails() == true) 0.0 else getRand(0.0, 1.0)
-        k12 = if (headOrTails() == true) 0.0 else getRand(0.0, 1.0)
-        k21 = if (headOrTails() == true) 0.5 else getRand(0.0, 1.0)
-        el11 = if (headOrTails() == true) 1.0 else getRand(0.0, 1.0)
-        el21 = if (headOrTails() == true) 0.0 else getRand(0.0, 1.0)
-*/
-        k22 = sq3 / 2.0
-        el12 = -1.0 / sq3; el22 = 2.0 / sq3
-        el31 = -(el11 + el21); el32 = -(el12 + el22)
-
-        em11 = (2.0 * el11) + el21; em12 = (2.0 * el12) + el22
-        em21 = (2.0 * el21) + el31; em22 = (2.0 * el22) + el32
-        em31 = (2.0 * el31) + el11; em32 = (2.0 * el32) + el12
-
-        en11 = (3.0 * el11) + (2.0 * el21); en12 = (3.0 * el12) + (2.0 * el22)
-        en21 = (3.0 * el21) + (2.0 * el31); en22 = (3.0 * el22) + (2.0 * el32)
-        en31 = (3.0 * el31) + (2.0 * el11); en32 = (3.0 * el32) + (2.0 * el12)
-
-        enh11 = (3.0 * el11) + el21; enh12 = (3.0 * el12) + el22
-        enh21 = (3.0 * el21) + el31; enh22 = (3.0 * el22) + el32
-        enh31 = (3.0 * el31) + el11; enh32 = (3.0 * el32) + el12
-
-        a11 = square.beta; a12 = square.gamma
-        a21 = (-a11 - (sq3 * a12)) / 2.0; a22 = ((sq3 * a11) - a12) / 2.0
-        a31 = -a11 - a21; a32 = -a12 - a22
-
-        ah11 = a11; ah12 = -a12
-        ah21 = (-ah11 - (sq3 * ah12)) / 2.0; ah22 = ((sq3 * ah11) - ah12) / 2.0
-        ah31 = -ah11 - ah21; ah32 = -ah12 - ah22
-    }
-
-    constructor(squareVals : SquareValues, sk11 : Double = 1.0, sk12 : Double = 0.0,
+    @JvmOverloads
+    constructor(squareVals : SquareValues, randomLevel : Int = 0, sk11 : Double = 1.0, sk12 : Double = 0.0,
                 sk21 : Double = 0.5, sel11 : Double = 1.0, sel21 : Double = 0.0)
     {
         square  = squareVals
 
-        if (headOrTails() == true) squareVals.alpha += getRand(-1.0, 1.0)
-        if (headOrTails() == true) squareVals.beta += getRand(-1.0, 1.0)
-        if (headOrTails() == true) squareVals.gamma += getRand(0.0, 1.0)
-        if (headOrTails() == true) squareVals.delta += getRand(0.0, 1.0)
-        if (headOrTails() == true) squareVals.lambda += getRand(0.0, 1.0)
-        //if (headOrTails() == true) squareVals.ma += getRand(0.0, 1.0)
-        //if (headOrTails() == true) squareVals.omega += getRand(0.0, 1.0)
+        k11 = sk11 + if (randomLevel == 0 && square.headOrTails() == false) 0.0 else square.getRand(-0.25, 0.25)
+        k12 = sk12// + if (randomLevel == 0 && headOrTails() == false) 0.0 else getRand(-0.25, 0.25)
+        k21 = sk21 + if (randomLevel == 0 && square.headOrTails() == false) 0.0 else square.getRand(-0.25, 0.25)
+        el11 = sel11// + if (randomLevel == 0 && headOrTails() == false) 0.0 else getRand(-0.25, 0.25)
+        el21 = sel21 + if (randomLevel == 0 && square.headOrTails() == false) 0.0 else square.getRand(-0.25, 0.25)
 
-        k11 = sk11; k12 = sk12
-        k21 = sk21
-        el11 = sel11; el21 = sel21
+        if (square.headOrTails() == true) square.alpha += square.getRand(-0.25, 0.25)
+        if (square.headOrTails() == true) square.beta += square.getRand(-0.25, 0.25)
+        //if (square.headOrTails() == true) square.gamma += square.getRand(0.0, 0.5)
+        if (square.headOrTails() == true) square.delta += square.getRand(0.0, 0.5)
+        if (square.headOrTails() == true) square.lambda += square.getRand(-0.25, 0.25)
+        //if (headOrTails() == true) square.ma += getRand(0.0, 1.0)
+        //if (headOrTails() == true) square.omega += getRand(0.0, 1.0)
 
         k22 = sq3 / 2.0
         el12 = -1.0 / sq3; el22 = 2.0 / sq3
@@ -108,20 +77,6 @@ class HexValues {
         ah21 = (-ah11 - (sq3 * ah12)) / 2; ah22 = ((sq3 * ah11) - ah12) / 2
         ah31 = -ah11 - ah21; ah32 = -ah12 - ah22
     }
-
-    private fun headOrTails() : Boolean{
-        if (MainActivity.rand.nextDouble() > 0.5)
-            return true
-        else
-            return false
-    }
-
-    private fun getRand(min : Double, max : Double) : Double {
-        var value = MainActivity.rand.nextDouble(min, max)
-        if (value == 0.0) value = 0.01
-
-        return value
-    }
 }
 
 fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<Hit> {
@@ -146,9 +101,6 @@ fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<Hit> {
 
     val p2 = 2.0 * Math.PI
 
-    s11  = sin(0.0)
-    s12 = sin(Math.PI / 2.0)
-    s13 = sin(Math.PI / 4.0)
     // endregion
 
     do {
@@ -179,9 +131,9 @@ fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<Hit> {
 
         by = 2.0 * ynew / sq3; bx = xnew - (by / 2.0)
 
-        bx = (bx - bx.toInt()) + 1
+        bx = (bx - bx.toLong()) + 1
         bx -= bx.toInt()
-        by = (by - by.toInt()) + 1
+        by = (by - by.toLong()) + 1
         by -= by.toInt()
 
         xnew = bx * hexagon.k11 + by * hexagon.k21

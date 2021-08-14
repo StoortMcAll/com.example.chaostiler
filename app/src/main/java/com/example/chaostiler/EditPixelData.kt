@@ -62,6 +62,8 @@ fun prepareBlurData3(){
 
 
 fun prepareBlurData2(){
+
+    pixelDataClone.recalcHitStats()
     val widewidth = width + 2
     val wideheight = height + 2
     val widehitarray = IntArray(widewidth * wideheight)
@@ -108,8 +110,6 @@ fun prepareBlurData2(){
             array[posx++] = (hits / 9.0).toInt()
         }
     }
-
-    pixelDataClone.recalcHitStats()
 }
 
 

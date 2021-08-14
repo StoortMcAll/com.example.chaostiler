@@ -12,7 +12,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.chaostiler.FirstFragment.Companion.tileImageView
@@ -102,7 +101,7 @@ class ThirdFragment : Fragment() {
             }
         }
 
-        view.findViewById<Button>(R.id.backto_secondFragment).setOnClickListener {
+        view.findViewById<Button>(R.id.back_to_secondFragment).setOnClickListener {
             if (!isBusy) {
                 findNavController().navigate(R.id.action_ThirdFragment_to_SecondFragment)
             }

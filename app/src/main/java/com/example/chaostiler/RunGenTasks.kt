@@ -15,9 +15,11 @@ import kotlinx.coroutines.*
 
 var doingCalc = false
 
-var square = SquareValues(0.23, 0.7157, -0.4212, 1.3134, -2.632, 1.59, 1.205, -1.34)
+var square = SquareValues(0.1, 0.334, 0.2, 0.1, -0.9, -0.59, 0.05, -0.34)
 
-var hexagon = HexValues(SquareValues(0.1, 0.3, -0.1,  -0.076, 0.0, -0.59, 0.0, 0.0))
+var hexagon = HexValues(SquareValues(0.1, 0.3, -0.1,  -0.076, 0.0, -0.59, 0.0, 0.0), 0)
+
+var icon = IconValues(SquareValues(0.1, -0.1, 0.3,  0.65, 0.43, 0.4, 0.0, 0.09), 24)
 
 var bmTexture = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
@@ -27,13 +29,6 @@ var job : Job? = null
 
 // endregion
 
-
-fun blurLeft() {
-    prepareBlurData2()
-}
-fun blurRight(){
-    prepareBlurData3()
-}
 
 
 fun switchProcessType() {
@@ -77,17 +72,7 @@ fun runSetToZero() {
 
 fun startNewRunFormula(isNewRun : Boolean) {
     if (isNewRun) {
-        square = SquareValues(MainActivity.rand.nextInt(until = 3))
-
-        val hex = SquareValues(0.1, 0.3, -0.1, -0.76, 0.0, -0.59, 0.0, 0.0, 0.0, 0.1)
-
-        if (MainActivity.rand.nextInt(until = 2) == 1){
-            hexagon = HexValues(hex)//, 0)
-        } else {
-            hexagon = HexValues(hex)
-        }
-
-        pixelData.clearData()
+        prepareForNewRun()
     }
 
     maxCounter = maxCount
@@ -97,20 +82,22 @@ fun startNewRunFormula(isNewRun : Boolean) {
     do {
         val hits : ArrayList<Hit>
 
-        if (quiltType == MainActivity.Companion.QuiltType.Square)
-            hits = runSquare(width, height, square)
-        else
-            hits = runHexagon(width, height, hexagon)
+        hits = when (quiltType) {
+            MainActivity.Companion.QuiltType.SQUARE -> runSquare(width, height, square)
+            MainActivity.Companion.QuiltType.HEXAGONAL -> runHexagon(width, height, hexagon)
+            else -> runIcon(width, height, icon)
+        }
 
-        pixelData.addHitsToPixelArray(hits)
-
-        if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR){
-            aColors = buildPixelArrayFromIncrementalColors(pixelData)
+        if (pixelData.addHitsToPixelArray(hits)) {
+            aColors = if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
+                buildPixelArrayFromIncrementalColors(pixelData)
+            } else {
+                buildPixelArrayFromStatisticalColors(pixelData)
+            }
         }
         else{
-            aColors = buildPixelArrayFromStatisticalColors(pixelData)
+            prepareForNewRun()
         }
-
         CoroutineScope(Dispatchers.Main).launch {
             upDataUI()
         }
@@ -118,11 +105,24 @@ fun startNewRunFormula(isNewRun : Boolean) {
     } while (doingCalc)
 }
 
+fun prepareForNewRun(){
+    square = SquareValues(SquareValues(0.1, 0.334, 0.2, 0.1, -0.9, -0.59, 0.05, -0.34),
+        MainActivity.rand.nextDouble(0.5, 4.0))
+
+    val hex = SquareValues(0.1, 0.3, -0.1, -0.76, 0.0, -0.59, 0.0, 0.0, 0.0, 0.1)
+    hexagon = HexValues(hex, MainActivity.rand.nextInt(until = 2))
+
+    icon = initIcon()
+    randomizeIconValues()
+
+    pixelData.clearData()
+}
+
 fun upDataUI() {
     val value = pixelData.mMaxHits.toString()
     val iters = pixelData.mHitsCount.toString()
 
-    val text = "Hits : Max - $value   Total - $iters "
+    val text = FirstFragment.mHits + " " + value + " " + FirstFragment.mTotal + " " + iters
     mMaxHitsText.text = text.subSequence(0, text.length)
 
     bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
@@ -130,6 +130,7 @@ fun upDataUI() {
     tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 }
 
+/*
 
 fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData) : Boolean{
     if (job == null || job?.isActive == false){
@@ -143,12 +144,16 @@ fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData) : Boolean{
         return false
     }
 }
+*/
 
 fun setTileViewBitmap(pixeldatacopy: PixelData) {
-    if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
-        aColors = buildPixelArrayFromIncrementalColors(pixeldatacopy)
-    } else {
-        aColors = buildPixelArrayFromStatisticalColors(pixeldatacopy)
+    aColors = when (bitmapColorSpread.aCurrentRange.dataProcess) {
+        DataProcess.LINEAR -> {
+            buildPixelArrayFromIncrementalColors(pixeldatacopy)
+        }
+        else -> {
+            buildPixelArrayFromStatisticalColors(pixeldatacopy)
+        }
     }
     bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
 
@@ -171,13 +176,16 @@ fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
 
     val cols = IntArray(count)
 
+    var mult = 1.0F
     if (pixeldata.mMaxHits == 0){
         cols[0] = mColors[0]
+    } else{
+        mult /= pixeldata.mMaxHits
     }
     var cl : Int
 
     for (i in 0  until count){
-        cl = pixeldata.aPixelArray[i]
+        cl = ((pixeldata.aPixelArray[i] * mult) * colorscount).toInt()
 
         if (cl > colorscount) cl = colorscount
 
@@ -187,6 +195,7 @@ fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
     return  cols
 }
 
+/*
 
 fun buildPixelArrayFromStretchColors(pixeldata: PixelData) : IntArray {
     val curRange = bitmapColorSpread.aCurrentRange
@@ -222,6 +231,7 @@ fun buildPixelArrayFromStretchColors(pixeldata: PixelData) : IntArray {
 
     return  cols
 }
+*/
 
 fun buildPixelArrayFromStatisticalColors(pixeldata: PixelData) : IntArray {
     val colrange = bitmapColorSpread.aCurrentRange
@@ -234,7 +244,7 @@ fun buildPixelArrayFromStatisticalColors(pixeldata: PixelData) : IntArray {
     val cols = IntArray(count)
 
     var percentage = calculateHitDistribution(pixeldata)
-    percentage = flattenDistribution(0.975F, percentage)
+    percentage = flattenDistribution(0.75 + (0.25 * colspreadmaxrange), percentage)
 
     var basecol : Float
     var statcol : Int
@@ -273,25 +283,30 @@ private fun calculateHitDistribution(pixeldata: PixelData) : FloatArray{
     }
     percentage[pixeldata.mMaxHits] = 1.0F
 
-    var i = 0
+    var n = 0
 
-    while (pixeldata.aHitStats[i] == 0) { i++ }
+    while (pixeldata.aHitStats[n] == 0) { n++ }
 
-    if (i > 1){
-        val p = percentage[i] / i
-        while (i > 0) {
-            i--
-            percentage[i] = percentage[i + 1] - p
+    if (n > 1){
+        val df = percentage[n] / n
+        for (i in 1 until n){
+            percentage[i] = i * df
         }
     }
 
     return percentage
 }
 
-private fun flattenDistribution(value : Float, percentage : FloatArray) : FloatArray{
+private fun flattenDistribution(value : Double, percentage : FloatArray) : FloatArray{
+    var n = 0
+
+    while (n < percentage.lastIndex && percentage[n] == 0.0F) n++
+
+    if (n == percentage.lastIndex) return percentage
+
     if (value > 1.0) return percentage
 
-    val valueoverone = 1.0F / value
+    val valueoverone = (1.0 / value).toFloat()
 
     for (i in 0..percentage.lastIndex){
         percentage[i] *= valueoverone

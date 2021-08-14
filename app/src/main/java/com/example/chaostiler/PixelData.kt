@@ -10,10 +10,37 @@ data class Hit(val x: Int, val y: Int)
 var pixelData = PixelData(width, height)
 var pixelDataClone = PixelData(width, height)
 
+val Blur = Filter(16.0F, 0, arrayOf(
+    floatArrayOf(1.0F, 2.0F, 1.0F),
+    floatArrayOf(2.0F, 4.0F, 2.0F),
+    floatArrayOf(1.0F, 2.0F, 1.0F)))
+
+val Gaussian = Filter(0, arrayOf(
+    floatArrayOf(2.0F, 4.0F, 5.0F, 4.0F, 2.0F),
+    floatArrayOf(4.0F, 9.0F, 12.0F, 9.0F, 4.0F),
+    floatArrayOf(5.0F, 12.0F, 15.0F, 12.0F, 5.0F),
+    floatArrayOf(4.0F, 9.0F, 12.0F, 9.0F, 4.0F),
+    floatArrayOf(2.0F, 4.0F, 5.0F, 4.0F, 2.0F)))
+
+val Motion = Filter(9.0F, 0, arrayOf(
+    floatArrayOf(1.0F, 0.0F, 0.0F, 0.0F, 1.0F),
+    floatArrayOf(0.0F, 1.0F, 0.0F, 1.0F, 0.0F),
+    floatArrayOf(0.0F, 0.0F, 1.0F, 0.0F, 0.0F),
+    floatArrayOf(0.0F, 1.0F, 0.0F, 1.0F, 0.0F),
+    floatArrayOf(1.0F, 0.0F, 0.0F, 0.0F, 1.0F)))
+
+val BoxBlur = Filter(25.0F, 0, arrayOf(
+    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F),
+    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F),
+    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F),
+    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F),
+    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F)))
+
+
 // endregion
 
 
-class PixelData(private val width : Int, private val height : Int) {
+class PixelData(val width : Int, val height : Int) {
 
     // region Variable Declaration
 
@@ -32,7 +59,7 @@ class PixelData(private val width : Int, private val height : Int) {
     // endregion
 
 
-    fun addHitsToPixelArray(hits : ArrayList<Hit>) {
+    fun addHitsToPixelArray(hits : ArrayList<Hit>) : Boolean{
         var index : Int
         var value : Int
 
@@ -42,6 +69,7 @@ class PixelData(private val width : Int, private val height : Int) {
 
         hits.forEach {
             index = it.x + it.y * width
+
             value = aPixelArray[index]
             aPixelArray[index]++
 
@@ -56,6 +84,11 @@ class PixelData(private val width : Int, private val height : Int) {
         }
 
         mPixelArrayBusy = false
+
+        if (mMaxHits / mHitsCount.toDouble() > 0.01)
+            return false
+
+        return true
     }
 
     fun recalcHitStats() {
@@ -90,8 +123,8 @@ class PixelData(private val width : Int, private val height : Int) {
         aHitStats = mutableListOf(arraySize)
     }
 
-    fun Clone(): PixelData {
-        var clonePD = PixelData(width, height)
+    fun clone(): PixelData {
+        val clonePD = PixelData(width, height)
 
         clonePD.mMaxHits = mMaxHits
 
@@ -108,3 +141,125 @@ class PixelData(private val width : Int, private val height : Int) {
     }
 }
 
+
+
+
+
+class Filter(val kernel : Array<FloatArray>) {
+
+    // region Variable Declaration
+
+    var weight = 1.0F
+
+    private var offset = 0.0F
+
+    val kernWid : Int = kernel[0].size
+
+    val kernHit : Int = kernel.size
+
+    val offBot : Int = kernHit / 2
+    val offTop : Int = offBot
+    val offRight : Int = kernWid / 2
+    val offLeft : Int = offRight
+
+    // endregion
+
+    constructor(weight : Float, offset : Int, kernel : Array<FloatArray> ) : this(kernel){
+        if (weight < 0)
+            this.weight = 1.0F
+        else
+            this.weight = 1.0F / weight
+
+        this.offset = offset.toFloat()
+    }
+
+    constructor(offset : Int, kernel : Array<FloatArray> ) : this(kernel){
+        for (ky in 0 until kernHit){
+            for (kx in 0 until kernWid){
+                weight += kernel[ky][kx]
+            }
+        }
+
+        if (weight < 0) weight = 1.0F
+
+        weight = 1.0F / weight
+
+        this.offset = offset.toFloat()
+    }
+
+
+    fun doImageFilter(pixelDataCopy : PixelData){
+        val wideArray = getWideArray(pixelDataCopy.aPixelArray)
+
+        pixelDataCopy.aPixelArray = performFunction(wideArray)
+
+        pixelDataCopy.recalcHitStats()
+    }
+
+}
+
+fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
+
+    val array = IntArray(width * height)
+
+    var hits : Float
+
+    var i = 0
+
+    for (y in 0 until width){
+        for (x in 0 until height){
+            hits = 0.0F
+            for (ky in 0 until kernHit){
+                for (kx in 0 until kernWid){
+                    hits += wideArray[y+ky][x +kx] * kernel[ky][kx]
+                }
+            }
+
+            hits *= weight
+            if (hits < 0) hits = 0.0F
+
+            array[i++] = hits.toInt()
+        }
+    }
+
+    return array
+}
+
+fun Filter.getWideArray(array : IntArray) : Array<IntArray>{
+    val widewidth = width + offLeft + offRight
+    val wideheight = height + offTop + offBot
+    val wideArray = Array(wideheight) { IntArray(widewidth)}
+
+    var i = 0
+    var wposy = widewidth * offTop
+
+    for (y in 0 until height){
+        for (x in 0 until width){
+            wideArray[offBot + y][offLeft + x] = array[i++]
+        }
+        wposy += widewidth
+    }
+
+    i = 0
+    for (wh in height until wideheight) {
+        for (x in 0 until width) {
+            wideArray[wh][offLeft + x] = array[i++]
+        }
+    }
+
+    for (wh in 0 until offBot) {
+        wposy = width * (height - offBot + wh)
+        for (x in 0 until width) {
+            wideArray[wh][offLeft + x] = array[wposy + x]
+        }
+    }
+
+    for (y in 0 until wideheight) {
+        for (ww in 0 until offLeft) {
+            wideArray[y][ww] = wideArray[y][width + ww]
+            wideArray[y][offLeft + width + ww] = wideArray[y][offLeft + ww]
+        }
+    }
+
+    return wideArray
+}

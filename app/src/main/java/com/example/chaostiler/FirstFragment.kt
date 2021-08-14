@@ -5,8 +5,6 @@ package com.example.chaostiler
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,9 +24,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
-import java.util.concurrent.Executor
-import kotlin.concurrent.schedule
 import kotlin.system.exitProcess
 
 // endregion
@@ -38,15 +33,30 @@ class FirstFragment : Fragment() {
 
     val mThisPageID = 0
 
-   lateinit var viewThis : View
+    lateinit var viewThis : View
+
+    lateinit var mPause: String
+    lateinit var mResum: String
+
 
     companion object{
         lateinit var tileImageView : MyImageView
         lateinit var mMaxHitsText : TextView
+
+        lateinit var mHits : String
+        lateinit var mTotal : String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val mpause = getString(R.string.stop_calc)
+        mPause = mpause.substring(0, mpause.length)
+        val mresum = getString(R.string.resume_calc)
+        mResum = mresum.substring(0, mresum.length)
+
+        mHits = getString(R.string.hits_string)
+        mTotal = getString(R.string.total_string)
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (doingCalc) {
@@ -93,9 +103,21 @@ class FirstFragment : Fragment() {
             makeInvisible(view)
 
             if (job == null || job?.isActive == false) {
-                //MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
                 job = MainActivity.scopeIO.launch {
-                    quiltType = QuiltType.Square
+                    quiltType = QuiltType.SQUARE
+                    startNewRunFormula(true)
+                }
+            } else {
+                job?.cancel(null)
+            }
+        }
+
+        view.findViewById<Button>(R.id.run_scratch).setOnClickListener {
+            makeInvisible(view)
+
+            if (job == null || job?.isActive == false) {
+                job = MainActivity.scopeIO.launch {
+                    quiltType = QuiltType.SCRATCH
                     startNewRunFormula(true)
                 }
             } else {
@@ -109,7 +131,7 @@ class FirstFragment : Fragment() {
             if (job == null || job?.isActive == false) {
                 //MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
                 job = MainActivity.scopeIO.launch {
-                    quiltType = QuiltType.Hexagonal
+                    quiltType = QuiltType.HEXAGONAL
                     startNewRunFormula(true)
                 }
             } else {
@@ -206,10 +228,11 @@ class FirstFragment : Fragment() {
 
                 val value = pixelData.mMaxHits.toString()
                 val iters = pixelData.mHitsCount.toString()
-                var text = "Hits : Max - $value   Total - $iters"
+
+                val text = mHits + " " + value + " " + mTotal + " " + iters
                 mMaxHitsText.text = text.subSequence(0, text.length)
 
-                resumbut.text = "Resume".subSequence(0, 6)
+                resumbut.text = mResum
             }
             else{
                 generate.isVisible = false
@@ -218,8 +241,7 @@ class FirstFragment : Fragment() {
                 resumgen.isVisible = true
                 mMaxHitsText.isVisible = true
 
-                val text = "Pause"
-                resumbut.text = "Pause".subSequence(0, 5)
+                resumbut.text = mPause
             }
         }
         else{
