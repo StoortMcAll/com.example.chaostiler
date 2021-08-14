@@ -83,23 +83,23 @@ class ColorClass {
     init {
         addColorRanges(listOf(
             DRgbDataItem(0, Color.BLACK),
-            DRgbDataItem(192, Color.argb(255, 96, 96, 96)),
-            DRgbDataItem(320, Color.argb(255, 128, 128, 128)),
-            DRgbDataItem(384, Color.argb(255, 224, 224, 224)),
+            DRgbDataItem(96, Color.argb(255, 96, 96, 96)),
+            DRgbDataItem(160, Color.argb(255, 128, 128, 128)),
+            DRgbDataItem(288, Color.argb(255, 224, 224, 224)),
             DRgbDataItem(511, Color.WHITE)),
             DataProcess.STATISTICAL)
 
         addColorRanges(listOf(
                  DRgbDataItem(0, Color.BLACK),
-                 DRgbDataItem(160, Color.RED),
-                 DRgbDataItem(224, Color.YELLOW),
+                 DRgbDataItem(32, Color.RED),
+                 DRgbDataItem(96, Color.YELLOW),
                  DRgbDataItem(255, Color.WHITE)))
 
         addColorRanges(listOf(
-                DRgbDataItem(0, Color.BLUE),
-                DRgbDataItem(160, Color.RED),
-                DRgbDataItem(224, Color.GREEN),
-                DRgbDataItem(255, Color.WHITE)))
+                DRgbDataItem(0, Color.argb(255, 0, 0, 32)),
+                DRgbDataItem(32, Color.CYAN),
+                DRgbDataItem(96, Color.RED),
+                DRgbDataItem(255, Color.GREEN)))
 
         setCurrentColorRange(mCurrentRangeID)
     }
@@ -128,25 +128,22 @@ class ColorClass {
     }
 
     fun addNewRandomPrimariesRange() : ColorRangeClass{
-        var dataitemcount = 2 + MainActivity.rand.nextInt(0, 4)
+        var dataitemcount = MainActivity.rand.nextInt(2, 5)
 
-        var range = 0; var add = 64
+        var range = 0; var add = 32
 
         val dataitemslist = ArrayList<DRgbDataItem>(dataitemcount + 1)
-
-        if (dataitemcount == 2) add = 256
-        if (dataitemcount == 3) add = 128
 
         dataitemslist.add(DRgbDataItem(range,
             aPrimaries.colors[MainActivity.rand.nextInt(0,  aPrimaries.size)]))
 
         do{
-            range+= add
-
-            add *= 2
-
             dataitemslist.add(DRgbDataItem(range,
                 aPrimaries.colors[MainActivity.rand.nextInt(0,  aPrimaries.size)]))
+
+            range+= add
+
+            add *= 3
 
         }while(--dataitemcount > 0)
 
@@ -255,7 +252,6 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess :
 
     init {
         processColorSpread()
-        //processHsvColorSpread()
     }
 
     fun getRangeProgress() : Int{
@@ -272,80 +268,6 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess :
         else{
             progressStatistic = prog
         }
-    }
-
-
-    private fun processHsvColorSpread() {
-        if (mColorDataList.size < 2) return
-
-        var index = 1
-
-        var col1: Int
-        var col2: Int
-
-        aColorSpread[0] = mColorDataList[0].color
-
-        for (cr in 1 until mColorDataList.size) {
-            val maxd: Int = mColorDataList[cr].range - mColorDataList[cr- 1].range
-
-            col1 = mColorDataList[cr - 1].color
-            col2 = mColorDataList[cr].color
-
-            val cols: IntArray = hsvColorPairToRGBIntArray(maxd, col1, col2)
-
-            for (n in 0..cols.lastIndex) {
-                aColorSpread[index] = cols[n]
-                index++
-            }
-        }
-    }
-
-    private fun hsvColorPairToRGBIntArray(steps : Int, rgb1 : Int, rgb2 : Int) : IntArray{
-        var hsv1 = FloatArray(3)
-        Color.colorToHSV(rgb1, hsv1)
-
-        var hsv2 = FloatArray(3)
-        Color.colorToHSV(rgb2, hsv2)
-
-        val h1 = hsv1[0]
-        var hdif = hsv2[0] - h1
-
-        if (hdif > 0){
-            if (hdif > 180){
-                hdif -= 360
-            }
-        } else{
-            if (hdif < -180){
-                hdif += 360
-            }
-        }
-
-        val oneoversteps = 1.0F / steps
-
-        val addh = hdif * oneoversteps
-        var hres : Float
-
-        val s1 = hsv1[1]
-        val adds = (hsv2[1] - s1) * oneoversteps
-        val v1 = hsv1[2]
-        val addv = (hsv2[2] - v1) * oneoversteps
-
-        val cols = IntArray(steps)
-
-        for (i in 1..steps){
-            hres = h1 + addh * i
-            if(hres < 360){
-                if (hres < 0){
-                    hres += 360
-                }
-            } else{
-                hres -= 360
-            }
-
-            cols[i - 1] = Color.HSVToColor(floatArrayOf(hres, s1 + i * adds, v1 + i * addv))
-        }
-
-        return  cols
     }
 
 

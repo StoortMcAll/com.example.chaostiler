@@ -183,11 +183,9 @@ class FirstFragment : Fragment() {
     }
 
     private fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
-        //MainActivity.scopeIO.launch {
         CoroutineScope(Dispatchers.IO).launch {
             setTileViewBitmap(pixeldatacopy)
         }
-       // }
     }
 
     private fun setTileViewBitmap(pixeldatacopy: PixelData) {

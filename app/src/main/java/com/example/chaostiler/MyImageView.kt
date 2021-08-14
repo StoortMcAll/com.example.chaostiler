@@ -236,8 +236,6 @@ class MyImageView @JvmOverloads constructor(
         }while(doesFileExist)
 
         return try {
-               // context.externalMediaDirs
-
             file = File(filefullname)
             file.createNewFile()
 

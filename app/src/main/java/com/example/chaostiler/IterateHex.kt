@@ -40,18 +40,15 @@ class HexValues {
         square  = squareVals
 
         k11 = sk11 + if (randomLevel == 0 && square.headOrTails() == false) 0.0 else square.getRand(-0.25, 0.25)
-        k12 = sk12// + if (randomLevel == 0 && headOrTails() == false) 0.0 else getRand(-0.25, 0.25)
+        k12 = sk12
         k21 = sk21 + if (randomLevel == 0 && square.headOrTails() == false) 0.0 else square.getRand(-0.25, 0.25)
-        el11 = sel11// + if (randomLevel == 0 && headOrTails() == false) 0.0 else getRand(-0.25, 0.25)
+        el11 = sel11
         el21 = sel21 + if (randomLevel == 0 && square.headOrTails() == false) 0.0 else square.getRand(-0.25, 0.25)
 
         if (square.headOrTails() == true) square.alpha += square.getRand(-0.25, 0.25)
         if (square.headOrTails() == true) square.beta += square.getRand(-0.25, 0.25)
-        //if (square.headOrTails() == true) square.gamma += square.getRand(0.0, 0.5)
         if (square.headOrTails() == true) square.delta += square.getRand(0.0, 0.5)
         if (square.headOrTails() == true) square.lambda += square.getRand(-0.25, 0.25)
-        //if (headOrTails() == true) square.ma += getRand(0.0, 1.0)
-        //if (headOrTails() == true) square.omega += getRand(0.0, 1.0)
 
         k22 = sq3 / 2.0
         el12 = -1.0 / sq3; el22 = 2.0 / sq3

@@ -18,11 +18,10 @@ class IconValues {
     constructor(squareVals: SquareValues, trigdepth: Int) {
         square = squareVals
 
-        if (square.headOrTails() == true) square.alpha += square.getRand(-0.25, 0.25)
-        if (square.headOrTails() == true) square.beta += square.getRand(-0.25, 0.25)
-        //if (square.headOrTails() == true) square.gamma += square.getRand(0.0, 0.5)
-        if (square.headOrTails() == true) square.delta += square.getRand(0.0, 0.5)
-        if (square.headOrTails() == true) square.lambda += square.getRand(-0.25, 0.25)
+        if (square.headOrTails()) square.alpha += square.getRand(-0.25, 0.25)
+        if (square.headOrTails()) square.beta += square.getRand(-0.25, 0.25)
+        if (square.headOrTails()) square.delta += square.getRand(0.0, 0.5)
+        if (square.headOrTails()) square.lambda += square.getRand(-0.25, 0.25)
 
         setTrigArrays(trigdepth)
     }

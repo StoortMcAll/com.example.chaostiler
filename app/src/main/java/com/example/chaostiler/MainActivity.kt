@@ -63,9 +63,6 @@ class MainActivity : AppCompatActivity() {
 
         var scopeIO = CoroutineScope(Dispatchers.IO)
 
-        var icon = initIcon()
-
-
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -86,12 +83,12 @@ class MainActivity : AppCompatActivity() {
         rand = Random(LocalDateTime.now().second + LocalDateTime.now().hour)
 
         val outPoint = Point()
-        //if (Build.VERSION.SDK_INT >= 19) {
+        if (Build.VERSION.SDK_INT >= 19) {
             // include navigation bar
             display!!.getRealSize(outPoint)
-       /* } else {
+       } else {
             display!!.getSize(outPoint)
-        }*/
+        }
         if (outPoint.y > outPoint.x) {
             mViewSize.y = outPoint.y
             mViewSize.x = outPoint.x
@@ -99,12 +96,6 @@ class MainActivity : AppCompatActivity() {
             mViewSize.y = outPoint.x
             mViewSize.x = outPoint.y
         }
-
-      /*  val ds = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            baseContext.display
-        } else {
-            baseContext.display
-        }*/
 
     }
 

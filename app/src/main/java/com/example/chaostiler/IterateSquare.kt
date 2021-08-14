@@ -13,6 +13,7 @@ var mainCounter = 0
 // endregion
 
 class SquareValues{
+
     // region Variable Declaration
 
     var x : Double

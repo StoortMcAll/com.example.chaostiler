@@ -83,11 +83,7 @@ class SecondFragment : Fragment() {
 
         updateTextures(false)
 
-       /* seekbar.setOnClickListener( l : context.OnClickListener?) {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                TODO("Not yet implemented")
-            }
-        })*/
+
         seekbar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
 

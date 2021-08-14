@@ -130,21 +130,6 @@ fun upDataUI() {
     tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 }
 
-/*
-
-fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData) : Boolean{
-    if (job == null || job?.isActive == false){
-        job = MainActivity.scopeIO.launch {
-            setTileViewBitmap(pixeldatacopy)
-        }
-        return true
-    } else {
-        job?.cancel()
-
-        return false
-    }
-}
-*/
 
 fun setTileViewBitmap(pixeldatacopy: PixelData) {
     aColors = when (bitmapColorSpread.aCurrentRange.dataProcess) {
@@ -194,44 +179,6 @@ fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
 
     return  cols
 }
-
-/*
-
-fun buildPixelArrayFromStretchColors(pixeldata: PixelData) : IntArray {
-    val curRange = bitmapColorSpread.aCurrentRange
-
-    val mColors = curRange.aColorSpread
-
-    val colspreadcount = curRange.mColorSpreadCount
-
-    val seekPosAsFraction = curRange.getRangeProgress() * (1.0 / mSeekbarMax.toDouble())
-
-    val colorscount : Int
-    if (pixeldata.mMaxHits < colspreadcount){
-        colorscount = pixeldata.mMaxHits + ((colspreadcount - pixeldata.mMaxHits) * seekPosAsFraction).toInt()
-    } else{
-        colorscount = colspreadcount
-    }
-
-    val count = pixeldata.arraySize
-
-    val cols = IntArray(count)
-
-    val maxhitsover1 = 1.0F / pixeldata.mMaxHits.toFloat()
-
-    var cl : Int
-
-    for (i in 0  until count){
-        cl = ((pixeldata.aPixelArray[i] * maxhitsover1) * colorscount).toInt()
-
-        if (cl > colspreadcount) cl = colspreadcount
-
-        cols[i] = mColors[cl]
-    }
-
-    return  cols
-}
-*/
 
 fun buildPixelArrayFromStatisticalColors(pixeldata: PixelData) : IntArray {
     val colrange = bitmapColorSpread.aCurrentRange
