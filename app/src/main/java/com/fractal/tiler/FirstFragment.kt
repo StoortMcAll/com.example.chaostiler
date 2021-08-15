@@ -1,4 +1,4 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 // region Variable Declaration
 
@@ -16,10 +16,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.chaostiler.MainActivity.Companion.bitmapColorSpread
-import com.example.chaostiler.MainActivity.Companion.mEnableDataClone
-import com.example.chaostiler.MainActivity.Companion.QuiltType
-import com.example.chaostiler.MainActivity.Companion.quiltType
+import com.fractal.tiler.MainActivity.Companion.bitmapColorSpread
+import com.fractal.tiler.MainActivity.Companion.mEnableDataClone
+import com.fractal.tiler.MainActivity.Companion.QuiltType
+import com.fractal.tiler.MainActivity.Companion.quiltType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

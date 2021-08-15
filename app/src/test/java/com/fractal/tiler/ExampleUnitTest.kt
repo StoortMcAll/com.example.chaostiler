@@ -1,4 +1,4 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 import org.junit.Test
 

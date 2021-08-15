@@ -1,9 +1,9 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 // region Variable Declaration
 
-import com.example.chaostiler.MainActivity.Companion.height
-import com.example.chaostiler.MainActivity.Companion.width
+import com.fractal.tiler.MainActivity.Companion.height
+import com.fractal.tiler.MainActivity.Companion.width
 
 data class Hit(val x: Int, val y: Int)
 
@@ -109,11 +109,15 @@ class PixelData(val width : Int, val height : Int) {
 
             aHitStats[hits]++
         }
+
+        if(mMaxHits == 0){
+            mMaxHits++
+            aHitStats.add(0)
+        }
     }
 
 
-    fun clearData()
-    {
+    fun clearData() {
         mMaxHits = 0
 
         mHitsCount = 0
@@ -139,6 +143,7 @@ class PixelData(val width : Int, val height : Int) {
 
         return clonePD
     }
+
 }
 
 

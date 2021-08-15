@@ -1,4 +1,4 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 // region Variable Declaration
 
@@ -15,12 +15,12 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
-import com.example.chaostiler.FirstFragment.Companion.tileImageView
-import com.example.chaostiler.MainActivity.Companion.DataProcess
-import com.example.chaostiler.MainActivity.Companion.bitmapColorSpread
-import com.example.chaostiler.MainActivity.Companion.filter
-import com.example.chaostiler.MainActivity.Companion.ImageFilter
-import com.example.chaostiler.MainActivity.Companion.mEnableDataClone
+import com.fractal.tiler.FirstFragment.Companion.tileImageView
+import com.fractal.tiler.MainActivity.Companion.DataProcess
+import com.fractal.tiler.MainActivity.Companion.bitmapColorSpread
+import com.fractal.tiler.MainActivity.Companion.filter
+import com.fractal.tiler.MainActivity.Companion.ImageFilter
+import com.fractal.tiler.MainActivity.Companion.mEnableDataClone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -184,18 +184,18 @@ class SecondFragment : Fragment() {
                 if (!calcActive) {
                     calcActive = true
 
-                    when (filter) {
+                    filter = when (filter) {
                         ImageFilter.Blur -> {
-                            filter = ImageFilter.Gaussian
+                            ImageFilter.Gaussian
                         }
                         ImageFilter.Gaussian -> {
-                            filter = ImageFilter.Motion
+                            ImageFilter.Motion
                         }
                         ImageFilter.Motion -> {
-                            filter = ImageFilter.BoxBlur
+                            ImageFilter.BoxBlur
                         }
                         ImageFilter.BoxBlur -> {
-                            filter = ImageFilter.Blur
+                            ImageFilter.Blur
                         }
                     }
                     //blurLeft()
@@ -308,7 +308,7 @@ class SecondFragment : Fragment() {
             bitmapColorSpread.updateColorSpreadBitmap(pixelDataClone)
 
             CoroutineScope(Dispatchers.Main).launch {
-                if (bitmapColorSpread.mNewColors == true) {
+                if (bitmapColorSpread.mNewColors) {
                     imageButton.setImageBitmap(bitmapColorSpread.seekbarBitmap)
                     bitmapColorSpread.mNewColors = false
                 }
@@ -319,10 +319,11 @@ class SecondFragment : Fragment() {
     }
 
     private fun setAnalysisButtonTitle(){
-        val text : KotlinString
-        if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
-            text = "Linear" } else {
-            text = "Statistical" }
+        val text : KotlinString = if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
+            "Linear"
+        } else {
+            "Statistical"
+        }
         isLinearView.text = text.subSequence(0, text.length)
     }
 

@@ -1,6 +1,6 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
-import com.example.chaostiler.MainActivity.Companion.rand
+import com.fractal.tiler.MainActivity.Companion.rand
 import java.lang.Math.pow
 import kotlin.math.PI
 import kotlin.math.cos

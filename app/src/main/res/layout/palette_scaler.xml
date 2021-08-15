@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/palette_scale_constrain"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:background="@color/button_background"
@@ -27,7 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.chaostiler.MySeekbar
+    <com.fractal.tiler.MySeekbar
         android:id="@+id/seekBar"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:secondaryProgress="50"

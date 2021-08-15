@@ -1,11 +1,11 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 import android.content.Context
 import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
-import com.example.chaostiler.MainActivity.Companion.DataProcess
-import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
+import com.fractal.tiler.MainActivity.Companion.DataProcess
+import com.fractal.tiler.MainActivity.Companion.mSeekbarMax
 
 
 class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {

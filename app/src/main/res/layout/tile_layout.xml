@@ -18,7 +18,7 @@
         android:layout_marginBottom="2dp"
         android:background="@color/button_stroke">
 
-        <com.example.chaostiler.MyImageView
+        <com.fractal.tiler.MyImageView
             android:id="@+id/tile_image_view"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"

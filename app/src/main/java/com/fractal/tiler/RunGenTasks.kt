@@ -1,16 +1,16 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 // region Variable Declaration
 
 import android.graphics.Bitmap
-import com.example.chaostiler.FirstFragment.Companion.mMaxHitsText
-import com.example.chaostiler.FirstFragment.Companion.tileImageView
-import com.example.chaostiler.MainActivity.Companion.DataProcess
-import com.example.chaostiler.MainActivity.Companion.bitmapColorSpread
-import com.example.chaostiler.MainActivity.Companion.height
-import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
-import com.example.chaostiler.MainActivity.Companion.quiltType
-import com.example.chaostiler.MainActivity.Companion.width
+import com.fractal.tiler.FirstFragment.Companion.mMaxHitsText
+import com.fractal.tiler.FirstFragment.Companion.tileImageView
+import com.fractal.tiler.MainActivity.Companion.DataProcess
+import com.fractal.tiler.MainActivity.Companion.bitmapColorSpread
+import com.fractal.tiler.MainActivity.Companion.height
+import com.fractal.tiler.MainActivity.Companion.mSeekbarMax
+import com.fractal.tiler.MainActivity.Companion.quiltType
+import com.fractal.tiler.MainActivity.Companion.width
 import kotlinx.coroutines.*
 
 var doingCalc = false
@@ -21,7 +21,7 @@ var hexagon = HexValues(SquareValues(0.1, 0.3, -0.1,  -0.076, 0.0, -0.59, 0.0, 0
 
 var icon = IconValues(SquareValues(0.1, -0.1, 0.3,  0.65, 0.43, 0.4, 0.0, 0.09), 24)
 
-var bmTexture = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+var bmTexture : Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
 var aColors = IntArray(width * height)
 
@@ -80,9 +80,7 @@ fun startNewRunFormula(isNewRun : Boolean) {
     doingCalc = true
 
     do {
-        val hits : ArrayList<Hit>
-
-        hits = when (quiltType) {
+        val hits = when (quiltType) {
             MainActivity.Companion.QuiltType.SQUARE -> runSquare(width, height, square)
             MainActivity.Companion.QuiltType.HEXAGONAL -> runHexagon(width, height, hexagon)
             else -> runIcon(width, height, icon)

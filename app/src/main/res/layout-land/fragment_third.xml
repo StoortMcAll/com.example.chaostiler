@@ -4,13 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/constraintLayoutThird"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/Theme.NoTitle"
     tools:context=".ThirdFragment">
 
-    <com.example.chaostiler.MyImageView
+    <com.fractal.tiler.MyImageView
         android:id="@+id/fullscreenImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

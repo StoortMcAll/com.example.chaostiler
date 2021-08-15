@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.chaostiler">
+    package="com.fractal.tiler">
 
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
@@ -13,11 +13,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/iconocat_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ChaosTiler">
+        android:theme="@style/Theme.FractalTiler">
         <activity
-            android:name=".MainActivity"
+            android:name="com.fractal.tiler.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ChaosTiler.NoActionBar">
+            android:theme="@style/Theme.FractalTiler.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

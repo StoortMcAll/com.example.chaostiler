@@ -1,4 +1,4 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 // region Variable Declaration
 
@@ -14,8 +14,8 @@ import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.chaostiler.FirstFragment.Companion.tileImageView
-import com.example.chaostiler.MainActivity.Companion.mEnableDataClone
+import com.fractal.tiler.FirstFragment.Companion.tileImageView
+import com.fractal.tiler.MainActivity.Companion.mEnableDataClone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

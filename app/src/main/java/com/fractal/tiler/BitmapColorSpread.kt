@@ -1,9 +1,9 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 // region Variable Declaration
 
 import android.graphics.Bitmap
-import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
+import com.fractal.tiler.MainActivity.Companion.mSeekbarMax
 
 //endregion
 

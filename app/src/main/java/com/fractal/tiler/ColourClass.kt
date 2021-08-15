@@ -1,4 +1,4 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 // region Variable Declaration
 
@@ -6,10 +6,11 @@ import android.graphics.Color
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
-import com.example.chaostiler.MainActivity.Companion.DataProcess
-import com.example.chaostiler.MainActivity.Companion.mSeekbarMax
+import com.fractal.tiler.MainActivity.Companion.DataProcess
+import com.fractal.tiler.MainActivity.Companion.mSeekbarMax
 import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.min
 
 private const val mMaximumColorRangeSeekbarProgress = mSeekbarMax
 
@@ -134,9 +135,6 @@ class ColorClass {
 
         val dataitemslist = ArrayList<DRgbDataItem>(dataitemcount + 1)
 
-        dataitemslist.add(DRgbDataItem(range,
-            aPrimaries.colors[MainActivity.rand.nextInt(0,  aPrimaries.size)]))
-
         do{
             dataitemslist.add(DRgbDataItem(range,
                 aPrimaries.colors[MainActivity.rand.nextInt(0,  aPrimaries.size)]))
@@ -157,15 +155,16 @@ class ColorClass {
     }
 
     fun addNewRandomColorsRange() : ColorRangeClass {
-        var counter = MainActivity.rand.nextInt(0, 5) * 128 + 256
-
-        var colorDataItem = DRgbDataItem(0, Color.BLACK)
-
-        val tempColorDataItemList = mutableListOf(colorDataItem)
+        var counter = MainActivity.rand.nextInt(3, 6)
 
         var range = 0
 
-        var max : Int
+        var colorDataItem = DRgbDataItem(range, Color.BLACK)
+
+        val tempColorDataItemList = mutableListOf(colorDataItem)
+
+        var mult = 1
+        var mmax : Int
         do{
             val r1 = colorDataItem.color.red
             val g1 = colorDataItem.color.green
@@ -181,16 +180,16 @@ class ColorClass {
             val df2 = df(g1, g2)
             val df3 = df(b1, b2)
 
-            max = max(max(df1, df2), df3)
+            mmax = max(df1, max(df2, df3)) * mult
 
-            range += max
+            range += mmax
+
+            mult *= 3
 
             colorDataItem = DRgbDataItem(range, color)
 
             tempColorDataItemList.add(colorDataItem)
-
-            counter -= max
-        }while(counter > 0)
+        }while(--counter > 0)
 
         addColorRanges(tempColorDataItemList)
 

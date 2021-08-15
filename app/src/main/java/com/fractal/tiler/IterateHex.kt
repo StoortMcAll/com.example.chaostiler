@@ -1,4 +1,4 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 import kotlin.math.sin
 import kotlin.math.sqrt

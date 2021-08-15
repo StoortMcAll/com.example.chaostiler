@@ -1,4 +1,4 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 // region Variable Declaration
 
@@ -11,9 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
@@ -72,23 +70,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        hideSystemUI()
+       // hideSystemUI()
 
-        window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
-            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0){
-                Handler(Looper.getMainLooper()).postDelayed({hideSystemUI()}, 3000)
-            }
-        }
+        window.setDecorFitsSystemWindows(false)
+
+                /*if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0){
+                    Handler(Looper.getMainLooper()).postDelayed({hideSystemUI()}, 3000)
+                }*/
+
 
         rand = Random(LocalDateTime.now().second + LocalDateTime.now().hour)
 
         val outPoint = Point()
         if (Build.VERSION.SDK_INT >= 19) {
-            // include navigation bar
             display!!.getRealSize(outPoint)
-       } else {
-            display!!.getSize(outPoint)
+        } else {
+            val metrics = windowManager.currentWindowMetrics.bounds
+            outPoint.x = metrics.width()
+            outPoint.y = metrics.height()
         }
+
         if (outPoint.y > outPoint.x) {
             mViewSize.y = outPoint.y
             mViewSize.x = outPoint.x
@@ -96,9 +97,7 @@ class MainActivity : AppCompatActivity() {
             mViewSize.y = outPoint.x
             mViewSize.x = outPoint.y
         }
-
     }
-
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)

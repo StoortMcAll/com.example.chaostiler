@@ -1,4 +1,4 @@
-package com.example.chaostiler
+package com.fractal.tiler
 
 // region Variable Declaration
 
@@ -14,10 +14,10 @@ import android.view.ScaleGestureDetector
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.minus
-import com.example.chaostiler.MainActivity.Companion.bmImage
-import com.example.chaostiler.MainActivity.Companion.clickPos
-import com.example.chaostiler.MainActivity.Companion.mScaleFactor
-import com.example.chaostiler.MainActivity.Companion.offset
+import com.fractal.tiler.MainActivity.Companion.bmImage
+import com.fractal.tiler.MainActivity.Companion.clickPos
+import com.fractal.tiler.MainActivity.Companion.mScaleFactor
+import com.fractal.tiler.MainActivity.Companion.offset
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
