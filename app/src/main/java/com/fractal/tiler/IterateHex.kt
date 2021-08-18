@@ -5,11 +5,13 @@ import kotlin.math.sqrt
 
 val sq3 = sqrt(3.0)
 
-class HexValues {
-
+class HexValues @JvmOverloads constructor(squareVals: SquareValues, randomLevel: Int = 0,
+    sk11: Double = 1.0, sk12: Double = 0.0, sk21: Double = 0.5,
+    sel11: Double = 1.0, sel21: Double = 0.0)
+{
     // region Variable Declaration
 
-    val square : SquareValues
+    val square : SquareValues = squareVals
 
     var k11 : Double = 1.0; var k12 : Double = 0.0; var k21 : Double = 0.5; val k22 : Double
 
@@ -33,46 +35,54 @@ class HexValues {
 
     // endregion
 
-    @JvmOverloads
-    constructor(squareVals : SquareValues, randomLevel : Int = 0, sk11 : Double = 1.0, sk12 : Double = 0.0,
-                sk21 : Double = 0.5, sel11 : Double = 1.0, sel21 : Double = 0.0)
-    {
-        square  = squareVals
-
-        k11 = sk11 + if (randomLevel == 0 && square.headOrTails() == false) 0.0 else square.getRand(-0.25, 0.25)
-        k12 = sk12
-        k21 = sk21 + if (randomLevel == 0 && square.headOrTails() == false) 0.0 else square.getRand(-0.25, 0.25)
-        el11 = sel11
-        el21 = sel21 + if (randomLevel == 0 && square.headOrTails() == false) 0.0 else square.getRand(-0.25, 0.25)
-
-        if (square.headOrTails() == true) square.alpha += square.getRand(-0.25, 0.25)
-        if (square.headOrTails() == true) square.beta += square.getRand(-0.25, 0.25)
-        if (square.headOrTails() == true) square.delta += square.getRand(0.0, 0.5)
-        if (square.headOrTails() == true) square.lambda += square.getRand(-0.25, 0.25)
-
+    init {
+        k11 = if (randomLevel == 0 && square.headOrTails() == false) sk11 else square.getRand(0.0, 1.0)
+        k12 = if (randomLevel == 0 && square.headOrTails() == false) sk12 else square.getRand(0.0, 1.0)
+        k21 = if (randomLevel == 0 && square.headOrTails() == false) sk21 else square.getRand(0.0, 1.0)
+        el11 = if (randomLevel == 0 && square.headOrTails() == false) sel11 else square.getRand(0.0, 1.0)
+        el21 = if (randomLevel == 0 && square.headOrTails() == false) sel21 else square.getRand(0.0, 1.0)
+        if (square.headOrTails() == true) square.alpha += square.getRand(-1.0, 1.0)
+        if (square.headOrTails() == true) square.beta += square.getRand(-1.0, 1.0)
+        if (square.headOrTails() == true) square.gamma += square.getRand(-1.0, 1.0)
+        if (square.headOrTails() == true) square.delta += square.getRand(-1.0, 1.0)
+        if (square.headOrTails() == true) square.ma += square.getRand(-1.0, 1.0)
+        if (square.headOrTails() == true) square.omega += square.getRand(-1.0, 1.0)
+        if (square.headOrTails() == true) square.shift += square.getRand(-1.0, 1.0)
         k22 = sq3 / 2.0
-        el12 = -1.0 / sq3; el22 = 2.0 / sq3
-        el31 = -(el11 + el21); el32 = -(el12 + el22)
-
-        em11 = (2.0 * el11) + el21; em12 = (2.0 * el12) + el22
-        em21 = (2.0 * el21) + el31; em22 = (2.0 * el22) + el32
-        em31 = (2.0 * el31) + el11; em32 = (2.0 * el32) + el12
-
-        en11 = (3.0 * el11) + (2.0 * el21); en12 = (3.0 * el12) + (2.0 * el22)
-        en21 = (3.0 * el21) + (2.0 * el31); en22 = (3.0 * el22) + (2.0 * el32)
-        en31 = (3.0 * el31) + (2.0 * el11); en32 = (3.0 * el32) + (2.0 * el12)
-
-        enh11 = (3.0 * el11) + el21; enh12 = (3.0 * el12) + el22
-        enh21 = (3.0 * el21) + el31; enh22 = (3.0 * el22) + el32
-        enh31 = (3.0 * el31) + el11; enh32 = (3.0 * el32) + el12
-
-        a11 = square.beta; a12 = square.gamma
-        a21 = (-a11 - (sq3 * a12)) / 2.0; a22 = ((sq3 * a11) - a12) / 2
-        a31 = -a11 - a21; a32 = -a12 - a22
-
-        ah11 = a11; ah12 = -a12
-        ah21 = (-ah11 - (sq3 * ah12)) / 2; ah22 = ((sq3 * ah11) - ah12) / 2
-        ah31 = -ah11 - ah21; ah32 = -ah12 - ah22
+        el12 = -1.0 / sq3
+        el22 = 2.0 / sq3
+        el31 = -(el11 + el21)
+        el32 = -(el12 + el22)
+        em11 = (2.0 * el11) + el21
+        em12 = (2.0 * el12) + el22
+        em21 = (2.0 * el21) + el31
+        em22 = (2.0 * el22) + el32
+        em31 = (2.0 * el31) + el11
+        em32 = (2.0 * el32) + el12
+        en11 = (3.0 * el11) + (2.0 * el21)
+        en12 = (3.0 * el12) + (2.0 * el22)
+        en21 = (3.0 * el21) + (2.0 * el31)
+        en22 = (3.0 * el22) + (2.0 * el32)
+        en31 = (3.0 * el31) + (2.0 * el11)
+        en32 = (3.0 * el32) + (2.0 * el12)
+        enh11 = (3.0 * el11) + el21
+        enh12 = (3.0 * el12) + el22
+        enh21 = (3.0 * el21) + el31
+        enh22 = (3.0 * el22) + el32
+        enh31 = (3.0 * el31) + el11
+        enh32 = (3.0 * el32) + el12
+        a11 = square.beta
+        a12 = square.gamma
+        a21 = (-a11 - (sq3 * a12)) / 2.0
+        a22 = ((sq3 * a11) - a12) / 2
+        a31 = -a11 - a21
+        a32 = -a12 - a22
+        ah11 = a11
+        ah12 = -a12
+        ah21 = (-ah11 - (sq3 * ah12)) / 2
+        ah22 = ((sq3 * ah11) - ah12) / 2
+        ah31 = -ah11 - ah21
+        ah32 = -ah12 - ah22
     }
 }
 

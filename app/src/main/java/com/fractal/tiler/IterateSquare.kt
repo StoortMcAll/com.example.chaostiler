@@ -61,6 +61,7 @@ class SquareValues{
         if (headOrTails()) lambda += getRand(min, randLevel)
         if (headOrTails()) ma += getRand(min, randLevel)
         if (headOrTails()) omega += getRand(min, randLevel)
+        if (headOrTails()) delta += getRand(min, randLevel)
     }
 
     fun getRand(min : Double, max : Double) : Double {

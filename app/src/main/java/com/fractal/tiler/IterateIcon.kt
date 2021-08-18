@@ -1,28 +1,22 @@
 package com.fractal.tiler
 
 import com.fractal.tiler.MainActivity.Companion.rand
-import java.lang.Math.pow
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.*
 
 data class DIconTrig(var c : DoubleArray, var s: DoubleArray)
 
-class IconValues {
-    val square: SquareValues
+class IconValues(squareVals: SquareValues, trigdepth: Int) {
+    val square: SquareValues = squareVals
 
     var trigDepth = 4
 
     lateinit var dIconTrig : DIconTrig
 
-    constructor(squareVals: SquareValues, trigdepth: Int) {
-        square = squareVals
-
+    init {
         if (square.headOrTails()) square.alpha += square.getRand(-0.25, 0.25)
         if (square.headOrTails()) square.beta += square.getRand(-0.25, 0.25)
         if (square.headOrTails()) square.delta += square.getRand(0.0, 0.5)
         if (square.headOrTails()) square.lambda += square.getRand(-0.25, 0.25)
-
         setTrigArrays(trigdepth)
     }
 
@@ -45,23 +39,21 @@ class IconValues {
 
         val a1 = sqr.alpha * sqr.alpha + sqr.gamma * sqr.gamma
         val a2 = sqr.beta * sqr.beta + sqr.lambda * sqr.lambda
-        val a3 = sqr.alpha * sqr.lambda - sqr.beta * sqr.gamma
+        val a3: Double = sqr.alpha * sqr.lambda - sqr.beta * sqr.gamma
 
-        if (a1 > 1.0 || a2 > 1.0 || (a1 * a2) > 1.0 - pow(a3, 2.0)) return false
+        if (a1 > 1.0 || a2 > 1.0 || (a1 * a2) > 1.0 - a3.pow(2.0)) return false
 
         return true
     }
 }
 
 fun randomizeIconValues(){
-    val trigDepth = if (rand.nextBoolean()) 24 else rand.nextInt(3, 63)
+    val trigDepth = rand.nextInt(3, 31)
 
     icon.setTrigArrays(trigDepth)
 
     val sqr = icon.square
     do{
-
-
         if (rand.nextBoolean()) sqr.alpha = rand.nextDouble(-1.0, 1.0)
         if (rand.nextBoolean()) sqr.beta = rand.nextDouble(-1.0, 1.0)
         if (rand.nextBoolean()) sqr.gamma = rand.nextDouble(-1.0, 1.0)
@@ -70,8 +62,8 @@ fun randomizeIconValues(){
 
     }while(icon.boundsTest())
 
-    if (rand.nextBoolean()) sqr.x = rand.nextDouble(-1.0, 1.0)
-    if (rand.nextBoolean()) sqr.y = rand.nextDouble(-1.0, 1.0)
+    if (rand.nextBoolean()) sqr.x = rand.nextDouble(0.0, 1.0)
+    if (rand.nextBoolean()) sqr.y = rand.nextDouble(0.0, 1.0)
 }
 
 fun initIcon() : IconValues {
@@ -115,12 +107,11 @@ fun runIcon(wide : Int, high : Int, icon : IconValues) :ArrayList<Hit> {
         xnew = iconTrig.c[serpoint] * x1 - iconTrig.s[serpoint] * y1
         ynew = iconTrig.s[serpoint] * x1 - iconTrig.c[serpoint] * y1
 
-        //if (randomize.Next(2) == 1) _ynew = -_ynew;
         x = xnew; y = ynew
 
-        xnew = (xnew - xnew.toLong()) + 1.0
+        xnew = (xnew - xnew.toInt()) + 1
         xnew -= xnew.toInt()
-        ynew = (ynew - ynew.toLong()) + 1.0
+        ynew = (ynew - ynew.toLong()) + 1
         ynew -= ynew.toInt()
 
         hits.add(Hit((xnew * wide).toInt(), (ynew * high).toInt()))

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         var rand  = Random(0)
 
-        const val width = 512; const val height = 512
+        const val width = 768; const val height = 768
 
         const val mSeekbarMax = 256
 
@@ -70,14 +70,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-       // hideSystemUI()
+        hideSystemUI()
 
-        window.setDecorFitsSystemWindows(false)
-
-                /*if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0){
-                    Handler(Looper.getMainLooper()).postDelayed({hideSystemUI()}, 3000)
-                }*/
-
+        window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0){
+                Handler(Looper.getMainLooper()).postDelayed({hideSystemUI()}, 3000)
+            }
+        }
 
         rand = Random(LocalDateTime.now().second + LocalDateTime.now().hour)
 
@@ -134,26 +133,31 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+
     private fun hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
-                // Set the content to appear under the system bars so that the
-                // content doesn't resize when the system bars hide and show.
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                // Hide the nav bar and status bar
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        //window.setDecorFitsSystemWindows(false)
+
+        window.setFlags(2048 or 1024 or 512 or 256 or 4 or 2,
+            2048 or 1024 or 512 or 256 or 4 or 2)
+/*
+        if (Build.VERSION.SDK_INT >= 19) {
+            window.setFlags(2048 or 1024 or 512 or 256 or 4 or 2,
+                2048 or 1024 or 512 or 256 or 4 or 2)
+        } else {
+            // Enables regular immersive mode.
+            // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+            // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
+                    // Set the content to appear under the system bars so that the
+                    // content doesn't resize when the system bars hide and show.
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    // Hide the nav bar and status bar
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        }
+   */
     }
 
-
-/*
-    private fun setFullScreen() {
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
-    }*/
 }

@@ -142,7 +142,7 @@ class FirstFragment : Fragment() {
         view.findViewById<Button>(R.id.palette_left).setOnClickListener {
             bitmapColorSpread.prevPalette()
 
-            bitmapColorSpread.updateColorSpreadBitmap(pixelData)
+            //bitmapColorSpread.updateColorSpreadBitmap(pixelData)
 
             if (!doingCalc) {
                 applyPaletteChangeToBitmap(pixelData)
@@ -152,7 +152,7 @@ class FirstFragment : Fragment() {
         view.findViewById<Button>(R.id.palette_right).setOnClickListener {
             bitmapColorSpread.nextPalette()
 
-            bitmapColorSpread.updateColorSpreadBitmap(pixelData)
+            //bitmapColorSpread.updateColorSpreadBitmap(pixelData)
 
             if (!doingCalc) {
                 applyPaletteChangeToBitmap(pixelData)

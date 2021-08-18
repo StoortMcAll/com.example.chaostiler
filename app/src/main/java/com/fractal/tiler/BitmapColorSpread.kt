@@ -3,6 +3,7 @@ package com.fractal.tiler
 // region Variable Declaration
 
 import android.graphics.Bitmap
+import com.fractal.tiler.MainActivity.Companion.DataProcess
 import com.fractal.tiler.MainActivity.Companion.mSeekbarMax
 
 //endregion
@@ -33,7 +34,6 @@ class BitmapColorSpread {
 
     fun nextPalette(){
         aCurrentRange = colorClass.increaseSpreadID()
-
         mNewColors = true
     }
 
@@ -44,7 +44,7 @@ class BitmapColorSpread {
     }
 
     fun addNewColorA(){
-        aCurrentRange = colorClass.addNewRandomPrimariesRange()
+        aCurrentRange = colorClass.addNewRandomHSVRange()
 
         mNewColors = true
     }
@@ -55,24 +55,23 @@ class BitmapColorSpread {
     }
 
     fun updateColorSpreadBitmap(pixelDataCopy : PixelData){
-        if (aCurrentRange.dataProcess == MainActivity.Companion.DataProcess.LINEAR) {
-            seekbarBitmap = drawColorSpreadForIncremental(mSeekbarMax, aCurrentRange.progressIncrement)
-        }
-        else{
-            seekbarBitmap = drawColorSpreadForStatistical(mSeekbarMax, aCurrentRange.progressStatistic, pixelDataCopy)
+        seekbarBitmap = if (aCurrentRange.dataProcess == DataProcess.LINEAR) {
+            drawColorSpreadForIncremental(aCurrentRange.progressIncrement)
+        } else{
+            drawColorSpreadForStatistical(aCurrentRange.progressStatistic, pixelDataCopy)
         }
 
         mNewColors = true
     }
 
 
-    private fun drawColorSpreadForIncremental(maxPos : Int, currentPos : Int) : Bitmap {
+    private fun drawColorSpreadForIncremental(currentPos : Int) : Bitmap {
 
         val curRange = aCurrentRange
 
         val mColors = curRange.aColorSpread
 
-        val seekPosAsFraction = currentPos * (1.0 / maxPos.toDouble())
+        val seekPosAsFraction = currentPos * (1.0 / mSeekbarMax.toDouble())
 
         val colorscount = 32 + ((curRange.mColorSpreadCount - 32) * seekPosAsFraction).toInt()
 
@@ -94,7 +93,7 @@ class BitmapColorSpread {
         return seekbarBitmap
     }
 
-    private fun drawColorSpreadForStatistical(maxPos : Int, currentPos : Int, pixelDataCopy : PixelData) : Bitmap {
+    private fun drawColorSpreadForStatistical(currentPos : Int, pixelDataCopy : PixelData) : Bitmap {
         val curRange = aCurrentRange
 
         val mColors = curRange.aColorSpread
@@ -103,7 +102,7 @@ class BitmapColorSpread {
 
         val maxhits = pixelDataCopy.mMaxHits
 
-        val seekPosAsFraction = currentPos * (1.0 / maxPos.toDouble())
+        val seekPosAsFraction = currentPos * (1.0 / mSeekbarMax.toDouble())
 
         val percentage = FloatArray(pixelDataCopy.mMaxHits + 1){0.0F}
         for (i in 1 until pixelDataCopy.mMaxHits){

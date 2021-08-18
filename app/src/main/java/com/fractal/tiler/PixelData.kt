@@ -70,6 +70,11 @@ class PixelData(val width : Int, val height : Int) {
         hits.forEach {
             index = it.x + it.y * width
 
+            if (index < 0) {
+                mPixelArrayBusy = false
+                return false
+            }
+
             value = aPixelArray[index]
             aPixelArray[index]++
 
