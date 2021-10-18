@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.fractal.tiler.FirstFragment.Companion.tileImageView
@@ -30,6 +31,8 @@ class ThirdFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        (this.activity as AppCompatActivity).supportActionBar?.hide()
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (!isBusy) {

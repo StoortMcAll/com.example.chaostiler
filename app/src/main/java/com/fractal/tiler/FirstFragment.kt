@@ -9,10 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -193,7 +194,7 @@ class FirstFragment : Fragment() {
             aColors = buildPixelArrayFromIncrementalColors(pixeldatacopy)
         }
         else{
-            aColors = buildPixelArrayFromStatisticalColors(pixeldatacopy)
+            aColors = buildPixelArrayFromSinwave(pixeldatacopy)
         }
 
         bmTexture.setPixels(aColors, 0,
@@ -207,62 +208,70 @@ class FirstFragment : Fragment() {
     }
 
     private fun makeVisible(view: View) {
-        val generate = view.findViewById<ConstraintLayout>(R.id.constraintGenerators)
-        val resumgen = view.findViewById<ConstraintLayout>(R.id.resume_generate)
         val resumbut = view.findViewById<Button>(R.id.resume)
-        view.findViewById<ConstraintLayout>(R.id.data_colour_constraint).isVisible = false
-        val chspal = view.findViewById<ConstraintLayout>(R.id.include_choose_palette)
+        view.findViewById<FrameLayout>(R.id.colourstyle_framelayout).isVisible = false
+        val chspal = view.findViewById<LinearLayout>(R.id.include_choose_palette)
         view.findViewById<Button>(R.id.add_new_palette).isVisible = false
         view.findViewById<Button>(R.id.add_new_palette2).isVisible = false
-        val navi = view.findViewById<ConstraintLayout>(R.id.naviConstraint)
+        val navi = view.findViewById<Button>(R.id.switch_to_editor)
 
         if (pixelData.mMaxHits > 0) {
             if (!doingCalc) {
-                generate.isVisible = true
+                view.findViewById<Button>(R.id.run_square).isVisible = true
+                view.findViewById<Button>(R.id.run_scratch).isVisible = true
+                view.findViewById<Button>(R.id.run_hex).isVisible = true
                 navi.isVisible = true
                 chspal.isVisible = true
-                resumgen.isVisible = true
+                resumbut.isVisible = true
                 mMaxHitsText.isVisible = true
 
                 val value = pixelData.mMaxHits.toString()
                 val iters = pixelData.mHitsCount.toString()
 
-                val text = mHits + " " + value + " " + mTotal + " " + iters
+                val text = mHits + " " + value.padStart(4) + " " + mTotal + " " + iters.padStart(10)
                 mMaxHitsText.text = text.subSequence(0, text.length)
 
                 resumbut.text = mResum
             }
             else{
-                generate.isVisible = false
+                view.findViewById<Button>(R.id.run_square).isVisible = false
+                view.findViewById<Button>(R.id.run_scratch).isVisible = false
+                view.findViewById<Button>(R.id.run_hex).isVisible = false
                 navi.isVisible = false
                 chspal.isVisible = true
-                resumgen.isVisible = true
+                resumbut.isVisible = true
                 mMaxHitsText.isVisible = true
 
                 resumbut.text = mPause
             }
         }
         else{
+            view.findViewById<Button>(R.id.run_square).isVisible = true
+            view.findViewById<Button>(R.id.run_scratch).isVisible = true
+            view.findViewById<Button>(R.id.run_hex).isVisible = true
             navi.isVisible = false
             chspal.isVisible = false
-            resumgen.isVisible = false
+            resumbut.isVisible = false
             mMaxHitsText.isVisible = false
         }
     }
 
     private fun makeInvisible(view: View) {
-        view.findViewById<ConstraintLayout>(R.id.constraintGenerators).isVisible = false
-        view.findViewById<ConstraintLayout>(R.id.resume_generate).isVisible = true
-        view.findViewById<ConstraintLayout>(R.id.data_colour_constraint).isVisible = false
-        view.findViewById<ConstraintLayout>(R.id.include_choose_palette).isVisible = true
-        view.findViewById<ConstraintLayout>(R.id.naviConstraint).isVisible = false
+        view.findViewById<Button>(R.id.run_square).isVisible = false
+        view.findViewById<Button>(R.id.run_scratch).isVisible = false
+        view.findViewById<Button>(R.id.run_hex).isVisible = false
+        view.findViewById<FrameLayout>(R.id.colourstyle_framelayout).isVisible = false
+        view.findViewById<LinearLayout>(R.id.include_choose_palette).isVisible = true
+        view.findViewById<Button>(R.id.switch_to_editor).isVisible = false
         val resumbut = view.findViewById<Button>(R.id.resume)
+        resumbut.isVisible = true
 
         mMaxHitsText.isVisible = true
 
         val value = pixelData.mMaxHits.toString()
         val iters = pixelData.mHitsCount.toString()
-        var text = "Hits : Max - $value   Total - $iters"
+
+        var text = mHits + " " + value.padStart(4) + " " + mTotal + " " + iters.padStart(10)
         mMaxHitsText.text = text.subSequence(0, text.length)
 
         text = "Pause"

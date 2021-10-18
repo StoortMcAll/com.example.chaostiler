@@ -8,156 +8,141 @@
     android:background="@color/constraint_background"
     tools:context=".SecondFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/second_page"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/tile_image_generate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tile_image_generate" >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/addNewPaletteConstraint"
+
+        <Button
+            android:id="@+id/undo_all_changes"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/constraint_background"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/button_background"
+            android:contentDescription="@string/restore_image_data_back_to_intial_state"
+            android:insetTop="2dp"
+            android:insetBottom="2dp"
+            android:text="@string/undo_all_changes"
+            android:textAllCaps="false"
+            android:textColor="@color/text_color"
+            android:textColorHighlight="@color/text_color_highlights"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="3sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
-
-            <Button
-                android:id="@+id/undo_all_changes"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/undo_all_changes"
-                android:contentDescription="@string/restore_image_data_back_to_intial_state"
-                android:layout_marginStart="2dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
-                android:insetTop="2dp"
-                android:insetBottom="2dp"
-                android:textAllCaps="false"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:strokeColor="@color/button_stroke" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/button_stroke" />
 
         <include
             android:id="@+id/include_choose_palette"
             layout="@layout/choose_palette"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addNewPaletteConstraint"
-            app:layout_constraintBottom_toTopOf="@id/constraintChooseBlur"/>
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/constraintChooseBlur"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:background="@color/constraint_background"
-            app:layout_constraintBottom_toTopOf="@id/data_colour_constraint"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/include_choose_palette">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/blur_left"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="2dp"
                 android:layout_marginEnd="1dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/button_background"
+                android:contentDescription="@string/content_description_blur_select"
                 android:insetTop="2dp"
                 android:insetBottom="2dp"
                 android:text="@string/left_right"
-                android:contentDescription="@string/content_description_blur_select"
                 android:textAllCaps="false"
                 android:textColor="@color/text_color"
                 android:textColorHighlight="@color/text_color_highlights"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1.5"
-                app:layout_constraintEnd_toStartOf="@id/blur_right"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="3sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
                 app:strokeColor="@color/button_stroke" />
 
             <Button
                 android:id="@+id/blur_right"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="1dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/button_background"
-                android:text="@string/perform_blur"
                 android:contentDescription="@string/content_description_blur_perform"
                 android:insetTop="2dp"
                 android:insetBottom="2dp"
+                android:text="@string/perform_blur"
                 android:textAllCaps="false"
                 android:textColor="@color/text_color"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toStartOf="@id/blur"
-                app:layout_constraintStart_toEndOf="@id/blur_left"
-                app:layout_constraintTop_toTopOf="parent"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="3sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
                 app:strokeColor="@color/button_stroke" />
 
             <TextView
                 android:id="@+id/blur"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="2dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:backgroundTint="@color/button_background"
-                android:text="@string/blur"
                 android:contentDescription="@string/content_description_blur"
                 android:insetTop="2dp"
                 android:insetBottom="2dp"
+                android:text="@string/blur"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="@color/text_color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/set_to_zero"
-                app:layout_constraintStart_toEndOf="@id/blur_right"
-                app:layout_constraintTop_toTopOf="parent"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="3sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
                 app:strokeColor="@color/button_stroke" />
 
             <Button
                 android:id="@+id/set_to_zero"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="2dp"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:backgroundTint="@color/button_background"
+                android:contentDescription="@string/reset_the_minimum_hits_per_pixel_to_0"
                 android:insetTop="2dp"
                 android:insetBottom="2dp"
                 android:text="@string/set_to_zero"
-                android:contentDescription="@string/reset_the_minimum_hits_per_pixel_to_0"
                 android:textAllCaps="false"
                 android:textColor="@color/text_color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/blur"
-                app:layout_constraintTop_toTopOf="parent"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="3sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
                 app:strokeColor="@color/button_stroke" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
 
         <include
@@ -165,11 +150,8 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             layout="@layout/analysis_type"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/includePaletteScale"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/constraintChooseBlur" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
 
         <include
@@ -177,19 +159,15 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             layout="@layout/palette_scaler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/data_colour_constraint"
-            app:layout_constraintBottom_toTopOf="@+id/navigate_to" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:id="@+id/navigate_to"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" >
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/backto_firstfragment"
@@ -197,19 +175,19 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="2dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/button_background"
+                android:contentDescription="@string/content_description_open_generate_frag"
                 android:insetTop="2dp"
                 android:insetBottom="2dp"
                 android:text="@string/goto_generate_tile"
-                android:contentDescription="@string/content_description_open_generate_frag"
                 android:textAllCaps="false"
                 android:textColor="@color/text_color"
                 android:textColorHighlight="@color/text_color_highlights"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/to_savewallpaper"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="3sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
                 app:strokeColor="@color/button_stroke" />
 
             <Button
@@ -218,24 +196,24 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="2dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/button_background"
+                android:contentDescription="@string/content_description_open_savewallpaper_frag"
                 android:insetTop="2dp"
                 android:insetBottom="2dp"
                 android:text="@string/goto_save_wallpaper"
-                android:contentDescription="@string/content_description_open_savewallpaper_frag"
                 android:textAllCaps="false"
                 android:textColor="@color/text_color"
                 android:textColorHighlight="@color/text_color_highlights"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/backto_firstfragment"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="3sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
                 app:strokeColor="@color/button_stroke" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <include
         android:id="@+id/tile_image_generate"

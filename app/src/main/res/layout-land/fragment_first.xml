@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintGenerators"
+            android:id="@+id/generate_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/constraint_background"
@@ -105,7 +105,7 @@
             android:background="@color/constraint_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/constraintGenerators"
+            app:layout_constraintTop_toBottomOf="@id/generate_linearlayout"
             app:layout_constraintBottom_toTopOf="@id/include_choose_palette">
 
             <Button

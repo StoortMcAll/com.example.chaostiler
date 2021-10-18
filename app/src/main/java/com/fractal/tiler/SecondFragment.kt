@@ -45,6 +45,9 @@ class SecondFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if ((this.activity as AppCompatActivity).supportActionBar?.isShowing == false)
+            (this.activity as AppCompatActivity).supportActionBar?.show()
+
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
@@ -58,8 +61,7 @@ class SecondFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if ((this.activity as AppCompatActivity).supportActionBar?.isShowing == false)
-            (this.activity as AppCompatActivity).supportActionBar?.show()
+
         super.onViewCreated(view, savedInstanceState)
 
         MainActivity.mCurrentPageID = mThisPageID
@@ -195,6 +197,9 @@ class SecondFragment : Fragment() {
                             ImageFilter.BoxBlur
                         }
                         ImageFilter.BoxBlur -> {
+                            ImageFilter.Median
+                        }
+                        ImageFilter.Median -> {
                             ImageFilter.Blur
                         }
                     }
@@ -227,6 +232,9 @@ class SecondFragment : Fragment() {
                         }
                         ImageFilter.Motion -> {
                             Motion.doImageFilter(pixelDataClone)
+                        }
+                        ImageFilter.Median -> {
+                            Median.doImageFilter(pixelDataClone)
                         }
                     }
                     //blurRight()
@@ -297,7 +305,7 @@ class SecondFragment : Fragment() {
 
         view.findViewById<Button>(R.id.to_savewallpaper).setOnClickListener {
 
-            (this.activity as AppCompatActivity).supportActionBar?.hide()
+            //(this.activity as AppCompatActivity).supportActionBar?.hide()
 
             findNavController().navigate(R.id.action_SecondFragment_to_ThirdFragment)
         }

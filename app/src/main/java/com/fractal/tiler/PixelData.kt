@@ -11,31 +11,35 @@ var pixelData = PixelData(width, height)
 var pixelDataClone = PixelData(width, height)
 
 val Blur = Filter(16.0F, 0, arrayOf(
-    floatArrayOf(1.0F, 2.0F, 1.0F),
-    floatArrayOf(2.0F, 4.0F, 2.0F),
-    floatArrayOf(1.0F, 2.0F, 1.0F)))
+    intArrayOf(1, 2, 1),
+    intArrayOf(2, 4, 2),
+    intArrayOf(1, 2, 1)))
 
 val Gaussian = Filter(0, arrayOf(
-    floatArrayOf(2.0F, 4.0F, 5.0F, 4.0F, 2.0F),
-    floatArrayOf(4.0F, 9.0F, 12.0F, 9.0F, 4.0F),
-    floatArrayOf(5.0F, 12.0F, 15.0F, 12.0F, 5.0F),
-    floatArrayOf(4.0F, 9.0F, 12.0F, 9.0F, 4.0F),
-    floatArrayOf(2.0F, 4.0F, 5.0F, 4.0F, 2.0F)))
+    intArrayOf(2, 4, 5, 4, 2),
+    intArrayOf(4, 9, 12, 9, 4),
+    intArrayOf(5, 12, 15, 12, 5),
+    intArrayOf(4, 9, 12, 9, 4),
+    intArrayOf(2, 4, 5, 4, 2)))
 
 val Motion = Filter(9.0F, 0, arrayOf(
-    floatArrayOf(1.0F, 0.0F, 0.0F, 0.0F, 1.0F),
-    floatArrayOf(0.0F, 1.0F, 0.0F, 1.0F, 0.0F),
-    floatArrayOf(0.0F, 0.0F, 1.0F, 0.0F, 0.0F),
-    floatArrayOf(0.0F, 1.0F, 0.0F, 1.0F, 0.0F),
-    floatArrayOf(1.0F, 0.0F, 0.0F, 0.0F, 1.0F)))
+    intArrayOf(1, 0, 0, 0, 1),
+    intArrayOf(0, 1, 0, 1, 0),
+    intArrayOf(0, 0, 1, 0, 0),
+    intArrayOf(0, 1, 0, 1, 0),
+    intArrayOf(1, 0, 0, 0, 1)))
 
 val BoxBlur = Filter(25.0F, 0, arrayOf(
-    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F),
-    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F),
-    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F),
-    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F),
-    floatArrayOf(1.0F, 1.0F, 1.0F, 1.0F, 1.0F)))
+    intArrayOf(1, 1, 1, 1, 1),
+    intArrayOf(1, 1, 1, 1, 1),
+    intArrayOf(1, 1, 1, 1, 1),
+    intArrayOf(1, 1, 1, 1, 1),
+    intArrayOf(1, 1, 1, 1, 1)))
 
+val Median = Filter(-1.0F, 0, arrayOf(
+    intArrayOf(1, 2, 1),
+    intArrayOf(2, 4, 2),
+    intArrayOf(1, 2, 1)))
 
 // endregion
 
@@ -155,11 +159,11 @@ class PixelData(val width : Int, val height : Int) {
 
 
 
-class Filter(val kernel : Array<FloatArray>) {
+class Filter(val kernel : Array<IntArray>) {
 
     // region Variable Declaration
 
-    var weight = 1.0F
+    var weight = 1
 
     private var offset = 0.0F
 
@@ -174,25 +178,20 @@ class Filter(val kernel : Array<FloatArray>) {
 
     // endregion
 
-    constructor(weight : Float, offset : Int, kernel : Array<FloatArray> ) : this(kernel){
-        if (weight < 0)
-            this.weight = 1.0F
-        else
-            this.weight = 1.0F / weight
+    constructor(weight : Float, offset : Int, kernel : Array<IntArray> ) : this(kernel){
+        this.weight = weight.toInt()
 
         this.offset = offset.toFloat()
     }
 
-    constructor(offset : Int, kernel : Array<FloatArray> ) : this(kernel){
+    constructor(offset : Int, kernel : Array<IntArray> ) : this(kernel){
         for (ky in 0 until kernHit){
             for (kx in 0 until kernWid){
                 weight += kernel[ky][kx]
             }
         }
 
-        if (weight < 0) weight = 1.0F
-
-        weight = 1.0F / weight
+        if (weight < 0) weight = 1
 
         this.offset = offset.toFloat()
     }
@@ -212,23 +211,51 @@ fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
 
     val array = IntArray(width * height)
 
-    var hits : Float
+    var hits : Int
 
     var i = 0
 
-    for (y in 0 until width){
-        for (x in 0 until height){
-            hits = 0.0F
-            for (ky in 0 until kernHit){
-                for (kx in 0 until kernWid){
-                    hits += wideArray[y+ky][x +kx] * kernel[ky][kx]
+    if (weight == -1) {
+        val kernsize = kernWid * kernHit
+
+        val hitlist = mutableListOf<Int>()
+        val midindex = kernsize / 2
+        var index : Int
+        var ik : Int
+        for (y in 0 until width) {
+            for (x in 0 until height) {
+                hitlist.clear()
+                index = 0
+                for (ky in 0 until kernHit) {
+                    for (kx in 0 until kernWid) {
+                        ik = 0
+                        hits = wideArray[y + ky][x + kx] * kernel[ky][kx]
+                        while(ik < index && hits > hitlist[ik]) ik++
+                        hitlist.add(ik, hits)
+                        index++
+                    }
                 }
+
+                array[i++] = hitlist[midindex]
             }
+        }
+    }
+    else {
+        val wt = 1.0F / weight
+        for (y in 0 until width) {
+            for (x in 0 until height) {
+                hits = 0
+                for (ky in 0 until kernHit) {
+                    for (kx in 0 until kernWid) {
+                        hits += wideArray[y + ky][x + kx] * kernel[ky][kx]
+                    }
+                }
 
-            hits *= weight
-            if (hits < 0) hits = 0.0F
+               /* if (hits < 1) hits = 0
+                else hits /= weight*/
 
-            array[i++] = hits.toInt()
+                array[i++] = (hits * wt).toInt()
+            }
         }
     }
 

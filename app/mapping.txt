@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 3.0.62
 # min_api: 23
-# pg_map_id: c2edb85
+# pg_map_id: 0b11818
 # common_typos_disable
 a.RatingCompat$$ExternalSyntheticOutline0 -> a.b:
     java.lang.StringBuilder android.support.v4.media.RatingCompat$$InternalSyntheticOutline$119$27037b98654f990f571d28e0d997b6b65627423ca7d32ba3424a91c9c0d855fd$0.m(java.lang.String) -> a
@@ -23210,30 +23210,28 @@ com.fractal.tiler.BitmapColorSpread -> f1.a:
     1:1:void prevPalette():0 -> c
     2:2:void prevPalette():0:0 -> c
 com.fractal.tiler.ColorClass -> f1.b:
-    java.util.List mColorRangeList -> d
-    com.fractal.tiler.ColorRangeClass aCurrentRange -> b
-    int mCurrentRangeCount -> c
-    int mCurrentRangeID -> a
-    1:1:void <init>():0:0 -> <init>
+    com.fractal.tiler.DPrimaryColors aPrimaries -> a
+    com.fractal.tiler.ColorRangeClass aCurrentRange -> c
+    java.util.List mColorRangeList -> e
+    int mCurrentRangeCount -> d
+    int mCurrentRangeID -> b
     1:1:void com.fractal.tiler.ColorClass.addColorRanges(java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0:0 -> a
     1:1:void addColorRanges$default(com.fractal.tiler.ColorClass,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean,int,java.lang.Object):0 -> a
-    int df(int,int) -> b
-    com.fractal.tiler.ColorRangeClass getACurrentRange() -> c
-    1:1:int com.fractal.tiler.ColorRangeClass.getMColorRangeID():0:0 -> d
-    1:1:void setCurrentColorRange(int):0 -> d
-    2:2:void setCurrentColorRange(int):0:0 -> d
-    3:3:void com.fractal.tiler.ColorClass.setACurrentRange(com.fractal.tiler.ColorRangeClass):0:0 -> d
-    3:3:void setCurrentColorRange(int):0 -> d
-    4:4:void setCurrentColorRange(int):0:0 -> d
-    5:5:void com.fractal.tiler.ColorClass.setACurrentRange(com.fractal.tiler.ColorRangeClass):0:0 -> d
-    5:5:void setCurrentColorRange(int):0 -> d
-    6:6:void setCurrentColorRange(int):0:0 -> d
-    7:7:int com.fractal.tiler.ColorRangeClass.getMColorRangeID():0:0 -> d
-    7:7:void setCurrentColorRange(int):0 -> d
-    8:8:void setCurrentColorRange(int):0:0 -> d
+    com.fractal.tiler.ColorRangeClass getACurrentRange() -> b
+    1:1:int com.fractal.tiler.ColorRangeClass.getMColorRangeID():0:0 -> c
+    1:1:void setCurrentColorRange(int):0 -> c
+    2:2:void setCurrentColorRange(int):0:0 -> c
+    3:3:void com.fractal.tiler.ColorClass.setACurrentRange(com.fractal.tiler.ColorRangeClass):0:0 -> c
+    3:3:void setCurrentColorRange(int):0 -> c
+    4:4:void setCurrentColorRange(int):0:0 -> c
+    5:5:void com.fractal.tiler.ColorClass.setACurrentRange(com.fractal.tiler.ColorRangeClass):0:0 -> c
+    5:5:void setCurrentColorRange(int):0 -> c
+    6:6:void setCurrentColorRange(int):0:0 -> c
+    7:7:int com.fractal.tiler.ColorRangeClass.getMColorRangeID():0:0 -> c
+    7:7:void setCurrentColorRange(int):0 -> c
+    8:8:void setCurrentColorRange(int):0:0 -> c
 com.fractal.tiler.ColorRangeClass -> f1.c:
-    int[] aColorSpread -> i
-    int mColorSpreadCount -> h
+    int[] aColorSpread -> h
     com.fractal.tiler.MainActivity$Companion$DataProcess dataProcess -> f
     int progressStatistic -> d
     int mColorRangeID -> e
@@ -23259,7 +23257,7 @@ com.fractal.tiler.ColorRangeClass -> f1.c:
     8:8:void <init>(int,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0 -> <init>
     9:9:void com.fractal.tiler.ColorRangeClass.processHSVSpread():0:0 -> <init>
     9:9:void <init>(int,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0 -> <init>
-    10:10:int com.fractal.tiler.DRgbDataItem.getRange():0:0 -> <init>
+    10:10:int com.fractal.tiler.DRgbDataItem.getColor():0:0 -> <init>
     10:10:void com.fractal.tiler.ColorRangeClass.processHSVSpread():0 -> <init>
     10:10:void <init>(int,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0 -> <init>
     11:11:void com.fractal.tiler.ColorRangeClass.processHSVSpread():0:0 -> <init>
@@ -23269,14 +23267,14 @@ com.fractal.tiler.ColorRangeClass -> f1.c:
     12:12:void <init>(int,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0 -> <init>
     13:13:void com.fractal.tiler.ColorRangeClass.processHSVSpread():0:0 -> <init>
     13:13:void <init>(int,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0 -> <init>
-    14:14:void com.fractal.tiler.ColorRangeClass.processColorSpread():0:0 -> <init>
+    14:14:int com.fractal.tiler.DRgbDataItem.getRange():0:0 -> <init>
+    14:14:void com.fractal.tiler.ColorRangeClass.processHSVSpread():0 -> <init>
     14:14:void <init>(int,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0 -> <init>
-    15:15:int com.fractal.tiler.DRgbDataItem.getColor():0:0 -> <init>
-    15:15:void com.fractal.tiler.ColorRangeClass.processColorSpread():0 -> <init>
+    15:15:void com.fractal.tiler.ColorRangeClass.processHSVSpread():0:0 -> <init>
     15:15:void <init>(int,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0 -> <init>
     16:16:void com.fractal.tiler.ColorRangeClass.processColorSpread():0:0 -> <init>
     16:16:void <init>(int,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0 -> <init>
-    17:17:int kotlin.collections.ArraysKt___ArraysKt.getLastIndex(int[]):0:0 -> <init>
+    17:17:int com.fractal.tiler.DRgbDataItem.getColor():0:0 -> <init>
     17:17:void com.fractal.tiler.ColorRangeClass.processColorSpread():0 -> <init>
     17:17:void <init>(int,java.util.List,com.fractal.tiler.MainActivity$Companion$DataProcess,boolean):0 -> <init>
     18:18:void com.fractal.tiler.ColorRangeClass.processColorSpread():0:0 -> <init>
@@ -23316,19 +23314,22 @@ com.fractal.tiler.ColorRangeClass -> f1.c:
 com.fractal.tiler.DIconTrig -> f1.d:
     double[] c -> a
     double[] s -> b
-com.fractal.tiler.DRgbDataItem -> f1.e:
+com.fractal.tiler.DPrimaryColors -> f1.e:
+    int[] colors -> b
+    int size -> a
+com.fractal.tiler.DRgbDataItem -> f1.f:
     int color -> b
     int range -> a
     1:1:void com.fractal.tiler.DRgbDataItem.<init>(int,int,int,kotlin.jvm.internal.DefaultConstructorMarker):0:0 -> <init>
     1:1:void <init>():0 -> <init>
-com.fractal.tiler.Filter -> f1.f:
-    float[][] kernel -> a
+com.fractal.tiler.Filter -> f1.g:
+    int[][] kernel -> a
     int offLeft -> h
     int offTop -> f
     int offRight -> g
-    float weight -> b
     int kernHit -> d
     int offBot -> e
+    int weight -> b
     int kernWid -> c
     1:1:int[] com.fractal.tiler.PixelData.getAPixelArray():0:0 -> a
     1:1:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
@@ -23385,38 +23386,52 @@ com.fractal.tiler.Filter -> f1.f:
     21:21:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
     22:22:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0:0 -> a
     22:22:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    23:23:int com.fractal.tiler.Filter.getKernHit():0:0 -> a
+    23:23:int com.fractal.tiler.Filter.getWeight():0:0 -> a
     23:23:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
     23:23:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
     24:24:int com.fractal.tiler.Filter.getKernWid():0:0 -> a
     24:24:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
     24:24:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    25:25:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0:0 -> a
+    25:25:int com.fractal.tiler.Filter.getKernHit():0:0 -> a
+    25:25:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
     25:25:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    26:26:float[][] com.fractal.tiler.Filter.getKernel():0:0 -> a
-    26:26:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
+    26:26:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0:0 -> a
     26:26:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    27:27:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0:0 -> a
+    27:27:int com.fractal.tiler.Filter.getKernHit():0:0 -> a
+    27:27:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
     27:27:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    28:28:float com.fractal.tiler.Filter.getWeight():0:0 -> a
+    28:28:int com.fractal.tiler.Filter.getKernWid():0:0 -> a
     28:28:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
     28:28:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
     29:29:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0:0 -> a
     29:29:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    30:30:void com.fractal.tiler.PixelData.setAPixelArray(int[]):0:0 -> a
+    30:30:int[][] com.fractal.tiler.Filter.getKernel():0:0 -> a
+    30:30:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
     30:30:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    31:31:void com.fractal.tiler.PixelData.recalcHitStats():0:0 -> a
+    31:31:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0:0 -> a
     31:31:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    32:32:java.util.ArrayList kotlin.collections.CollectionsKt__CollectionsKt.arrayListOf(java.lang.Object[]):0:0 -> a
-    32:32:void com.fractal.tiler.PixelData.recalcHitStats():0 -> a
+    32:32:int com.fractal.tiler.Filter.getKernHit():0:0 -> a
+    32:32:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
     32:32:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    33:33:void com.fractal.tiler.PixelData.recalcHitStats():0:0 -> a
+    33:33:int com.fractal.tiler.Filter.getKernWid():0:0 -> a
+    33:33:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
     33:33:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    34:34:int kotlin.collections.ArraysKt___ArraysKt.getLastIndex(int[]):0:0 -> a
-    34:34:void com.fractal.tiler.PixelData.recalcHitStats():0 -> a
+    34:34:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0:0 -> a
     34:34:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
-    35:35:void com.fractal.tiler.PixelData.recalcHitStats():0:0 -> a
+    35:35:int[][] com.fractal.tiler.Filter.getKernel():0:0 -> a
+    35:35:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0 -> a
     35:35:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
+    36:36:int[] com.fractal.tiler.PixelDataKt.performFunction(com.fractal.tiler.Filter,int[][]):0:0 -> a
+    36:36:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
+    37:37:void com.fractal.tiler.PixelData.setAPixelArray(int[]):0:0 -> a
+    37:37:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
+    38:38:void com.fractal.tiler.PixelData.recalcHitStats():0:0 -> a
+    38:38:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
+    39:39:java.util.ArrayList kotlin.collections.CollectionsKt__CollectionsKt.arrayListOf(java.lang.Object[]):0:0 -> a
+    39:39:void com.fractal.tiler.PixelData.recalcHitStats():0 -> a
+    39:39:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
+    40:40:void com.fractal.tiler.PixelData.recalcHitStats():0:0 -> a
+    40:40:void doImageFilter(com.fractal.tiler.PixelData):0 -> a
 com.fractal.tiler.FirstFragment -> com.fractal.tiler.FirstFragment:
     android.widget.TextView mMaxHitsText -> b0
     android.view.View viewThis -> X
@@ -23465,53 +23480,46 @@ com.fractal.tiler.FirstFragment -> com.fractal.tiler.FirstFragment:
     1:1:kotlinx.coroutines.CoroutineDispatcher kotlinx.coroutines.Dispatchers.getIO():0:0 -> k0
     1:1:void applyPaletteChangeToBitmap(com.fractal.tiler.PixelData):0 -> k0
     2:2:void applyPaletteChangeToBitmap(com.fractal.tiler.PixelData):0:0 -> k0
-    android.widget.TextView com.fractal.tiler.FirstFragment$Companion.getMMaxHitsText() -> l0
-    com.fractal.tiler.MyImageView com.fractal.tiler.FirstFragment$Companion.getTileImageView() -> m0
-    1:1:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> n0
-    1:1:void makeInvisible(android.view.View):0 -> n0
-    2:2:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> n0
-    2:2:void makeInvisible(android.view.View):0 -> n0
-    3:3:void makeInvisible(android.view.View):0:0 -> n0
-    4:4:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> n0
-    4:4:void makeInvisible(android.view.View):0 -> n0
-    5:5:int com.fractal.tiler.PixelData.getMHitsCount():0:0 -> n0
-    5:5:void makeInvisible(android.view.View):0 -> n0
-    6:6:void makeInvisible(android.view.View):0:0 -> n0
-    1:1:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> o0
-    1:1:void makeVisible(android.view.View):0 -> o0
-    2:2:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> o0
-    2:2:void makeVisible(android.view.View):0 -> o0
-    3:3:boolean com.fractal.tiler.RunGenTasksKt.getDoingCalc():0:0 -> o0
-    3:3:void makeVisible(android.view.View):0 -> o0
-    4:4:void makeVisible(android.view.View):0:0 -> o0
-    5:5:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> o0
-    5:5:void makeVisible(android.view.View):0 -> o0
-    6:6:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> o0
-    6:6:void makeVisible(android.view.View):0 -> o0
-    7:7:void makeVisible(android.view.View):0:0 -> o0
-    8:8:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> o0
-    8:8:void makeVisible(android.view.View):0 -> o0
-    9:9:int com.fractal.tiler.PixelData.getMHitsCount():0:0 -> o0
-    9:9:void makeVisible(android.view.View):0 -> o0
-    10:10:void makeVisible(android.view.View):0:0 -> o0
-    11:11:java.lang.String com.fractal.tiler.FirstFragment$Companion.getMHits():0:0 -> o0
-    11:11:void makeVisible(android.view.View):0 -> o0
-    12:12:java.lang.String com.fractal.tiler.FirstFragment$Companion.getMTotal():0:0 -> o0
-    12:12:void makeVisible(android.view.View):0 -> o0
-    13:13:void makeVisible(android.view.View):0:0 -> o0
-    14:14:java.lang.String getMResum():0:0 -> o0
-    14:14:void makeVisible(android.view.View):0 -> o0
-    15:15:java.lang.String com.fractal.tiler.FirstFragment$Companion.getMTotal():0:0 -> o0
-    15:15:void makeVisible(android.view.View):0 -> o0
-    16:16:java.lang.String com.fractal.tiler.FirstFragment$Companion.getMHits():0:0 -> o0
-    16:16:void makeVisible(android.view.View):0 -> o0
-    17:17:void makeVisible(android.view.View):0:0 -> o0
-    18:18:java.lang.String getMPause():0:0 -> o0
-    18:18:void makeVisible(android.view.View):0 -> o0
-    19:19:void makeVisible(android.view.View):0:0 -> o0
-    20:20:java.lang.String getMPause():0:0 -> o0
-    20:20:void makeVisible(android.view.View):0 -> o0
-    21:21:void makeVisible(android.view.View):0:0 -> o0
+    java.lang.String com.fractal.tiler.FirstFragment$Companion.getMHits() -> l0
+    android.widget.TextView com.fractal.tiler.FirstFragment$Companion.getMMaxHitsText() -> m0
+    java.lang.String com.fractal.tiler.FirstFragment$Companion.getMTotal() -> n0
+    com.fractal.tiler.MyImageView com.fractal.tiler.FirstFragment$Companion.getTileImageView() -> o0
+    1:1:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> p0
+    1:1:void makeInvisible(android.view.View):0 -> p0
+    2:2:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> p0
+    2:2:void makeInvisible(android.view.View):0 -> p0
+    3:3:void makeInvisible(android.view.View):0:0 -> p0
+    4:4:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> p0
+    4:4:void makeInvisible(android.view.View):0 -> p0
+    5:5:int com.fractal.tiler.PixelData.getMHitsCount():0:0 -> p0
+    5:5:void makeInvisible(android.view.View):0 -> p0
+    6:6:void makeInvisible(android.view.View):0:0 -> p0
+    1:1:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> q0
+    1:1:void makeVisible(android.view.View):0 -> q0
+    2:2:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> q0
+    2:2:void makeVisible(android.view.View):0 -> q0
+    3:3:boolean com.fractal.tiler.RunGenTasksKt.getDoingCalc():0:0 -> q0
+    3:3:void makeVisible(android.view.View):0 -> q0
+    4:4:void makeVisible(android.view.View):0:0 -> q0
+    5:5:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> q0
+    5:5:void makeVisible(android.view.View):0 -> q0
+    6:6:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> q0
+    6:6:void makeVisible(android.view.View):0 -> q0
+    7:7:void makeVisible(android.view.View):0:0 -> q0
+    8:8:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelData():0:0 -> q0
+    8:8:void makeVisible(android.view.View):0 -> q0
+    9:9:int com.fractal.tiler.PixelData.getMHitsCount():0:0 -> q0
+    9:9:void makeVisible(android.view.View):0 -> q0
+    10:10:void makeVisible(android.view.View):0:0 -> q0
+    11:11:java.lang.String getMResum():0:0 -> q0
+    11:11:void makeVisible(android.view.View):0 -> q0
+    12:12:void makeVisible(android.view.View):0:0 -> q0
+    13:13:java.lang.String getMPause():0:0 -> q0
+    13:13:void makeVisible(android.view.View):0 -> q0
+    14:14:void makeVisible(android.view.View):0:0 -> q0
+    15:15:java.lang.String getMPause():0:0 -> q0
+    15:15:void makeVisible(android.view.View):0 -> q0
+    16:16:void makeVisible(android.view.View):0:0 -> q0
 com.fractal.tiler.FirstFragment$applyPaletteChangeToBitmap$1 -> com.fractal.tiler.FirstFragment$a:
     com.fractal.tiler.PixelData $pixeldatacopy -> j
     com.fractal.tiler.FirstFragment this$0 -> i
@@ -23596,7 +23604,7 @@ com.fractal.tiler.FirstFragment$onCreate$callback$1 -> com.fractal.tiler.FirstFr
     8:8:java.lang.Object invoke(java.lang.Object):0 -> e
     9:9:void invoke(androidx.activity.OnBackPressedCallback):0:0 -> e
     9:9:java.lang.Object invoke(java.lang.Object):0 -> e
-com.fractal.tiler.FirstFragment$onViewCreated$1$1 -> f1.i:
+com.fractal.tiler.FirstFragment$onViewCreated$1$1 -> f1.j:
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.FirstFragment$onViewCreated$1$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.FirstFragment$onViewCreated$1$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
     1:1:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
@@ -23607,7 +23615,7 @@ com.fractal.tiler.FirstFragment$onViewCreated$1$1 -> f1.i:
     3:3:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
     kotlin.coroutines.Continuation create(java.lang.Object,kotlin.coroutines.Continuation) -> f
     java.lang.Object invokeSuspend(java.lang.Object) -> h
-com.fractal.tiler.FirstFragment$onViewCreated$2$1 -> f1.j:
+com.fractal.tiler.FirstFragment$onViewCreated$2$1 -> f1.k:
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.FirstFragment$onViewCreated$2$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.FirstFragment$onViewCreated$2$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
     1:1:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
@@ -23618,7 +23626,7 @@ com.fractal.tiler.FirstFragment$onViewCreated$2$1 -> f1.j:
     3:3:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
     kotlin.coroutines.Continuation create(java.lang.Object,kotlin.coroutines.Continuation) -> f
     java.lang.Object invokeSuspend(java.lang.Object) -> h
-com.fractal.tiler.FirstFragment$onViewCreated$3$1 -> f1.k:
+com.fractal.tiler.FirstFragment$onViewCreated$3$1 -> f1.l:
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.FirstFragment$onViewCreated$3$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.FirstFragment$onViewCreated$3$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
     1:1:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
@@ -23629,7 +23637,7 @@ com.fractal.tiler.FirstFragment$onViewCreated$3$1 -> f1.k:
     3:3:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
     kotlin.coroutines.Continuation create(java.lang.Object,kotlin.coroutines.Continuation) -> f
     java.lang.Object invokeSuspend(java.lang.Object) -> h
-com.fractal.tiler.FirstFragment$onViewCreated$6$2 -> f1.l:
+com.fractal.tiler.FirstFragment$onViewCreated$6$2 -> f1.m:
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.FirstFragment$onViewCreated$6$2.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.FirstFragment$onViewCreated$6$2.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
     1:1:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
@@ -23640,7 +23648,7 @@ com.fractal.tiler.FirstFragment$onViewCreated$6$2 -> f1.l:
     3:3:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
     kotlin.coroutines.Continuation create(java.lang.Object,kotlin.coroutines.Continuation) -> f
     java.lang.Object invokeSuspend(java.lang.Object) -> h
-com.fractal.tiler.FirstFragment$setTileViewBitmap$1 -> f1.m:
+com.fractal.tiler.FirstFragment$setTileViewBitmap$1 -> f1.n:
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.FirstFragment$setTileViewBitmap$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.FirstFragment$setTileViewBitmap$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
     1:1:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
@@ -23650,7 +23658,7 @@ com.fractal.tiler.FirstFragment$setTileViewBitmap$1 -> f1.m:
     1:1:android.graphics.Bitmap com.fractal.tiler.RunGenTasksKt.getBmTexture():0:0 -> h
     1:1:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     2:2:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-com.fractal.tiler.HexValues -> f1.n:
+com.fractal.tiler.HexValues -> f1.o:
     double enh22 -> A
     double en12 -> s
     double en22 -> u
@@ -23777,10 +23785,10 @@ com.fractal.tiler.HexValues -> f1.n:
     33:33:void <init>(com.fractal.tiler.SquareValues,int,double,double,double,double,double,int,kotlin.jvm.internal.DefaultConstructorMarker):0 -> <init>
     34:34:void com.fractal.tiler.HexValues.<init>(com.fractal.tiler.SquareValues,int,double,double,double,double,double):0:0 -> <init>
     34:34:void <init>(com.fractal.tiler.SquareValues,int,double,double,double,double,double,int,kotlin.jvm.internal.DefaultConstructorMarker):0 -> <init>
-com.fractal.tiler.Hit -> f1.o:
+com.fractal.tiler.Hit -> f1.p:
     int y -> b
     int x -> a
-com.fractal.tiler.IconValues -> f1.p:
+com.fractal.tiler.IconValues -> f1.q:
     com.fractal.tiler.DIconTrig dIconTrig -> c
     int trigDepth -> b
     com.fractal.tiler.SquareValues square -> a
@@ -23818,9 +23826,9 @@ com.fractal.tiler.IconValues -> f1.p:
     5:5:double[] com.fractal.tiler.DIconTrig.getS():0:0 -> b
     5:5:void setTrigArrays(int):0 -> b
     6:6:void setTrigArrays(int):0:0 -> b
-com.fractal.tiler.IterateHexKt -> f1.r:
+com.fractal.tiler.IterateHexKt -> f1.s:
     double sq3 -> a
-com.fractal.tiler.IterateSquareKt -> f1.s:
+com.fractal.tiler.IterateSquareKt -> f1.t:
     int mainCounter -> b
     int maxCounter -> a
 com.fractal.tiler.MainActivity -> com.fractal.tiler.MainActivity:
@@ -23867,7 +23875,8 @@ com.fractal.tiler.MainActivity$Companion$ImageFilter -> com.fractal.tiler.MainAc
     com.fractal.tiler.MainActivity$Companion$ImageFilter Gaussian -> f
     com.fractal.tiler.MainActivity$Companion$ImageFilter Motion -> g
     com.fractal.tiler.MainActivity$Companion$ImageFilter BoxBlur -> h
-    com.fractal.tiler.MainActivity$Companion$ImageFilter[] $VALUES -> i
+    com.fractal.tiler.MainActivity$Companion$ImageFilter Median -> i
+    com.fractal.tiler.MainActivity$Companion$ImageFilter[] $VALUES -> j
 com.fractal.tiler.MainActivity$Companion$QuiltType -> com.fractal.tiler.MainActivity$a$c:
     com.fractal.tiler.MainActivity$Companion$QuiltType SQUARE -> e
     com.fractal.tiler.MainActivity$Companion$QuiltType HEXAGONAL -> g
@@ -24044,7 +24053,7 @@ com.fractal.tiler.MyImageView -> com.fractal.tiler.MyImageView:
     3:3:android.graphics.Bitmap com.fractal.tiler.MainActivity$Companion.getBmImage():0 -> setBitmap
     3:3:void setBitmap(android.graphics.Bitmap):0 -> setBitmap
     4:4:void setBitmap(android.graphics.Bitmap):0:0 -> setBitmap
-com.fractal.tiler.MyImageView$scaleListener$1 -> f1.v:
+com.fractal.tiler.MyImageView$scaleListener$1 -> f1.w:
     1:1:float com.fractal.tiler.MainActivity.access$getMScaleFactor$cp():0:0 -> onScale
     1:1:float com.fractal.tiler.MainActivity$Companion.getMScaleFactor():0 -> onScale
     1:1:boolean onScale(android.view.ScaleGestureDetector):0 -> onScale
@@ -24088,7 +24097,7 @@ com.fractal.tiler.MySeekbar -> com.fractal.tiler.MySeekbar:
     12:12:void init():0:0 -> <init>
     12:12:void <init>(android.content.Context,android.util.AttributeSet):0 -> <init>
     13:13:void <init>(android.content.Context,android.util.AttributeSet):0:0 -> <init>
-com.fractal.tiler.PixelData -> f1.w:
+com.fractal.tiler.PixelData -> f1.x:
     int[] aPixelArray -> h
     int mHitsCount -> f
     int mMaxHits -> e
@@ -24098,19 +24107,20 @@ com.fractal.tiler.PixelData -> f1.w:
     int width -> a
     boolean mPixelArrayBusy -> d
     com.fractal.tiler.PixelData clone() -> a
-com.fractal.tiler.PixelDataKt -> f1.x:
+com.fractal.tiler.PixelDataKt -> f1.y:
     com.fractal.tiler.Filter Gaussian -> d
     com.fractal.tiler.Filter Blur -> c
     com.fractal.tiler.PixelData pixelData -> a
     com.fractal.tiler.PixelData pixelDataClone -> b
+    com.fractal.tiler.Filter Median -> g
     com.fractal.tiler.Filter BoxBlur -> f
     com.fractal.tiler.Filter Motion -> e
-    1:1:void com.fractal.tiler.Filter.<init>(int,float[][]):0:0 -> <clinit>
+    1:1:void com.fractal.tiler.Filter.<init>(int,int[][]):0:0 -> <clinit>
     1:1:void <clinit>():0 -> <clinit>
     2:2:void <clinit>():0:0 -> <clinit>
-com.fractal.tiler.R$styleable -> f1.y:
+com.fractal.tiler.R$styleable -> f1.z:
     int[] SeekbarHint -> a
-com.fractal.tiler.RunGenTasksKt -> f1.z:
+com.fractal.tiler.RunGenTasksKt -> f1.a0:
     int[] aColors -> f
     com.fractal.tiler.IconValues icon -> d
     android.graphics.Bitmap bmTexture -> e
@@ -24125,69 +24135,35 @@ com.fractal.tiler.RunGenTasksKt -> f1.z:
     3:3:int[] com.fractal.tiler.ColorRangeClass.getAColorSpread():0:0 -> a
     3:3:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0 -> a
     4:4:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0:0 -> a
-    5:5:int com.fractal.tiler.ColorRangeClass.getMColorSpreadCount():0:0 -> a
+    5:5:int com.fractal.tiler.PixelData.getArraySize():0:0 -> a
     5:5:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0 -> a
-    6:6:int com.fractal.tiler.PixelData.getArraySize():0:0 -> a
-    6:6:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0 -> a
-    7:7:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0:0 -> a
-    8:8:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> a
-    8:8:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0 -> a
-    9:9:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0:0 -> a
-    10:10:int[] com.fractal.tiler.PixelData.getAPixelArray():0:0 -> a
-    10:10:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0 -> a
-    11:11:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0:0 -> a
+    6:6:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0:0 -> a
+    7:7:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> a
+    7:7:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0 -> a
+    8:8:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0:0 -> a
+    9:9:int[] com.fractal.tiler.PixelData.getAPixelArray():0:0 -> a
+    9:9:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0 -> a
+    10:10:int[] buildPixelArrayFromIncrementalColors(com.fractal.tiler.PixelData):0:0 -> a
     1:1:com.fractal.tiler.BitmapColorSpread com.fractal.tiler.MainActivity.access$getBitmapColorSpread$cp():0:0 -> b
     1:1:com.fractal.tiler.BitmapColorSpread com.fractal.tiler.MainActivity$Companion.getBitmapColorSpread():0 -> b
-    1:1:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
+    1:1:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0 -> b
     2:2:com.fractal.tiler.ColorRangeClass com.fractal.tiler.BitmapColorSpread.getACurrentRange():0:0 -> b
-    2:2:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    3:3:int com.fractal.tiler.ColorRangeClass.getMColorSpreadCount():0:0 -> b
-    3:3:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    4:4:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0:0 -> b
+    2:2:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0 -> b
+    3:3:int[] com.fractal.tiler.ColorRangeClass.getAColorSpread():0:0 -> b
+    3:3:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0 -> b
+    4:4:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0:0 -> b
     5:5:int com.fractal.tiler.PixelData.getArraySize():0:0 -> b
-    5:5:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    6:6:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0:0 -> b
+    5:5:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0 -> b
+    6:6:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0:0 -> b
     7:7:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> b
-    7:7:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0 -> b
-    7:7:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    8:8:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0:0 -> b
-    8:8:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    9:9:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> b
-    9:9:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0 -> b
-    9:9:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    10:10:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0:0 -> b
-    10:10:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    11:11:java.util.List com.fractal.tiler.PixelData.getAHitStats():0:0 -> b
-    11:11:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0 -> b
-    11:11:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    12:12:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0:0 -> b
-    12:12:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    13:13:int com.fractal.tiler.PixelData.getArraySize():0:0 -> b
-    13:13:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0 -> b
-    13:13:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    14:14:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0:0 -> b
-    14:14:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    15:15:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> b
-    15:15:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0 -> b
-    15:15:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    16:16:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0:0 -> b
-    16:16:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    17:17:java.util.List com.fractal.tiler.PixelData.getAHitStats():0:0 -> b
-    17:17:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0 -> b
-    17:17:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    18:18:float[] com.fractal.tiler.RunGenTasksKt.calculateHitDistribution(com.fractal.tiler.PixelData):0:0 -> b
-    18:18:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    19:19:float[] com.fractal.tiler.RunGenTasksKt.flattenDistribution(double,float[]):0:0 -> b
-    19:19:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    20:20:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> b
-    20:20:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    21:21:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0:0 -> b
-    22:22:int[] com.fractal.tiler.PixelData.getAPixelArray():0:0 -> b
-    22:22:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    23:23:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0:0 -> b
-    24:24:int[] com.fractal.tiler.ColorRangeClass.getAColorSpread():0:0 -> b
-    24:24:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0 -> b
-    25:25:int[] buildPixelArrayFromStatisticalColors(com.fractal.tiler.PixelData):0:0 -> b
+    7:7:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0 -> b
+    8:8:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0:0 -> b
+    9:9:int[] com.fractal.tiler.PixelData.getAPixelArray():0:0 -> b
+    9:9:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0 -> b
+    10:10:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0:0 -> b
+    11:11:int[] com.fractal.tiler.ColorRangeClass.getAColorSpread():0:0 -> b
+    11:11:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0 -> b
+    12:12:int[] buildPixelArrayFromSinwave(com.fractal.tiler.PixelData):0:0 -> b
     1:1:kotlin.random.Random com.fractal.tiler.MainActivity.access$getRand$cp():0:0 -> c
     1:1:kotlin.random.Random com.fractal.tiler.MainActivity$Companion.getRand():0 -> c
     1:1:void prepareForNewRun():0 -> c
@@ -24779,9 +24755,9 @@ com.fractal.tiler.RunGenTasksKt -> f1.z:
     157:157:kotlinx.coroutines.MainCoroutineDispatcher kotlinx.coroutines.Dispatchers.getMain():0:0 -> d
     157:157:void startNewRunFormula(boolean):0 -> d
     158:158:void startNewRunFormula(boolean):0:0 -> d
-com.fractal.tiler.RunGenTasksKt$WhenMappings -> f1.z$a:
+com.fractal.tiler.RunGenTasksKt$WhenMappings -> f1.a0$a:
     int[] $EnumSwitchMapping$1 -> a
-com.fractal.tiler.RunGenTasksKt$setTileViewBitmap$1 -> f1.a0:
+com.fractal.tiler.RunGenTasksKt$setTileViewBitmap$1 -> f1.b0:
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.RunGenTasksKt$setTileViewBitmap$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.RunGenTasksKt$setTileViewBitmap$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
     1:1:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
@@ -24791,7 +24767,7 @@ com.fractal.tiler.RunGenTasksKt$setTileViewBitmap$1 -> f1.a0:
     1:1:android.graphics.Bitmap com.fractal.tiler.RunGenTasksKt.getBmTexture():0:0 -> h
     1:1:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     2:2:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-com.fractal.tiler.RunGenTasksKt$startNewRunFormula$1 -> f1.z$b:
+com.fractal.tiler.RunGenTasksKt$startNewRunFormula$1 -> f1.a0$b:
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.RunGenTasksKt$startNewRunFormula$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.RunGenTasksKt$startNewRunFormula$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
     1:1:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
@@ -24814,21 +24790,7 @@ com.fractal.tiler.RunGenTasksKt$startNewRunFormula$1 -> f1.z$b:
     5:5:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     6:6:void com.fractal.tiler.RunGenTasksKt.upDataUI():0:0 -> h
     6:6:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    7:7:java.lang.String com.fractal.tiler.FirstFragment$Companion.getMHits():0:0 -> h
-    7:7:void com.fractal.tiler.RunGenTasksKt.upDataUI():0 -> h
-    7:7:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    8:8:java.lang.String com.fractal.tiler.FirstFragment$Companion.getMTotal():0:0 -> h
-    8:8:void com.fractal.tiler.RunGenTasksKt.upDataUI():0 -> h
-    8:8:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    9:9:void com.fractal.tiler.RunGenTasksKt.upDataUI():0:0 -> h
-    9:9:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    10:10:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-    11:11:java.lang.String com.fractal.tiler.FirstFragment$Companion.getMTotal():0:0 -> h
-    11:11:void com.fractal.tiler.RunGenTasksKt.upDataUI():0 -> h
-    11:11:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    12:12:java.lang.String com.fractal.tiler.FirstFragment$Companion.getMHits():0:0 -> h
-    12:12:void com.fractal.tiler.RunGenTasksKt.upDataUI():0 -> h
-    12:12:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    7:7:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
 com.fractal.tiler.SecondFragment -> com.fractal.tiler.SecondFragment:
     android.widget.Button isLinearView -> Y
     int $r8$clinit -> c0
@@ -24934,7 +24896,7 @@ com.fractal.tiler.SecondFragment$onViewCreated$1 -> com.fractal.tiler.SecondFrag
     14:14:void com.fractal.tiler.SecondFragment.updateTextures$default(com.fractal.tiler.SecondFragment,boolean,int,java.lang.Object):0:0 -> onStopTrackingTouch
     14:14:void onStopTrackingTouch(android.widget.SeekBar):0 -> onStopTrackingTouch
     15:15:void onStopTrackingTouch(android.widget.SeekBar):0:0 -> onStopTrackingTouch
-com.fractal.tiler.SecondFragment$onViewCreated$2$1 -> f1.c0:
+com.fractal.tiler.SecondFragment$onViewCreated$2$1 -> f1.d0:
     com.fractal.tiler.SecondFragment this$0 -> i
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.SecondFragment$onViewCreated$2$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.SecondFragment$onViewCreated$2$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
@@ -24955,7 +24917,7 @@ com.fractal.tiler.SecondFragment$onViewCreated$2$1 -> f1.c0:
     7:7:void com.fractal.tiler.SecondFragment.setCalcActive(boolean):0:0 -> h
     7:7:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     8:8:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-com.fractal.tiler.SecondFragment$onViewCreated$3$1 -> f1.d0:
+com.fractal.tiler.SecondFragment$onViewCreated$3$1 -> f1.e0:
     com.fractal.tiler.SecondFragment this$0 -> i
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.SecondFragment$onViewCreated$3$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.SecondFragment$onViewCreated$3$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
@@ -25028,11 +24990,66 @@ com.fractal.tiler.SecondFragment$onViewCreated$3$1 -> f1.d0:
     24:24:java.lang.Object kotlin.collections.CollectionsKt__MutableCollectionsKt.removeFirst(java.util.List):0:0 -> h
     24:24:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
     24:24:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    25:25:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-    26:26:void com.fractal.tiler.SecondFragment.setCalcActive(boolean):0:0 -> h
+    25:25:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelDataClone():0:0 -> h
+    25:25:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    25:25:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    26:26:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> h
+    26:26:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
     26:26:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    27:27:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-com.fractal.tiler.SecondFragment$onViewCreated$5$1 -> f1.e0:
+    27:27:java.util.List com.fractal.tiler.PixelData.getAHitStats():0:0 -> h
+    27:27:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    27:27:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    28:28:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0:0 -> h
+    28:28:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    29:29:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelDataClone():0:0 -> h
+    29:29:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    29:29:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    30:30:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> h
+    30:30:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    30:30:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    31:31:void com.fractal.tiler.PixelData.setMMaxHits(int):0:0 -> h
+    31:31:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    31:31:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    32:32:void com.fractal.tiler.PixelData.setMHitsCount(int):0:0 -> h
+    32:32:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    32:32:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    33:33:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0:0 -> h
+    33:33:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    34:34:void com.fractal.tiler.PixelData.setAHitStats(java.util.List):0:0 -> h
+    34:34:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    34:34:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    35:35:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelDataClone():0:0 -> h
+    35:35:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    35:35:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    36:36:java.util.List com.fractal.tiler.PixelData.getAHitStats():0:0 -> h
+    36:36:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    36:36:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    37:37:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0:0 -> h
+    37:37:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    38:38:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelDataClone():0:0 -> h
+    38:38:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    38:38:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    39:39:int[] com.fractal.tiler.PixelData.getAPixelArray():0:0 -> h
+    39:39:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    39:39:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    40:40:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0:0 -> h
+    40:40:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    41:41:int com.fractal.tiler.PixelData.getMHitsCount():0:0 -> h
+    41:41:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    41:41:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    42:42:void com.fractal.tiler.PixelData.setMHitsCount(int):0:0 -> h
+    42:42:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    42:42:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    43:43:java.util.List com.fractal.tiler.PixelData.getAHitStats():0:0 -> h
+    43:43:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0 -> h
+    43:43:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    44:44:void com.fractal.tiler.RunGenTasksKt.runSetToZero():0:0 -> h
+    44:44:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    45:45:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
+    46:46:void com.fractal.tiler.SecondFragment.setCalcActive(boolean):0:0 -> h
+    46:46:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    47:47:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
+com.fractal.tiler.SecondFragment$onViewCreated$5$1 -> f1.f0:
     com.fractal.tiler.SecondFragment this$0 -> i
     android.widget.TextView $blurText -> j
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.SecondFragment$onViewCreated$5$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
@@ -25059,7 +25076,7 @@ com.fractal.tiler.SecondFragment$onViewCreated$5$1 -> f1.e0:
     9:9:void com.fractal.tiler.SecondFragment.setCalcActive(boolean):0:0 -> h
     9:9:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     10:10:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-com.fractal.tiler.SecondFragment$onViewCreated$5$1$1 -> f1.e0$a:
+com.fractal.tiler.SecondFragment$onViewCreated$5$1$1 -> f1.f0$a:
     android.widget.TextView $blurText -> i
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.SecondFragment$onViewCreated$5$1$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.SecondFragment$onViewCreated$5$1$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
@@ -25082,7 +25099,7 @@ com.fractal.tiler.SecondFragment$onViewCreated$5$1$1 -> f1.e0$a:
     1:1:com.fractal.tiler.MainActivity$Companion$ImageFilter com.fractal.tiler.MainActivity$Companion.getFilter():0 -> h
     1:1:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     2:2:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-com.fractal.tiler.SecondFragment$onViewCreated$6$1 -> f1.f0:
+com.fractal.tiler.SecondFragment$onViewCreated$6$1 -> f1.g0:
     com.fractal.tiler.SecondFragment this$0 -> i
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.SecondFragment$onViewCreated$6$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.SecondFragment$onViewCreated$6$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
@@ -25099,21 +25116,23 @@ com.fractal.tiler.SecondFragment$onViewCreated$6$1 -> f1.f0:
     4:4:com.fractal.tiler.MainActivity$Companion$ImageFilter com.fractal.tiler.MainActivity$Companion.getFilter():0 -> h
     4:4:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     5:5:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-    6:6:com.fractal.tiler.Filter com.fractal.tiler.PixelDataKt.getBoxBlur():0:0 -> h
+    6:6:com.fractal.tiler.Filter com.fractal.tiler.PixelDataKt.getMedian():0:0 -> h
     6:6:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    7:7:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelDataClone():0:0 -> h
+    7:7:com.fractal.tiler.Filter com.fractal.tiler.PixelDataKt.getBoxBlur():0:0 -> h
     7:7:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    8:8:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-    9:9:com.fractal.tiler.Filter com.fractal.tiler.PixelDataKt.getMotion():0:0 -> h
-    9:9:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    10:10:com.fractal.tiler.Filter com.fractal.tiler.PixelDataKt.getGaussian():0:0 -> h
+    8:8:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelDataClone():0:0 -> h
+    8:8:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    9:9:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
+    10:10:com.fractal.tiler.Filter com.fractal.tiler.PixelDataKt.getMotion():0:0 -> h
     10:10:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    11:11:com.fractal.tiler.Filter com.fractal.tiler.PixelDataKt.getBlur():0:0 -> h
+    11:11:com.fractal.tiler.Filter com.fractal.tiler.PixelDataKt.getGaussian():0:0 -> h
     11:11:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    12:12:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-    13:13:void com.fractal.tiler.SecondFragment.setCalcActive(boolean):0:0 -> h
-    13:13:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    14:14:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
+    12:12:com.fractal.tiler.Filter com.fractal.tiler.PixelDataKt.getBlur():0:0 -> h
+    12:12:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    13:13:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
+    14:14:void com.fractal.tiler.SecondFragment.setCalcActive(boolean):0:0 -> h
+    14:14:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
+    15:15:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
 com.fractal.tiler.SecondFragment$updateTextures$1 -> com.fractal.tiler.SecondFragment$c:
     com.fractal.tiler.SecondFragment this$0 -> j
     boolean $setTileView -> i
@@ -25143,82 +25162,42 @@ com.fractal.tiler.SecondFragment$updateTextures$1 -> com.fractal.tiler.SecondFra
     8:8:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForIncremental(int):0 -> h
     8:8:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
     8:8:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    9:9:int com.fractal.tiler.ColorRangeClass.getMColorSpreadCount():0:0 -> h
-    9:9:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForIncremental(int):0 -> h
+    9:9:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForIncremental(int):0:0 -> h
     9:9:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
     9:9:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    10:10:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForIncremental(int):0:0 -> h
+    10:10:int com.fractal.tiler.ColorRangeClass.getProgressStatistic():0:0 -> h
     10:10:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
     10:10:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    11:11:int com.fractal.tiler.ColorRangeClass.getProgressStatistic():0:0 -> h
+    11:11:int[] com.fractal.tiler.ColorRangeClass.getAColorSpread():0:0 -> h
+    11:11:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForSinwave(int,com.fractal.tiler.PixelData):0 -> h
     11:11:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
     11:11:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    12:12:int[] com.fractal.tiler.ColorRangeClass.getAColorSpread():0:0 -> h
-    12:12:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0 -> h
+    12:12:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForSinwave(int,com.fractal.tiler.PixelData):0:0 -> h
     12:12:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
     12:12:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    13:13:int com.fractal.tiler.ColorRangeClass.getMColorSpreadCount():0:0 -> h
-    13:13:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0 -> h
-    13:13:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
+    13:13:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0:0 -> h
     13:13:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    14:14:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> h
-    14:14:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0 -> h
-    14:14:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
+    14:14:kotlinx.coroutines.MainCoroutineDispatcher kotlinx.coroutines.Dispatchers.getMain():0:0 -> h
     14:14:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    15:15:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0:0 -> h
-    15:15:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
-    15:15:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    16:16:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> h
-    16:16:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0 -> h
-    16:16:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
+    15:15:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
+    16:16:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelDataClone():0:0 -> h
     16:16:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    17:17:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0:0 -> h
-    17:17:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
-    17:17:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    18:18:java.util.List com.fractal.tiler.PixelData.getAHitStats():0:0 -> h
-    18:18:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0 -> h
-    18:18:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
+    17:17:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
+    18:18:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0:0 -> h
     18:18:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    19:19:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0:0 -> h
-    19:19:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
+    19:19:com.fractal.tiler.BitmapColorSpread com.fractal.tiler.MainActivity.access$getBitmapColorSpread$cp():0:0 -> h
+    19:19:com.fractal.tiler.BitmapColorSpread com.fractal.tiler.MainActivity$Companion.getBitmapColorSpread():0 -> h
+    19:19:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0 -> h
     19:19:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    20:20:int com.fractal.tiler.PixelData.getArraySize():0:0 -> h
-    20:20:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0 -> h
-    20:20:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
+    20:20:com.fractal.tiler.ColorRangeClass com.fractal.tiler.BitmapColorSpread.getACurrentRange():0:0 -> h
+    20:20:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0 -> h
     20:20:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    21:21:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0:0 -> h
-    21:21:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
+    21:21:com.fractal.tiler.MainActivity$Companion$DataProcess com.fractal.tiler.ColorRangeClass.getDataProcess():0:0 -> h
+    21:21:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0 -> h
     21:21:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    22:22:int com.fractal.tiler.PixelData.getMMaxHits():0:0 -> h
-    22:22:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0 -> h
-    22:22:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
+    22:22:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0:0 -> h
     22:22:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    23:23:android.graphics.Bitmap com.fractal.tiler.BitmapColorSpread.drawColorSpreadForStatistical(int,com.fractal.tiler.PixelData):0:0 -> h
-    23:23:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0 -> h
-    23:23:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    24:24:void com.fractal.tiler.BitmapColorSpread.updateColorSpreadBitmap(com.fractal.tiler.PixelData):0:0 -> h
-    24:24:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    25:25:kotlinx.coroutines.MainCoroutineDispatcher kotlinx.coroutines.Dispatchers.getMain():0:0 -> h
-    25:25:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    26:26:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-    27:27:com.fractal.tiler.PixelData com.fractal.tiler.PixelDataKt.getPixelDataClone():0:0 -> h
-    27:27:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    28:28:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-    29:29:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0:0 -> h
-    29:29:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    30:30:com.fractal.tiler.BitmapColorSpread com.fractal.tiler.MainActivity.access$getBitmapColorSpread$cp():0:0 -> h
-    30:30:com.fractal.tiler.BitmapColorSpread com.fractal.tiler.MainActivity$Companion.getBitmapColorSpread():0 -> h
-    30:30:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0 -> h
-    30:30:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    31:31:com.fractal.tiler.ColorRangeClass com.fractal.tiler.BitmapColorSpread.getACurrentRange():0:0 -> h
-    31:31:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0 -> h
-    31:31:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    32:32:com.fractal.tiler.MainActivity$Companion$DataProcess com.fractal.tiler.ColorRangeClass.getDataProcess():0:0 -> h
-    32:32:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0 -> h
-    32:32:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    33:33:void com.fractal.tiler.RunGenTasksKt.setTileViewBitmap(com.fractal.tiler.PixelData):0:0 -> h
-    33:33:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
-    34:34:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
+    23:23:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
 com.fractal.tiler.SecondFragment$updateTextures$1$1 -> com.fractal.tiler.SecondFragment$c$a:
     com.fractal.tiler.SecondFragment this$0 -> i
     1:1:kotlin.coroutines.Continuation create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
@@ -25243,7 +25222,7 @@ com.fractal.tiler.SecondFragment$updateTextures$1$1 -> com.fractal.tiler.SecondF
     8:8:android.widget.ImageButton com.fractal.tiler.SecondFragment.getImageButton():0:0 -> h
     8:8:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     9:9:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-com.fractal.tiler.SquareValues -> f1.g0:
+com.fractal.tiler.SquareValues -> f1.h0:
     double delta -> j
     double x -> a
     double y -> b
@@ -25290,7 +25269,7 @@ com.fractal.tiler.ThirdFragment$onCreate$callback$1 -> com.fractal.tiler.ThirdFr
     3:3:void invoke(androidx.activity.OnBackPressedCallback):0:0 -> e
     3:3:java.lang.Object invoke(java.lang.Object):0 -> e
     4:4:java.lang.Object invoke(java.lang.Object):0:0 -> e
-com.fractal.tiler.ThirdFragment$onViewCreated$1$1 -> f1.i0:
+com.fractal.tiler.ThirdFragment$onViewCreated$1$1 -> f1.j0:
     com.fractal.tiler.ThirdFragment this$0 -> i
     android.widget.TextView $shaderView -> j
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.ThirdFragment$onViewCreated$1$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
@@ -25305,7 +25284,7 @@ com.fractal.tiler.ThirdFragment$onViewCreated$1$1 -> f1.i0:
     3:3:void com.fractal.tiler.ThirdFragment.setBusy(boolean):0:0 -> h
     3:3:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     4:4:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-com.fractal.tiler.ThirdFragment$onViewCreated$1$1$1 -> f1.i0$a:
+com.fractal.tiler.ThirdFragment$onViewCreated$1$1$1 -> f1.j0$a:
     android.widget.TextView $shaderView -> i
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.ThirdFragment$onViewCreated$1$1$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.ThirdFragment$onViewCreated$1$1$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
@@ -25317,7 +25296,7 @@ com.fractal.tiler.ThirdFragment$onViewCreated$1$1$1 -> f1.i0$a:
     3:3:java.lang.Object invoke(java.lang.Object,java.lang.Object):0 -> a
     kotlin.coroutines.Continuation create(java.lang.Object,kotlin.coroutines.Continuation) -> f
     java.lang.Object invokeSuspend(java.lang.Object) -> h
-com.fractal.tiler.ThirdFragment$onViewCreated$2$1 -> f1.j0:
+com.fractal.tiler.ThirdFragment$onViewCreated$2$1 -> f1.k0:
     com.fractal.tiler.ThirdFragment this$0 -> i
     android.widget.TextView $shaderView -> j
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.ThirdFragment$onViewCreated$2$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
@@ -25332,7 +25311,7 @@ com.fractal.tiler.ThirdFragment$onViewCreated$2$1 -> f1.j0:
     3:3:void com.fractal.tiler.ThirdFragment.setBusy(boolean):0:0 -> h
     3:3:java.lang.Object invokeSuspend(java.lang.Object):0 -> h
     4:4:java.lang.Object invokeSuspend(java.lang.Object):0:0 -> h
-com.fractal.tiler.ThirdFragment$onViewCreated$2$1$1 -> f1.j0$a:
+com.fractal.tiler.ThirdFragment$onViewCreated$2$1$1 -> f1.k0$a:
     android.widget.TextView $shaderView -> i
     1:1:kotlin.coroutines.Continuation com.fractal.tiler.ThirdFragment$onViewCreated$2$1$1.create(java.lang.Object,kotlin.coroutines.Continuation):0:0 -> a
     1:1:java.lang.Object com.fractal.tiler.ThirdFragment$onViewCreated$2$1$1.invoke(kotlinx.coroutines.CoroutineScope,kotlin.coroutines.Continuation):0 -> a
@@ -33008,7 +32987,7 @@ d0.PathParser$$ExternalSyntheticOutline0 -> d0.c:
     java.lang.String androidx.core.graphics.PathParser$$InternalSyntheticOutline$119$6a07392b9a5da8f4e51eb67ead2eb7ad5ea24a79d6340ad92394c5dff230d6ab$0.m(java.lang.String,java.lang.String,java.lang.String) -> a
 e.ActivityResultRegistry$$ExternalSyntheticOutline0 -> e.d:
     java.lang.StringBuilder androidx.activity.result.ActivityResultRegistry$$InternalSyntheticOutline$119$3c17b2be247c61c3b3b8a0a06f8711f203ed4b545c936a26ef705d25f5737df2$0.m(java.lang.String,java.lang.String,java.lang.String) -> a
-f1.FirstFragment$$ExternalSyntheticLambda0 -> f1.g:
+f1.FirstFragment$$ExternalSyntheticLambda0 -> f1.h:
     kotlin.jvm.internal.Ref$ObjectRef com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$0.f$2 -> h
     int com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$0.$r8$classId -> e
     android.view.View com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$0.f$1 -> g
@@ -33058,7 +33037,7 @@ f1.FirstFragment$$ExternalSyntheticLambda0 -> f1.g:
     17:17:void com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$0.onClick$bridge(android.view.View):0 -> onClick
     18:18:void com.fractal.tiler.FirstFragment.onViewCreated$lambda-6(kotlin.jvm.internal.Ref$ObjectRef,com.fractal.tiler.FirstFragment,android.view.View,android.view.View):0:0 -> onClick
     18:18:void com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$0.onClick$bridge(android.view.View):0 -> onClick
-f1.FirstFragment$$ExternalSyntheticLambda1 -> f1.h:
+f1.FirstFragment$$ExternalSyntheticLambda1 -> f1.i:
     int com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$3.$r8$classId -> e
     com.fractal.tiler.FirstFragment com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$3.f$0 -> f
     void com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$3.$r8$init$bridge(com.fractal.tiler.FirstFragment) -> <init>
@@ -33115,19 +33094,19 @@ f1.FirstFragment$$ExternalSyntheticLambda1 -> f1.h:
     21:21:void com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$3.onClick$bridge(android.view.View):0 -> onClick
     22:22:void com.fractal.tiler.ThirdFragment.onViewCreated$lambda-2(com.fractal.tiler.ThirdFragment,android.view.View):0:0 -> onClick
     22:22:void com.fractal.tiler.FirstFragment$$InternalSyntheticLambda$0$d594f52e958a9b85feef6d87592dd4d879d17f3c6689567c2090d8a605917831$3.onClick$bridge(android.view.View):0 -> onClick
-f1.IterateHexKt$$ExternalSyntheticOutline0 -> f1.q:
+f1.IterateHexKt$$ExternalSyntheticOutline0 -> f1.r:
     double com.fractal.tiler.IterateHexKt$$InternalSyntheticOutline$119$abd211ee9d7bb7bce3bc248cac7b70f28b65b231566335024354d457c2b6abed$0.m(double,double,double,double) -> a
-f1.MainActivity$$ExternalSyntheticLambda0 -> f1.t:
+f1.MainActivity$$ExternalSyntheticLambda0 -> f1.u:
     com.fractal.tiler.MainActivity com.fractal.tiler.MainActivity$$InternalSyntheticLambda$0$011c0a9a0edd873395875854422c10f3b77b78ce4131ac4951aa35bd74486d50$0.f$0 -> a
     void com.fractal.tiler.MainActivity$$InternalSyntheticLambda$0$011c0a9a0edd873395875854422c10f3b77b78ce4131ac4951aa35bd74486d50$0.<init>(com.fractal.tiler.MainActivity) -> <init>
     1:1:void com.fractal.tiler.MainActivity.onCreate$lambda-1(com.fractal.tiler.MainActivity,int):0:0 -> onSystemUiVisibilityChange
     1:1:void com.fractal.tiler.MainActivity$$InternalSyntheticLambda$0$011c0a9a0edd873395875854422c10f3b77b78ce4131ac4951aa35bd74486d50$0.onSystemUiVisibilityChange(int):0 -> onSystemUiVisibilityChange
-f1.MainActivity$$ExternalSyntheticLambda1 -> f1.u:
+f1.MainActivity$$ExternalSyntheticLambda1 -> f1.v:
     com.fractal.tiler.MainActivity com.fractal.tiler.MainActivity$$InternalSyntheticLambda$1$d366cc81b4a4e5b315d194da59ab4c4af9ca1ff1f2d4615966f439f3722c4528$0.f$0 -> e
     void com.fractal.tiler.MainActivity$$InternalSyntheticLambda$1$d366cc81b4a4e5b315d194da59ab4c4af9ca1ff1f2d4615966f439f3722c4528$0.<init>(com.fractal.tiler.MainActivity) -> <init>
     1:1:void com.fractal.tiler.MainActivity.onCreate$lambda-1$lambda-0(com.fractal.tiler.MainActivity):0:0 -> run
     1:1:void com.fractal.tiler.MainActivity$$InternalSyntheticLambda$1$d366cc81b4a4e5b315d194da59ab4c4af9ca1ff1f2d4615966f439f3722c4528$0.run():0 -> run
-f1.SecondFragment$$ExternalSyntheticLambda0 -> f1.b0:
+f1.SecondFragment$$ExternalSyntheticLambda0 -> f1.c0:
     int com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.$r8$classId -> e
     com.fractal.tiler.SecondFragment com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.f$0 -> f
     void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.$r8$init$bridge(com.fractal.tiler.SecondFragment) -> <init>
@@ -33147,80 +33126,77 @@ f1.SecondFragment$$ExternalSyntheticLambda0 -> f1.b0:
     5:5:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
     6:6:kotlin.random.Random com.fractal.tiler.MainActivity.access$getRand$cp():0:0 -> onClick
     6:6:kotlin.random.Random com.fractal.tiler.MainActivity$Companion.getRand():0 -> onClick
-    6:6:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0 -> onClick
+    6:6:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0 -> onClick
     6:6:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     6:6:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     6:6:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    7:7:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0:0 -> onClick
+    7:7:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0:0 -> onClick
     7:7:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     7:7:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     7:7:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
     8:8:kotlin.random.Random com.fractal.tiler.MainActivity.access$getRand$cp():0:0 -> onClick
     8:8:kotlin.random.Random com.fractal.tiler.MainActivity$Companion.getRand():0 -> onClick
-    8:8:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0 -> onClick
+    8:8:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0 -> onClick
     8:8:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     8:8:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     8:8:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    9:9:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0:0 -> onClick
+    9:9:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0:0 -> onClick
     9:9:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     9:9:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     9:9:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
     10:10:kotlin.random.Random com.fractal.tiler.MainActivity.access$getRand$cp():0:0 -> onClick
     10:10:kotlin.random.Random com.fractal.tiler.MainActivity$Companion.getRand():0 -> onClick
-    10:10:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0 -> onClick
+    10:10:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0 -> onClick
     10:10:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     10:10:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     10:10:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    11:11:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0:0 -> onClick
+    11:11:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0:0 -> onClick
     11:11:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     11:11:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     11:11:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    12:12:kotlin.random.Random com.fractal.tiler.MainActivity.access$getRand$cp():0:0 -> onClick
-    12:12:kotlin.random.Random com.fractal.tiler.MainActivity$Companion.getRand():0 -> onClick
-    12:12:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0 -> onClick
+    12:12:int[] com.fractal.tiler.DPrimaryColors.getColors():0:0 -> onClick
+    12:12:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0 -> onClick
     12:12:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     12:12:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     12:12:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    13:13:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0:0 -> onClick
+    13:13:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0:0 -> onClick
     13:13:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     13:13:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     13:13:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    14:14:int com.fractal.tiler.DRgbDataItem.getColor():0:0 -> onClick
-    14:14:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0 -> onClick
+    14:14:int[] com.fractal.tiler.DPrimaryColors.getColors():0:0 -> onClick
+    14:14:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0 -> onClick
     14:14:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     14:14:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     14:14:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    15:15:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0:0 -> onClick
+    15:15:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0:0 -> onClick
     15:15:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     15:15:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     15:15:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
     16:16:kotlin.random.Random com.fractal.tiler.MainActivity.access$getRand$cp():0:0 -> onClick
     16:16:kotlin.random.Random com.fractal.tiler.MainActivity$Companion.getRand():0 -> onClick
-    16:16:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0 -> onClick
+    16:16:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0 -> onClick
     16:16:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     16:16:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     16:16:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    17:17:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0:0 -> onClick
+    17:17:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0:0 -> onClick
     17:17:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     17:17:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     17:17:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    18:18:kotlin.random.Random com.fractal.tiler.MainActivity.access$getRand$cp():0:0 -> onClick
-    18:18:kotlin.random.Random com.fractal.tiler.MainActivity$Companion.getRand():0 -> onClick
-    18:18:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0 -> onClick
+    18:18:int[] com.fractal.tiler.DPrimaryColors.getColors():0:0 -> onClick
+    18:18:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0 -> onClick
     18:18:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     18:18:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     18:18:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    19:19:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0:0 -> onClick
+    19:19:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0:0 -> onClick
     19:19:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     19:19:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     19:19:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    20:20:kotlin.random.Random com.fractal.tiler.MainActivity.access$getRand$cp():0:0 -> onClick
-    20:20:kotlin.random.Random com.fractal.tiler.MainActivity$Companion.getRand():0 -> onClick
-    20:20:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0 -> onClick
+    20:20:int[] com.fractal.tiler.DPrimaryColors.getColors():0:0 -> onClick
+    20:20:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0 -> onClick
     20:20:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     20:20:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     20:20:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-    21:21:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomColorsRange():0:0 -> onClick
+    21:21:com.fractal.tiler.ColorRangeClass com.fractal.tiler.ColorClass.addNewRandomPrimariesRange():0:0 -> onClick
     21:21:void com.fractal.tiler.BitmapColorSpread.addNewColorB():0 -> onClick
     21:21:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-8(com.fractal.tiler.SecondFragment,android.view.View):0 -> onClick
     21:21:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
@@ -33457,7 +33433,7 @@ f1.SecondFragment$$ExternalSyntheticLambda0 -> f1.b0:
     100:100:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
     101:101:void com.fractal.tiler.SecondFragment.onViewCreated$lambda-9(com.fractal.tiler.SecondFragment,android.view.View):0:0 -> onClick
     101:101:void com.fractal.tiler.SecondFragment$$InternalSyntheticLambda$0$7adbe251624f14021f67c3f0907c999333ea63685091d27770dd3a8251122390$0.onClick$bridge(android.view.View):0 -> onClick
-f1.ThirdFragment$$ExternalSyntheticLambda0 -> f1.h0:
+f1.ThirdFragment$$ExternalSyntheticLambda0 -> f1.i0:
     int com.fractal.tiler.ThirdFragment$$InternalSyntheticLambda$0$0e97d0c46bf05165b2e5c2f2c029527eb0cc3e4bb3051244f68e5569f5a5d68c$0.$r8$classId -> e
     com.fractal.tiler.ThirdFragment com.fractal.tiler.ThirdFragment$$InternalSyntheticLambda$0$0e97d0c46bf05165b2e5c2f2c029527eb0cc3e4bb3051244f68e5569f5a5d68c$0.f$1 -> g
     android.view.View com.fractal.tiler.ThirdFragment$$InternalSyntheticLambda$0$0e97d0c46bf05165b2e5c2f2c029527eb0cc3e4bb3051244f68e5569f5a5d68c$0.f$0 -> f
@@ -33551,7 +33527,7 @@ kotlin.collections.ArrayAsCollection -> l2.a:
 kotlin.collections.ArraysKt___ArraysKt -> l2.b:
     1:1:java.lang.Object[] kotlin.collections.ArraysKt___ArraysJvmKt.copyInto(java.lang.Object[],java.lang.Object[],int,int,int):0:0 -> p
     1:1:java.lang.Object[] kotlin.collections.ArraysKt___ArraysJvmKt.copyInto$default(java.lang.Object[],java.lang.Object[],int,int,int,int,java.lang.Object):0 -> p
-    int getLastIndex(float[]) -> q
+    int getLastIndex(int[]) -> q
     char single(char[]) -> r
 kotlin.collections.CollectionsKt__CollectionsKt -> l2.c:
     1:1:kotlinx.coroutines.CompletableJob kotlinx.coroutines.JobKt__JobKt.Job(kotlinx.coroutines.Job):0:0 -> a
@@ -34171,20 +34147,30 @@ kotlin.text.StringsKt__StringsKt -> x2.d:
     2:2:int kotlin.text.StringsKt__StringsKt.indexOfAny(java.lang.CharSequence,char[],int,boolean):0:0 -> u
     2:2:int kotlin.text.StringsKt__StringsKt.indexOf(java.lang.CharSequence,char,int,boolean):0 -> u
     2:2:int indexOf$default(java.lang.CharSequence,char,int,boolean,int,java.lang.Object):0 -> u
-    boolean kotlin.text.StringsKt__StringsJVMKt.regionMatches(java.lang.String,int,java.lang.String,int,int,boolean) -> v
-    1:1:boolean kotlin.text.StringsKt__StringsJVMKt.startsWith(java.lang.String,java.lang.String,boolean):0:0 -> w
-    1:1:boolean kotlin.text.StringsKt__StringsJVMKt.startsWith$default(java.lang.String,java.lang.String,boolean,int,java.lang.Object):0 -> w
-    1:1:java.lang.String kotlin.text.StringsKt__StringsKt.substringAfterLast(java.lang.String,char,java.lang.String):0:0 -> x
-    1:1:java.lang.String substringAfterLast$default(java.lang.String,char,java.lang.String,int,java.lang.Object):0 -> x
-    2:2:int kotlin.text.StringsKt__StringsKt.lastIndexOf$default(java.lang.CharSequence,char,int,boolean,int,java.lang.Object):0:0 -> x
-    2:2:java.lang.String kotlin.text.StringsKt__StringsKt.substringAfterLast(java.lang.String,char,java.lang.String):0 -> x
-    2:2:java.lang.String substringAfterLast$default(java.lang.String,char,java.lang.String,int,java.lang.Object):0 -> x
-    3:3:int kotlin.text.StringsKt__StringsKt.lastIndexOf(java.lang.CharSequence,char,int,boolean):0:0 -> x
-    3:3:int kotlin.text.StringsKt__StringsKt.lastIndexOf$default(java.lang.CharSequence,char,int,boolean,int,java.lang.Object):0 -> x
-    3:3:java.lang.String kotlin.text.StringsKt__StringsKt.substringAfterLast(java.lang.String,char,java.lang.String):0 -> x
-    3:3:java.lang.String substringAfterLast$default(java.lang.String,char,java.lang.String,int,java.lang.Object):0 -> x
-    4:4:java.lang.String kotlin.text.StringsKt__StringsKt.substringAfterLast(java.lang.String,char,java.lang.String):0:0 -> x
-    4:4:java.lang.String substringAfterLast$default(java.lang.String,char,java.lang.String,int,java.lang.Object):0 -> x
+    1:1:java.lang.String kotlin.text.StringsKt__StringsKt.padStart(java.lang.String,int,char):0:0 -> v
+    1:1:java.lang.String padStart$default(java.lang.String,int,char,int,java.lang.Object):0 -> v
+    2:2:java.lang.CharSequence kotlin.text.StringsKt__StringsKt.padStart(java.lang.CharSequence,int,char):0:0 -> v
+    2:2:java.lang.String kotlin.text.StringsKt__StringsKt.padStart(java.lang.String,int,char):0 -> v
+    2:2:java.lang.String padStart$default(java.lang.String,int,char,int,java.lang.Object):0 -> v
+    3:3:java.lang.String kotlin.text.StringsKt__StringsKt.padStart(java.lang.String,int,char):0:0 -> v
+    3:3:java.lang.String padStart$default(java.lang.String,int,char,int,java.lang.Object):0 -> v
+    4:4:java.lang.CharSequence kotlin.text.StringsKt__StringsKt.padStart(java.lang.CharSequence,int,char):0:0 -> v
+    4:4:java.lang.String kotlin.text.StringsKt__StringsKt.padStart(java.lang.String,int,char):0 -> v
+    4:4:java.lang.String padStart$default(java.lang.String,int,char,int,java.lang.Object):0 -> v
+    boolean kotlin.text.StringsKt__StringsJVMKt.regionMatches(java.lang.String,int,java.lang.String,int,int,boolean) -> w
+    1:1:boolean kotlin.text.StringsKt__StringsJVMKt.startsWith(java.lang.String,java.lang.String,boolean):0:0 -> x
+    1:1:boolean kotlin.text.StringsKt__StringsJVMKt.startsWith$default(java.lang.String,java.lang.String,boolean,int,java.lang.Object):0 -> x
+    1:1:java.lang.String kotlin.text.StringsKt__StringsKt.substringAfterLast(java.lang.String,char,java.lang.String):0:0 -> y
+    1:1:java.lang.String substringAfterLast$default(java.lang.String,char,java.lang.String,int,java.lang.Object):0 -> y
+    2:2:int kotlin.text.StringsKt__StringsKt.lastIndexOf$default(java.lang.CharSequence,char,int,boolean,int,java.lang.Object):0:0 -> y
+    2:2:java.lang.String kotlin.text.StringsKt__StringsKt.substringAfterLast(java.lang.String,char,java.lang.String):0 -> y
+    2:2:java.lang.String substringAfterLast$default(java.lang.String,char,java.lang.String,int,java.lang.Object):0 -> y
+    3:3:int kotlin.text.StringsKt__StringsKt.lastIndexOf(java.lang.CharSequence,char,int,boolean):0:0 -> y
+    3:3:int kotlin.text.StringsKt__StringsKt.lastIndexOf$default(java.lang.CharSequence,char,int,boolean,int,java.lang.Object):0 -> y
+    3:3:java.lang.String kotlin.text.StringsKt__StringsKt.substringAfterLast(java.lang.String,char,java.lang.String):0 -> y
+    3:3:java.lang.String substringAfterLast$default(java.lang.String,char,java.lang.String,int,java.lang.Object):0 -> y
+    4:4:java.lang.String kotlin.text.StringsKt__StringsKt.substringAfterLast(java.lang.String,char,java.lang.String):0:0 -> y
+    4:4:java.lang.String substringAfterLast$default(java.lang.String,char,java.lang.String,int,java.lang.Object):0 -> y
 kotlinx.coroutines.BlockingEventLoop -> y2.a:
     java.lang.Thread thread -> j
     java.lang.Thread getThread() -> v

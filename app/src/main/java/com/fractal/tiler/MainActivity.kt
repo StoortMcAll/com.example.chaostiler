@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         enum class DataProcess {LINEAR, STATISTICAL}
 
-        enum class ImageFilter {Blur, Gaussian, Motion, BoxBlur}
+        enum class ImageFilter {Blur, Gaussian, Motion, BoxBlur, Median}
 
         var filter = ImageFilter.Blur
 
@@ -67,10 +67,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        if (Build.VERSION.SDK_INT >= 30) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
+            val attrib = window.attributes
+            attrib.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
 
         hideSystemUI()
+
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         window.decorView.setOnSystemUiVisibilityChangeListener { visibility ->
             if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0){
@@ -136,14 +146,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideSystemUI() {
         //window.setDecorFitsSystemWindows(false)
-
+/*
         window.setFlags(2048 or 1024 or 512 or 256 or 4 or 2,
             2048 or 1024 or 512 or 256 or 4 or 2)
-/*
+
         if (Build.VERSION.SDK_INT >= 19) {
             window.setFlags(2048 or 1024 or 512 or 256 or 4 or 2,
                 2048 or 1024 or 512 or 256 or 4 or 2)
-        } else {
+        } else {*/
+
+       // supportActionBar?.hide()
+
             // Enables regular immersive mode.
             // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
             // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -156,8 +169,13 @@ class MainActivity : AppCompatActivity() {
                     // Hide the nav bar and status bar
                     or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_FULLSCREEN)
-        }
-   */
+       // }
+
     }
 
+    private fun setFullScreen() {
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+    }
 }

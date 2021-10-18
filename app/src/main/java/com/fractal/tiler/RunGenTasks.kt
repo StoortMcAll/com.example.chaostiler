@@ -12,6 +12,10 @@ import com.fractal.tiler.MainActivity.Companion.mSeekbarMax
 import com.fractal.tiler.MainActivity.Companion.quiltType
 import com.fractal.tiler.MainActivity.Companion.width
 import kotlinx.coroutines.*
+import kotlin.math.PI
+import kotlin.math.acos
+import kotlin.math.cos
+import kotlin.math.sin
 
 var doingCalc = false
 
@@ -28,7 +32,6 @@ var aColors = IntArray(width * height)
 var job : Job? = null
 
 // endregion
-
 
 
 fun switchProcessType() {
@@ -48,12 +51,9 @@ fun runSetToZero() {
 
     var min = 0
 
-    while (pixelDataClone.mPixelArrayBusy) {
-    }
+    while (pixelDataClone.mPixelArrayBusy) { }
 
-    while (pixelDataClone.aHitStats[min] == 0){
-        min++
-    }
+    while (pixelDataClone.aHitStats[min] == 0) min++
 
     if (min > 0) {
         for (i in 0 until arraySize) {
@@ -66,6 +66,40 @@ fun runSetToZero() {
         while (pixelDataClone.aHitStats[0] == 0){
             pixelDataClone.aHitStats.removeFirst()
         }
+    }
+
+    if (pixelDataClone.mMaxHits < 50) return
+
+    var index = 0
+    var total = 0.0F
+
+    val hitstats = pixelDataClone.aHitStats
+
+    do{
+        total += hitstats[index]
+        index++
+
+    } while ((total / arraySize) < 0.995f)
+    index--
+
+    if (index == pixelDataClone.mMaxHits) return
+
+    pixelDataClone.mMaxHits = index
+    pixelDataClone.mHitsCount = 0
+    pixelDataClone.aHitStats = mutableListOf<Int>()
+
+    for (i in 0..index) pixelDataClone.aHitStats.add(0)
+
+    var hits : Int
+    for (i in 0 until arraySize) {
+        hits = pixelDataClone.aPixelArray[i]
+        if (hits > index){
+            hits = index
+            pixelDataClone.aPixelArray[i] = hits
+        }
+
+        pixelDataClone.mHitsCount += hits
+        pixelDataClone.aHitStats[hits]++
     }
 }
 
@@ -90,7 +124,7 @@ fun startNewRunFormula(isNewRun : Boolean) {
             aColors = if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
                 buildPixelArrayFromIncrementalColors(pixelData)
             } else {
-                buildPixelArrayFromStatisticalColors(pixelData)
+                buildPixelArrayFromSinwave(pixelData)
             }
         }
         else{
@@ -120,7 +154,7 @@ fun upDataUI() {
     val value = pixelData.mMaxHits.toString()
     val iters = pixelData.mHitsCount.toString()
 
-    val text = FirstFragment.mHits + " " + value + " " + FirstFragment.mTotal + " " + iters
+    val text = FirstFragment.mHits + " " + value.padStart(4) + " " + FirstFragment.mTotal + " " + iters.padStart(10)
     mMaxHitsText.text = text.subSequence(0, text.length)
 
     bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
@@ -135,7 +169,7 @@ fun setTileViewBitmap(pixeldatacopy: PixelData) {
             buildPixelArrayFromIncrementalColors(pixeldatacopy)
         }
         else -> {
-            buildPixelArrayFromStatisticalColors(pixeldatacopy)
+            buildPixelArrayFromSinwave(pixeldatacopy)
         }
     }
     bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
@@ -145,6 +179,7 @@ fun setTileViewBitmap(pixeldatacopy: PixelData) {
     }
 }
 
+
 fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
     val curRange = bitmapColorSpread.aCurrentRange
 
@@ -153,7 +188,7 @@ fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
     val seekPosAsFraction = curRange.getRangeProgress() * (1.0 / mSeekbarMax.toDouble())
 
     val leastcolors = 32
-    val colorscount = leastcolors + ((curRange.mColorSpreadCount - leastcolors) * seekPosAsFraction).toInt()
+    val colorscount = leastcolors + ((mColors.lastIndex - leastcolors) * seekPosAsFraction).toInt()
 
     val count = pixeldata.arraySize
 
@@ -178,10 +213,113 @@ fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
     return  cols
 }
 
+
+fun buildPixelArrayFromSinwave(pixeldata: PixelData) : IntArray {
+    val colrange = bitmapColorSpread.aCurrentRange
+
+    val colspreadcount = colrange.aColorSpread.lastIndex
+
+    val seekPosAsFraction = colrange.getRangeProgress() * (1.0 / mSeekbarMax.toFloat())
+
+    val count = pixeldata.arraySize
+    val cols = IntArray(count)
+    val hitindex = IntArray(pixeldata.mMaxHits + 1)
+
+    val arc = PI / 2.0
+    val wd = pixeldata.mMaxHits
+    val widthover1 = 1.0f / wd
+    var valueInc : Float
+    var valueArc : Float
+    var dif : Float
+    var index : Int
+
+    for (x in 0..wd) {
+        valueInc = x * widthover1
+        valueArc = sin(valueInc * arc).toFloat()
+
+        dif = valueArc - valueInc
+
+        index = ((valueInc + dif * seekPosAsFraction) * colspreadcount).toInt()
+
+        hitindex[x] = index
+    }
+
+    for (i in 0  until count){
+        index = pixeldata.aPixelArray[i]
+
+        cols[i] = colrange.aColorSpread[hitindex[index]]
+    }
+
+    return  cols
+}
+
+
+
+fun buildPixelArrayFromCosecColors(pixeldata: PixelData) : IntArray {
+    val colrange = bitmapColorSpread.aCurrentRange
+
+    val colspreadcount = colrange.aColorSpread.lastIndex
+
+    val colspreadmaxrange = colrange.getRangeProgress() * (1.0 / mSeekbarMax.toFloat())
+
+    val count = pixeldata.arraySize
+    val cols = IntArray(count)
+
+    val adjustedIndex = setCosecValues(pixeldata.mMaxHits, colspreadcount)
+
+    val finalIndex = IntArray(pixeldata.mMaxHits + 1){0}
+
+    var basecol : Float
+    var statcol : Int
+    var df : Int
+    for (i in 1..pixeldata.mMaxHits){
+        basecol = (i / pixeldata.mMaxHits.toFloat()) * colspreadcount
+
+        statcol = adjustedIndex[i]
+
+        df = (statcol - basecol).toInt()
+
+        basecol += (df * colspreadmaxrange).toInt()
+
+        finalIndex[i] = basecol.toInt()
+    }
+
+    var cl : Int
+
+    for (i in 0  until count){
+        cl = pixeldata.aPixelArray[i]
+
+        cl = finalIndex[cl]
+
+        if (cl > colspreadcount) cl = colspreadcount
+
+        cols[i] = colrange.aColorSpread[cl]
+    }
+
+    return  cols
+}
+
+private fun setCosecValues(maxHit : Int, colorsCount : Int) : IntArray{
+    val max = acos(1.0 / (1.0 + 1.0))
+
+    val slice = if (maxHit == 0) { 0.0 } else { max / maxHit  }
+
+    val mult = colorsCount / max
+
+    val colorIndex = IntArray(maxHit + 1)
+
+    for (x in 0..maxHit){
+        colorIndex[x]= (mult * ((1.0 / cos(x * slice)) - 1.0)).toInt()
+    }
+
+    return colorIndex
+}
+
+
 fun buildPixelArrayFromStatisticalColors(pixeldata: PixelData) : IntArray {
     val colrange = bitmapColorSpread.aCurrentRange
 
-    val colspreadcount = colrange.mColorSpreadCount
+    val colspreadcount = colrange.aColorSpread.lastIndex
 
     val colspreadmaxrange = colrange.getRangeProgress() * (1.0 / mSeekbarMax.toFloat())
 
