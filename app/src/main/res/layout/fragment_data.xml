@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DataFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <Button
+        android:id="@+id/undo_changes"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="2dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/button_background"
+        android:contentDescription="@string/content_description_open_generate_frag"
+        android:insetTop="2dp"
+        android:insetBottom="2dp"
+        android:text="@string/undo_all_changes"
+        android:textAllCaps="false"
+        android:textColor="@color/text_color"
+        android:textColorHighlight="@color/text_color_highlights"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="3sp"
+        app:autoSizeStepGranularity="1sp"
+        app:autoSizeTextType="uniform"
+        app:strokeColor="@color/button_stroke" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:insetTop="2dp"
+        android:insetBottom="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="1dp"
+
+        android:hint="@string/smooth"
+        app:startIconDrawable="@drawable/ic_baseline_blur_on_24"
+        android:backgroundTint="@color/button_background"
+        app:strokeColor="@color/button_stroke">
+
+        <AutoCompleteTextView
+            android:id="@+id/autotextview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="none"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:backgroundTint="@color/button_background"
+            app:strokeColor="@color/button_stroke"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/hello_blank_fragment" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/hello_blank_fragment" />
+
+</LinearLayout>

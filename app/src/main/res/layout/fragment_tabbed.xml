@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/constraint_background"
+    tools:context=".TabbedFragment">
+
+
+    <LinearLayout
+        android:id="@+id/tabbed_page"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/tile_image_generate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/tab_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
+            android:background="@color/constraint_background"
+
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/mytabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
+                android:backgroundTint="@color/constraint_background"
+                android:textAllCaps="false"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/button_background"
+                app:tabMaxWidth="0dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/text_color_highlights"
+                app:tabTextColor="@color/text_color"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </LinearLayout>
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/myPagerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.25"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_linearlayout"
+            tools:ignore="SpeakableTextPresentCheck">
+
+        </androidx.viewpager.widget.ViewPager>
+
+        <LinearLayout
+            android:id="@+id/navigate_to"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/backto_firstfragment"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/button_background"
+                android:contentDescription="@string/content_description_open_generate_frag"
+                android:insetTop="2dp"
+                android:insetBottom="2dp"
+                android:text="@string/goto_generate_tile"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textColorHighlight="@color/text_color_highlights"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="3sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
+                app:strokeColor="@color/button_stroke" />
+
+            <Button
+                android:id="@+id/switch_to_editor"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/button_background"
+                android:contentDescription="@string/content_description_open_savewallpaper_frag"
+                android:insetTop="2dp"
+                android:insetBottom="2dp"
+                android:text="@string/goto_tile_editor_right"
+                android:textAllCaps="false"
+                android:textColor="@color/text_color"
+                android:textColorHighlight="@color/text_color_highlights"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="3sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
+                app:strokeColor="@color/button_stroke" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/tile_image_generate"
+        layout="@layout/tile_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabbed_page"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -178,7 +178,7 @@ class FirstFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.switch_to_editor).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            findNavController().navigate(R.id.action_FirstFragment_to_TabbedFragment)
         }
 
     }

@@ -1,0 +1,12 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/constraint_background"
+    android:backgroundTint="@color/button_background"
+    android:text="@string/box_blur"
+    android:textAllCaps="false"
+    android:textColor="@color/text_color"
+    android:textColorHighlight="@color/text_color_highlights"
+    android:textSize="26sp"
+    android:textStyle="bold" />

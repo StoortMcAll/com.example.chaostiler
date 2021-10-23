@@ -1,9 +1,18 @@
 <resources>
+
+    <string-array name="filter_types">
+        <item>Blur</item>
+        <item>Gaussian</item>
+        <item>Motion</item>
+        <item>BoxBlur</item>
+        <item>Median</item>
+    </string-array>
+
     <string name="app_name">Fractal Wallpaper</string>
 
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-
+    <string name="tabbed_fragment_label">Tabbed Fragment</string>
     <string name="square">Square</string>
     <string name="content_description_square">Generate Square Image Tile</string>
     <string name="scratch">Icon</string>
@@ -60,4 +69,10 @@
 
     <string name="resume_current_image_generation">Resume current image generation</string>
     <string name="restore_image_data_back_to_intial_state">Restore Image data back to intial state</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="box_blur">Box Blur</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="smooth">Smooth</string>
 </resources>

@@ -13,6 +13,22 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_TabbedFragment"
+            app:destination="@id/TabbedFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/TabbedFragment"
+        android:name="com.fractal.tiler.TabbedFragment"
+        android:label="@string/tabbed_fragment_label"
+        tools:layout="@layout/fragment_tabbed">
+        <action
+            android:id="@+id/action_TabbedFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_TabbedFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
     </fragment>
 
     <fragment
