@@ -5,9 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".ColorFragment">
 
-
     <Button
         android:id="@+id/backto_firstfragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/goto_generate_tile" />
+
+
+    <Button
+        android:id="@+id/coltab_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/goto_generate_tile" />

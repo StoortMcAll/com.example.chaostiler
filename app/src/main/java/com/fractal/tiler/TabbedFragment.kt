@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -14,6 +16,23 @@ class TabbedFragment : Fragment() {
     private lateinit var pTabs: TabLayout
     private lateinit var pViewPager: ViewPager
     private lateinit var pagerAdapters: PagerAdapters
+
+    val mThisPageID = 1
+
+    var isBusy = false
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if ((this.activity as AppCompatActivity).supportActionBar?.isShowing == false)
+            (this.activity as AppCompatActivity).supportActionBar?.show()
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.action_TabbedFragment_to_FirstFragment)
+        }
+        callback.isEnabled
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

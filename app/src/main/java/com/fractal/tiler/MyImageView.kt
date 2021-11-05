@@ -80,6 +80,7 @@ class MyImageView @JvmOverloads constructor(
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -161,9 +162,9 @@ class MyImageView @JvmOverloads constructor(
 
         shader = BitmapShader(bmImage, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
 
-        paint.shader = shader
-
         setOffsetScale()
+
+        paint.shader = shader
 
         invalidate()
     }
@@ -192,18 +193,25 @@ class MyImageView @JvmOverloads constructor(
         val wallpaperManager: WallpaperManager = WallpaperManager.getInstance(this.context)
         if (wallpaperManager.isWallpaperSupported) {
 
-            val wd = wallpaperManager.desiredMinimumWidth
-            val ht = wallpaperManager.desiredMinimumHeight
+            val wd = width//wallpaperManager.desiredMinimumWidth
+            val ht = height//wallpaperManager.desiredMinimumHeight
 
             val texture = Bitmap.createBitmap(wd, ht, Bitmap.Config.ARGB_8888)
 
             val canvas = Canvas(texture)
 
-            canvas.drawRect(0.0f, 0.0f, wd.toFloat(), ht.toFloat(), paint)
+                shaderMatrix.setTranslate(offset.x - bmImage.width * mScaleFactor * 0.08f, offset.y - bmImage.width * mScaleFactor * 0.08f)
+
+                shaderMatrix.preScale(mScaleFactor * 0.92f, mScaleFactor * 0.92f)
+
+                shader.setLocalMatrix(shaderMatrix)
+
+            canvas.drawRect(0.0f, 0.0f, wd.toFloat() - 1.0f, ht.toFloat() - 1.0f, paint)
 
             try {
                 if (isWallpaper) {
-                    wallpaperManager.setBitmap(texture)
+                    //val rect = Rect(0, 0, wd - 1, ht - 1)
+                    wallpaperManager.setBitmap(texture)//, rect, false)
                 } else {
                     bitmapToFile(texture)
                 }
@@ -223,17 +231,11 @@ class MyImageView @JvmOverloads constructor(
         var filenumber = 0
         var filefullname: String
 
-        var doesFileExist: Boolean
         do {
             val filenumberText = formatter.format(filenumber++)
-            filefullname = filepath + filename + filenumberText + filetype
 
-            if (File(filefullname).exists()){
-                doesFileExist = true
-            } else{
-                doesFileExist = false
-            }
-        }while(doesFileExist)
+            filefullname = filepath + filename + filenumberText + filetype
+        }while(File(filefullname).exists())
 
         return try {
             file = File(filefullname)

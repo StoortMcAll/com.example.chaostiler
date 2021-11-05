@@ -9,17 +9,10 @@ import android.widget.Button
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
-import com.fractal.tiler.R
-import kotlinx.coroutines.Job
 
 class ColorFragment : Fragment() {
 
     val mThisPageID = 1
-
-    var jobTextures : Job? = null
-
-    var calcActive = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +21,7 @@ class ColorFragment : Fragment() {
             (this.activity as AppCompatActivity).supportActionBar?.show()
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+            findNavController().navigate(R.id.action_TabbedFragment_to_FirstFragment)
         }
         callback.isEnabled
     }

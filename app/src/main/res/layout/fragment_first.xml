@@ -29,190 +29,90 @@
 
             <Button
                 android:id="@+id/run_square"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/outlineButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
-                android:insetLeft="2dp"
-                android:insetTop="2dp"
                 android:insetRight="1dp"
-                android:insetBottom="2dp"
                 android:text="@string/square"
-                android:contentDescription="@string/content_description_square"
-                android:textAllCaps="false"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="3sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-                app:strokeColor="@color/button_stroke" />
+                android:contentDescription="@string/content_description_square" />
 
             <Button
                 android:id="@+id/run_scratch"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/outlineButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
                 android:insetLeft="1dp"
-                android:insetTop="2dp"
                 android:insetRight="1dp"
-                android:insetBottom="2dp"
                 android:text="@string/scratch"
-                android:contentDescription="@string/content_description_icon"
-                android:textAllCaps="false"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="3sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
-                android:textColor="@color/text_color"
-                app:strokeColor="@color/button_stroke" />
+                android:contentDescription="@string/content_description_icon" />
 
             <Button
                 android:id="@+id/run_hex"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/outlineButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
                 android:insetLeft="1dp"
-                android:insetTop="2dp"
-                android:insetRight="2dp"
-                android:insetBottom="2dp"
-                android:shadowColor="@color/my_yellow"
                 android:text="@string/hexagon"
-                android:contentDescription="@string/content_description_hexagon"
-                android:textAllCaps="false"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="3sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-                android:textColorLink="@color/black"
-                app:strokeColor="@color/button_stroke" />
+                android:contentDescription="@string/content_description_hexagon" />
 
         </LinearLayout>
 
         <!-- Start - Pause Resume Button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:background="@color/constraint_background">
+
 
             <Button
                 android:id="@+id/resume"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                style="@style/outlineButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
-                android:insetLeft="2dp"
-                android:insetTop="2dp"
-                android:insetRight="2dp"
-                android:insetBottom="2dp"
                 android:text="@string/resume_calc"
                 android:contentDescription="@string/resume_current_image_generation"
-                android:textAllCaps="false"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="3sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-                android:visibility="visible"
-                app:strokeColor="@color/button_stroke" />
+                android:visibility="visible" />
 
-        </LinearLayout>
 
         <!-- Start - Choose Colours Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:background="@color/constraint_background">
-
-            <include
-                layout="@layout/choose_palette"/>
-
-        </LinearLayout>
+        <include layout="@layout/choose_palette" />
 
         <!-- Start - Colour Style Button -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:background="@color/constraint_background">
+            android:background="@color/constraint_background"
+            android:orientation="horizontal">
 
-            <include
-                layout="@layout/analysis_type"/>
+            <include layout="@layout/analysis_type" />
 
         </LinearLayout>
 
         <!-- Start - Generation Info  -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:background="@color/constraint_background">
 
             <TextView
                 android:id="@+id/first_maxhits"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/outlineButton"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/hits_string"
-                android:contentDescription="@string/content_description_hits"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="3sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-                android:visibility="visible"
-                app:strokeColor="@color/button_stroke" />
-
-        </LinearLayout>
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/hitsmin_string"
+                android:contentDescription="@string/content_description_hits">
+            </TextView>
 
         <!-- Start - Goto Editor Button -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:background="@color/constraint_background">
+<!-- 9826903727608879537 -->
 
             <Button
                 android:id="@+id/switch_to_editor"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/outlineButton"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/button_background"
-                android:insetLeft="2dp"
-                android:insetTop="2dp"
-                android:insetRight="2dp"
-                android:insetBottom="2dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="@string/goto_tile_editor_right"
-                android:contentDescription="@string/content_description_open_editor_frag"
-                android:textAllCaps="false"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="3sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-                app:strokeColor="@color/button_stroke" />
+                android:contentDescription="@string/content_description_open_editor_frag" />
 
-        </LinearLayout>
 
     </LinearLayout>
 

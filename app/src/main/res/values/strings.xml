@@ -22,9 +22,9 @@
     <string name="resume_calc">Resume</string>
     <string name="stop_calc">Pause</string>
     <string name="content_description_tileimage">Drag and zoom the image as it generates</string>
-    <string name="hits_string">Hits : Max - </string>
+    <string name="hitsmin_string">Min - </string>
     <string name="content_description_hits">Most times any pixel in the Image Tile has been hit</string>
-    <string name="total_string"> Total - </string>
+    <string name="hitsmax_string">Max - </string>
 
     <string name="goto_tile_editor_left"><![CDATA[<— Tile Editor]]></string>
     <string name="goto_tile_editor_right"><![CDATA[Tile Editor   —>]]></string>
@@ -39,7 +39,7 @@
 
     <string name="left_right"><![CDATA[<>]]></string>
     <string name="content_description_blur_select">Select next Image Filter</string>
-    <string name="perform_blur"><![CDATA[+]]></string>
+    <string name="perform_blur">Apply Filter</string>
     <string name="content_description_blur_perform">Perform Image Filter on Image</string>
     <string name="blur">Blur</string>
     <string name="content_description_blur">Chosen Image Filter</string>
@@ -52,6 +52,7 @@
     <string name="goto_save_wallpaper"><![CDATA[Save Wallpaper —>]]></string>
     <string name="content_description_open_savewallpaper_frag">Switch to save Image to Wallpaper page</string>
     <string name="content_description_adjust_spread">Slider value affecting Colour selection</string>
+    <string name="content_description_adjust_spread_image">Slider value ColourRange Image</string>
     <string name="add_new_palette_a">New 1</string>
     <string name="content_description_new_palette_a">Create new ColourRange using formula 1</string>
     <string name="add_new_palette_b">New 2</string>
@@ -68,8 +69,8 @@
     <string name="iconocat_homepage">Iconocat Homepage</string>
 
     <string name="resume_current_image_generation">Resume current image generation</string>
-    <string name="restore_image_data_back_to_intial_state">Restore Image data back to intial state</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="restore_image_data_back_to_intial_state">Restore Image data back to initial state</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="box_blur">Box Blur</string>
     <string name="dummy_button">Dummy Button</string>

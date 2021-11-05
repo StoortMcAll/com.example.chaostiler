@@ -15,7 +15,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.fractal.tiler.FirstFragment.Companion.tileImageView
 import com.fractal.tiler.MainActivity.Companion.mEnableDataClone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +25,8 @@ import kotlinx.coroutines.launch
 class ThirdFragment : Fragment() {
 
     val mThisPageID = 2
+
+    lateinit var imageView : MyImageView
 
     var isBusy = false
 
@@ -56,9 +57,18 @@ class ThirdFragment : Fragment() {
 
         mEnableDataClone = false
 
-        tileImageView = view.findViewById(R.id.fullscreenImageView)
+        imageView = view.findViewById(R.id.fullscreenImageView)
 
-        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+        //tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+        setTileImageView(imageView)
+
+        imageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+
+
+
+        //tileImageView = view.findViewById(R.id.fullscreenImageView)
+
+       // tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
         view.findViewById<Button>(R.id.save_wallpaper).setOnClickListener {
             val shaderView = view.findViewById<TextView>(R.id.shader)
@@ -70,7 +80,7 @@ class ThirdFragment : Fragment() {
                 shaderView.invalidate()
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    tileImageView.paintWallpaper(true)
+                    imageView.paintWallpaper(true)
 
                     CoroutineScope(Dispatchers.Main).launch {
                         shaderView.visibility = View.INVISIBLE
@@ -92,7 +102,7 @@ class ThirdFragment : Fragment() {
                 shaderView.invalidate()
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    tileImageView.paintWallpaper(false)
+                    imageView.paintWallpaper(false)
 
                     CoroutineScope(Dispatchers.Main).launch {
                         shaderView.visibility = View.INVISIBLE

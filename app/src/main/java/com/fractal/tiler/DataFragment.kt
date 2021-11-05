@@ -1,6 +1,5 @@
 package com.fractal.tiler
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
+import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import com.fractal.tiler.MainActivity.Companion.filter
 import com.fractal.tiler.databinding.FragmentDataBinding
 
@@ -19,6 +20,19 @@ class DataFragment : Fragment() {
     private val binding get() = _fragmentDataBinding!!
 
     var filterId = filter.ordinal
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if ((this.activity as AppCompatActivity).supportActionBar?.isShowing == false)
+            (this.activity as AppCompatActivity).supportActionBar?.show()
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.action_TabbedFragment_to_FirstFragment)
+        }
+        callback.isEnabled
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -40,8 +54,6 @@ class DataFragment : Fragment() {
 
         binding.autotextview.setText(text, false)
 
-        val id = binding.autotextview.getListSelection()
-
         binding.autotextview.setListSelection(filterId)
 
      /*   binding.autotextview.onItemClickListener = object :
@@ -51,7 +63,6 @@ class DataFragment : Fragment() {
                 view: View?,
                 position: Int,
                 id: Long, ) {
-                TODO("Not yet implemented")
             }
         }
         */

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/colourstyle_framelayout"
     android:layout_width="match_parent"
@@ -11,26 +10,10 @@
 
     <Button
         android:id="@+id/data_to_colour_type"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/outlineButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/linear"
-        android:contentDescription="@string/content_description_colour_distribution"
-        android:layout_marginStart="2dp"
-        android:backgroundTint="@color/button_background"
-        android:insetTop="2dp"
-        android:insetBottom="2dp"
-        android:textAllCaps="false"
-        app:autoSizeMaxTextSize="100sp"
-        app:autoSizeMinTextSize="3sp"
-        app:autoSizeStepGranularity="1sp"
-        app:autoSizeTextType="uniform"
-        android:textColor="@color/text_color"
-        android:textColorHighlight="@color/text_color_highlights"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/button_stroke" />
+        android:contentDescription="@string/content_description_colour_distribution" />
 
 </FrameLayout>

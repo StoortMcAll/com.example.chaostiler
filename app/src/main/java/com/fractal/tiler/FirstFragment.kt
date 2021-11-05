@@ -39,13 +39,15 @@ class FirstFragment : Fragment() {
     lateinit var mPause: String
     lateinit var mResum: String
 
+    lateinit var tileImageView : MyImageView
+    lateinit var hitsInfoTextView : TextView
 
     companion object{
-        lateinit var tileImageView : MyImageView
-        lateinit var mMaxHitsText : TextView
+        //lateinit var tileImageView : MyImageView
 
-        lateinit var mHits : String
-        lateinit var mTotal : String
+
+        var mHitsMinString : String = ""
+        var mHitsMaxString : String = ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +58,8 @@ class FirstFragment : Fragment() {
         val mresum = getString(R.string.resume_calc)
         mResum = mresum.substring(0, mresum.length)
 
-        mHits = getString(R.string.hits_string)
-        mTotal = getString(R.string.total_string)
+        mHitsMinString = getString(R.string.hitsmin_string)
+        mHitsMaxString = getString(R.string.hitsmax_string)
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (doingCalc) {
@@ -94,7 +96,12 @@ class FirstFragment : Fragment() {
         tileImageView = view.findViewById(R.id.tile_image_view)
         tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
-        mMaxHitsText = view.findViewById(R.id.first_maxhits)
+        setTileImageView(tileImageView)// Set reference to MyImageView in RunGenTasks
+        //tileImageView = view.findViewById(R.id.tile_image_view)
+        //tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+
+        hitsInfoTextView = view.findViewById(R.id.first_maxhits)
+        setHitsInfoTextView(hitsInfoTextView)// Set reference to TextView in RunGenTasks
 
         makeVisible(view)
 
@@ -169,7 +176,7 @@ class FirstFragment : Fragment() {
             }
             else{
                 makeInvisible(view)
-                //MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
+
                 job = MainActivity.scopeIO.launch {
                     startNewRunFormula(false)
                 }
@@ -179,6 +186,7 @@ class FirstFragment : Fragment() {
 
         view.findViewById<Button>(R.id.switch_to_editor).setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_TabbedFragment)
+            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
     }
@@ -209,73 +217,65 @@ class FirstFragment : Fragment() {
 
     private fun makeVisible(view: View) {
         val resumbut = view.findViewById<Button>(R.id.resume)
-        view.findViewById<FrameLayout>(R.id.colourstyle_framelayout).isVisible = false
+        view.findViewById<FrameLayout>(R.id.colourstyle_framelayout).setVisibility(View.INVISIBLE)
         val chspal = view.findViewById<LinearLayout>(R.id.include_choose_palette)
-        view.findViewById<Button>(R.id.add_new_palette).isVisible = false
-        view.findViewById<Button>(R.id.add_new_palette2).isVisible = false
+        view.findViewById<Button>(R.id.add_new_palette).setVisibility(View.INVISIBLE)
+        view.findViewById<Button>(R.id.add_new_palette2).setVisibility(View.INVISIBLE)
         val navi = view.findViewById<Button>(R.id.switch_to_editor)
 
         if (pixelData.mMaxHits > 0) {
             if (!doingCalc) {
-                view.findViewById<Button>(R.id.run_square).isVisible = true
-                view.findViewById<Button>(R.id.run_scratch).isVisible = true
-                view.findViewById<Button>(R.id.run_hex).isVisible = true
+                view.findViewById<LinearLayout>(R.id.generate_linearlayout).isVisible = true
                 navi.isVisible = true
                 chspal.isVisible = true
                 resumbut.isVisible = true
-                mMaxHitsText.isVisible = true
+                hitsInfoTextView.isVisible = true
 
-                val value = pixelData.mMaxHits.toString()
-                val iters = pixelData.mHitsCount.toString()
+                val mmin = pixelData.mMinHits.toString()
+                val mmax = pixelData.mMaxHits.toString()
+                //val iters = pixelData.mHitsCount.toString()
 
-                val text = mHits + " " + value.padStart(4) + " " + mTotal + " " + iters.padStart(10)
-                mMaxHitsText.text = text.subSequence(0, text.length)
+                val text = mHitsMinString+ " "  + mmin.padStart(4)+ " "  + mHitsMaxString + " " + mmax.padStart(4)
+                hitsInfoTextView.text = text.subSequence(0, text.length)
 
                 resumbut.text = mResum
             }
             else{
-                view.findViewById<Button>(R.id.run_square).isVisible = false
-                view.findViewById<Button>(R.id.run_scratch).isVisible = false
-                view.findViewById<Button>(R.id.run_hex).isVisible = false
-                navi.isVisible = false
+                view.findViewById<LinearLayout>(R.id.generate_linearlayout).setVisibility(View.INVISIBLE)
+                navi.setVisibility(View.INVISIBLE)
                 chspal.isVisible = true
                 resumbut.isVisible = true
-                mMaxHitsText.isVisible = true
+                hitsInfoTextView.isVisible = true
 
                 resumbut.text = mPause
             }
         }
         else{
-            view.findViewById<Button>(R.id.run_square).isVisible = true
-            view.findViewById<Button>(R.id.run_scratch).isVisible = true
-            view.findViewById<Button>(R.id.run_hex).isVisible = true
-            navi.isVisible = false
-            chspal.isVisible = false
-            resumbut.isVisible = false
-            mMaxHitsText.isVisible = false
+            view.findViewById<LinearLayout>(R.id.generate_linearlayout).isVisible = true
+            navi.setVisibility(View.INVISIBLE)
+            chspal.setVisibility(View.INVISIBLE)
+            resumbut.setVisibility(View.INVISIBLE)
+            hitsInfoTextView.setVisibility(View.INVISIBLE)
         }
     }
 
     private fun makeInvisible(view: View) {
-        view.findViewById<Button>(R.id.run_square).isVisible = false
-        view.findViewById<Button>(R.id.run_scratch).isVisible = false
-        view.findViewById<Button>(R.id.run_hex).isVisible = false
-        view.findViewById<FrameLayout>(R.id.colourstyle_framelayout).isVisible = false
+        view.findViewById<LinearLayout>(R.id.generate_linearlayout).setVisibility(View.INVISIBLE)
+        view.findViewById<FrameLayout>(R.id.colourstyle_framelayout).setVisibility(View.INVISIBLE)
         view.findViewById<LinearLayout>(R.id.include_choose_palette).isVisible = true
-        view.findViewById<Button>(R.id.switch_to_editor).isVisible = false
+        view.findViewById<Button>(R.id.switch_to_editor).setVisibility(View.INVISIBLE)
         val resumbut = view.findViewById<Button>(R.id.resume)
         resumbut.isVisible = true
 
-        mMaxHitsText.isVisible = true
+        hitsInfoTextView.isVisible = true
 
-        val value = pixelData.mMaxHits.toString()
-        val iters = pixelData.mHitsCount.toString()
+        val mmin = pixelData.mMinHits.toString()
+        val mmax = pixelData.mMaxHits.toString()
 
-        var text = mHits + " " + value.padStart(4) + " " + mTotal + " " + iters.padStart(10)
-        mMaxHitsText.text = text.subSequence(0, text.length)
+        val text = mHitsMinString+ " "  + mmin.padStart(4)+ " "  + mHitsMaxString + " " + mmax.padStart(4)
+        hitsInfoTextView.text = text.subSequence(0, text.length)
 
-        text = "Pause"
-        resumbut.text = text.subSequence(0, text.length)
+        resumbut.text = mPause
     }
 
 }

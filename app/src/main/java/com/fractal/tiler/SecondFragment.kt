@@ -15,12 +15,12 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
-import com.fractal.tiler.FirstFragment.Companion.tileImageView
 import com.fractal.tiler.MainActivity.Companion.DataProcess
 import com.fractal.tiler.MainActivity.Companion.bitmapColorSpread
 import com.fractal.tiler.MainActivity.Companion.filter
 import com.fractal.tiler.MainActivity.Companion.ImageFilter
 import com.fractal.tiler.MainActivity.Companion.mEnableDataClone
+import com.fractal.tiler.databinding.FragmentSecondBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,6 +41,8 @@ class SecondFragment : Fragment() {
 
     var calcActive = false
 
+    private var _fragmentSecondBinding : FragmentSecondBinding? = null
+    private val binding get() = _fragmentSecondBinding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +59,19 @@ class SecondFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fragment_second, container, false)
+        _fragmentSecondBinding = FragmentSecondBinding.inflate(inflater, container, false)
+
+        if (mEnableDataClone) {
+            pixelDataClone = pixelData.clone()
+        }
+
+        bitmapColorSpread.updateColorSpreadBitmap(pixelDataClone)
+
+        binding.includePaletteScale?.paletteScaler?.setImageBitmap(bitmapColorSpread.seekbarBitmap)
+
+        bitmapColorSpread.mNewColors = false
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,9 +80,9 @@ class SecondFragment : Fragment() {
 
         MainActivity.mCurrentPageID = mThisPageID
 
-        if (mEnableDataClone) {
+       /* if (mEnableDataClone) {
             pixelDataClone = pixelData.clone()
-        }
+        }*/
 
         seekbar = view.findViewById(R.id.seekBar)
       /*  seekbar.progress = bitmapColorSpread.aCurrentRange.progressIncrement
@@ -80,11 +94,15 @@ class SecondFragment : Fragment() {
 
         setAnalysisButtonTitle()
 
-        tileImageView = view.findViewById(R.id.tile_image_view)
-        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+        val tileimageview : MyImageView = view.findViewById(R.id.tile_image_view)
+        //tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
-        updateTextures(false)
+        tileimageview.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
+        setTileImageView(tileimageview)// Set reference to MyImageView in RunGenTasks
+
+        //updateTextures(false)
+        setTileViewBitmap(pixelDataClone)
 
         seekbar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {

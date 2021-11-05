@@ -3,44 +3,38 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:background="@color/button_background"
-    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_weight="1"
+    android:background="@color/constraint_background"
     tools:showIn="@layout/fragment_second">
 
     <ImageButton
         android:id="@+id/palette_scaler"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
-        android:background="@drawable/greyscale"
-        android:contentDescription="@string/content_description_adjust_spread"
-        android:scaleType="fitXY"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.9"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/content_description_adjust_spread_image"
+        android:scaleType="fitXY"
+        android:background="@color/constraint_background"/>
 
     <com.fractal.tiler.MySeekbar
         android:id="@+id/seekBar"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:secondaryProgress="50"
+        style="@style/outlineButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="false"
-        android:max="255"
         android:contentDescription="@string/content_description_adjust_spread"
+        android:max="255"
         android:progress="0"
         android:progressTint="@color/progress_thumb_tint"
-        android:thumbTint="@color/progress_thumb_tint"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:secondaryProgress="50"
+        android:thumbTint="@color/progress_thumb_tint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

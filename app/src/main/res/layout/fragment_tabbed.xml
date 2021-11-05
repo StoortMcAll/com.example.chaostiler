@@ -71,45 +71,24 @@
 
             <Button
                 android:id="@+id/backto_firstfragment"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/outlineButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="2dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
+                android:insetRight="1dp"
                 android:contentDescription="@string/content_description_open_generate_frag"
-                android:insetTop="2dp"
-                android:insetBottom="2dp"
-                android:text="@string/goto_generate_tile"
-                android:textAllCaps="false"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="3sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
-                app:strokeColor="@color/button_stroke" />
+                android:text="@string/goto_generate_tile" />
 
             <Button
                 android:id="@+id/switch_to_editor"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/outlineButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="2dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/button_background"
+                android:insetLeft="1dp"
                 android:contentDescription="@string/content_description_open_savewallpaper_frag"
-                android:insetTop="2dp"
-                android:insetBottom="2dp"
-                android:text="@string/goto_tile_editor_right"
-                android:textAllCaps="false"
-                android:textColor="@color/text_color"
-                android:textColorHighlight="@color/text_color_highlights"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="3sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
-                app:strokeColor="@color/button_stroke" />
+                android:text="@string/goto_tile_editor_right" />
 
         </LinearLayout>
 

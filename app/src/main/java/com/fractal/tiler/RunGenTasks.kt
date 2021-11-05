@@ -3,8 +3,7 @@ package com.fractal.tiler
 // region Variable Declaration
 
 import android.graphics.Bitmap
-import com.fractal.tiler.FirstFragment.Companion.mMaxHitsText
-import com.fractal.tiler.FirstFragment.Companion.tileImageView
+import android.widget.TextView
 import com.fractal.tiler.MainActivity.Companion.DataProcess
 import com.fractal.tiler.MainActivity.Companion.bitmapColorSpread
 import com.fractal.tiler.MainActivity.Companion.height
@@ -31,8 +30,18 @@ var aColors = IntArray(width * height)
 
 var job : Job? = null
 
+
+lateinit var imageView : MyImageView
+lateinit var hitsInfoView : TextView
+
 // endregion
 
+fun setTileImageView(imageview : MyImageView){
+    imageView = imageview
+}
+fun setHitsInfoTextView(hitsview : TextView){
+    hitsInfoView = hitsview
+}
 
 fun switchProcessType() {
     val currentRange = bitmapColorSpread.aCurrentRange
@@ -79,7 +88,7 @@ fun runSetToZero() {
         total += hitstats[index]
         index++
 
-    } while ((total / arraySize) < 0.995f)
+    } while ((total / arraySize) < 0.9995f)
     index--
 
     if (index == pixelDataClone.mMaxHits) return
@@ -130,6 +139,9 @@ fun startNewRunFormula(isNewRun : Boolean) {
         else{
             prepareForNewRun()
         }
+
+        bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
+
         CoroutineScope(Dispatchers.Main).launch {
             upDataUI()
         }
@@ -151,15 +163,15 @@ fun prepareForNewRun(){
 }
 
 fun upDataUI() {
-    val value = pixelData.mMaxHits.toString()
-    val iters = pixelData.mHitsCount.toString()
+    val mmin = pixelData.mMinHits.toString()
+    val mmax = pixelData.mMaxHits.toString()
 
-    val text = FirstFragment.mHits + " " + value.padStart(4) + " " + FirstFragment.mTotal + " " + iters.padStart(10)
-    mMaxHitsText.text = text.subSequence(0, text.length)
+    val text = FirstFragment.mHitsMinString+ " "  + mmin.padStart(4)+ " "  + FirstFragment.mHitsMaxString + " " + mmax.padStart(4)
+    hitsInfoView.text = text.subSequence(0, text.length)
 
-    bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
 
-    tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+    imageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+    //tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 }
 
 
@@ -175,7 +187,8 @@ fun setTileViewBitmap(pixeldatacopy: PixelData) {
     bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
 
     CoroutineScope(Dispatchers.Main).launch {
-        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+        imageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+        //tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
     }
 }
 

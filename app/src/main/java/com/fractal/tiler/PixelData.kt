@@ -52,6 +52,7 @@ class PixelData(val width : Int, val height : Int) {
 
     var mPixelArrayBusy = false
 
+    var mMinHits : Int = 0
     var mMaxHits : Int = 0
 
     var mHitsCount = 0
@@ -92,6 +93,8 @@ class PixelData(val width : Int, val height : Int) {
             aHitStats[value]++
         }
 
+        while (aHitStats[mMinHits] == 0) mMinHits++
+
         mPixelArrayBusy = false
 
         if (mMaxHits / mHitsCount.toDouble() > 0.01)
@@ -102,6 +105,7 @@ class PixelData(val width : Int, val height : Int) {
 
     fun recalcHitStats() {
         mHitsCount = 0
+        mMinHits = 0
         mMaxHits = 0
         aHitStats = arrayListOf(0)
 
@@ -123,10 +127,14 @@ class PixelData(val width : Int, val height : Int) {
             mMaxHits++
             aHitStats.add(0)
         }
+        else{
+            while (aHitStats[mMinHits] == 0) mMinHits++
+        }
     }
 
 
     fun clearData() {
+        mMinHits = 0
         mMaxHits = 0
 
         mHitsCount = 0
@@ -213,6 +221,8 @@ fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
 
     var hits : Int
 
+    var middlehit : Int
+
     var i = 0
 
     if (weight == -1) {
@@ -236,7 +246,11 @@ fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
                     }
                 }
 
-                array[i++] = hitlist[midindex]
+                middlehit = wideArray[y + offBot][x + offRight]
+
+                array[i++] = middlehit + ((hitlist[midindex] - middlehit) * 0.75F).toInt()
+
+                //array[i++] = hitlist[midindex]
             }
         }
     }
@@ -251,8 +265,12 @@ fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
                     }
                 }
 
-               /* if (hits < 1) hits = 0
-                else hits /= weight*/
+/*
+
+                middlehit = wideArray[y + offBot][x + offRight]
+
+                array[i++] = middlehit + ((hits * wt - middlehit) * 0.5F).toInt()
+*/
 
                 array[i++] = (hits * wt).toInt()
             }
