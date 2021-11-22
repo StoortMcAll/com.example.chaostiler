@@ -33,9 +33,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:insetRight="1dp"
-                android:text="@string/square"
-                android:contentDescription="@string/content_description_square" />
+                android:contentDescription="@string/content_description_square"
+                android:foreground="@drawable/square_button_states"
+                android:insetRight="1dp" />
 
             <Button
                 android:id="@+id/run_scratch"
@@ -45,7 +45,7 @@
                 android:layout_weight="1"
                 android:insetLeft="1dp"
                 android:insetRight="1dp"
-                android:text="@string/scratch"
+                android:foreground="@drawable/scratch_button_states"
                 android:contentDescription="@string/content_description_icon" />
 
             <Button
@@ -55,67 +55,110 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:insetLeft="1dp"
-                android:text="@string/hexagon"
+                android:foreground="@drawable/icon_button_states"
                 android:contentDescription="@string/content_description_hexagon" />
 
         </LinearLayout>
 
         <!-- Start - Pause Resume Button -->
+        <Button
+            android:id="@+id/resume"
+            style="@style/outlineButton"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:foreground="@drawable/resume_states"
+            android:contentDescription="@string/resume_current_image_generation"
+            android:visibility="visible" >
+        </Button>
 
+        <!-- Start - Choose ColorRange Buttons -->
+        <LinearLayout
+            android:id="@+id/pal_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/greyscale"
+            android:orientation="horizontal">
 
             <Button
-                android:id="@+id/resume"
-                style="@style/outlineButton"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:id="@+id/color_range_right"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/resume_calc"
-                android:contentDescription="@string/resume_current_image_generation"
-                android:visibility="visible" />
+                android:background="@color/transparent"
+                android:contentDescription="@string/content_description_icon"
+                android:foreground="@drawable/layer_colorrange_right"
+                android:insetRight="1dp"
+                app:cornerRadius="8dp"
+                app:strokeWidth="2dp" />
 
+            <Button
+                android:id="@+id/color_range_mid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:insetLeft="1dp"
+                android:insetRight="1dp"
+                android:background="@color/transparent"
+                android:foreground="@drawable/layer_colorrange_mid"/>
 
-        <!-- Start - Choose Colours Buttons -->
+            <Button
+                android:id="@+id/color_range_left"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:insetLeft="1dp"
+                android:background="@color/transparent"
+                android:foreground="@drawable/layer_colorrange_left"
+                android:contentDescription="@string/content_description_hexagon" />
+
+        </LinearLayout>
+
+<!--
+
+        &lt;!&ndash; Start - Colour Style Button &ndash;&gt;
         <include layout="@layout/choose_palette" />
+-->
 
-        <!-- Start - Colour Style Button -->
         <LinearLayout
+            android:id="@+id/analysis_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@color/constraint_background"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:context=".FirstFragment">
 
             <include layout="@layout/analysis_type" />
 
         </LinearLayout>
 
         <!-- Start - Generation Info  -->
-
-            <TextView
-                android:id="@+id/first_maxhits"
-                style="@style/outlineButton"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/hitsmin_string"
-                android:contentDescription="@string/content_description_hits">
-            </TextView>
+        <TextView
+            android:id="@+id/first_maxhits"
+            style="@style/outlineButton"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/hitsmin_string"
+            android:contentDescription="@string/content_description_hits">
+        </TextView>
 
         <!-- Start - Goto Editor Button -->
 <!-- 9826903727608879537 -->
 
-            <Button
-                android:id="@+id/switch_to_editor"
-                style="@style/outlineButton"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/goto_tile_editor_right"
-                android:contentDescription="@string/content_description_open_editor_frag" />
-
+        <Button
+            android:id="@+id/switch_to_editor"
+            style="@style/outlineButton"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:text="@string/goto_tile_editor_right"
+            android:contentDescription="@string/content_description_open_editor_frag" >
+        </Button>
 
     </LinearLayout>
-
 
     <include
         android:id="@+id/tile_image_generate"
@@ -124,7 +167,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_page" />
-
+        app:layout_constraintTop_toBottomOf="@id/main_page"
+        tools:context=".FirstFragment"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

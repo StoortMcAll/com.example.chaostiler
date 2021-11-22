@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
-
+android:foreground="@drawable/shape_stroke_blue"
             android:contentDescription="@string/content_description_open_generate_frag"
             android:text="@string/perform_blur" />
 
@@ -55,7 +55,7 @@
                 android:inputType="none"
                 android:textSize="20sp"
                 android:text="@string/box_blur"
-                android:hint="@string/content_description_adjust_spread_image"
+                android:contentDescription="@string/content_description_adjust_spread_image"
                 android:textStyle="normal" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -96,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="false"
-            android:contentDescription="@string/content_description_adjust_spread"
+            android:hint="@string/content_description_adjust_spread_image"
             android:max="255"
             android:progress="0"
             android:progressTint="@color/progress_thumb_tint"

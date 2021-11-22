@@ -16,20 +16,20 @@
 		style="@style/outlineButton"
 		android:layout_width="0dp"
 		android:layout_height="match_parent"
-		android:layout_weight="0.4"
+		android:layout_weight="0.5"
 		android:contentDescription="@string/content_description_palette_left"
 		android:insetRight="1dp"
 		app:icon="@drawable/ic_baseline_chevron_left_24"
-		app:iconGravity="textStart" />
+		app:iconGravity="textStart"/>
 
 	<Button
-        android:id="@+id/palette_right"
-        style="@style/outlineButton"
+		android:id="@+id/palette_right"
+		style="@style/outlineButton"
 		android:layout_width="0dp"
 		android:layout_height="match_parent"
-		android:layout_weight="0.4"
-		android:insetLeft="1dp"
+		android:layout_weight="0.5"
 		android:contentDescription="@string/content_description_palette_right"
+		android:insetLeft="1dp"
 		app:icon="@drawable/ic_baseline_chevron_right_24"
 		app:iconGravity="textStart"/>
 
@@ -38,7 +38,7 @@
         style="@style/outlineButton"
 		android:layout_width="0dp"
 		android:layout_height="match_parent"
-		android:layout_weight="1.5"
+		android:layout_weight="1"
         android:text="@string/choose_palette"
 		android:contentDescription="@string/content_description_palette" />
 

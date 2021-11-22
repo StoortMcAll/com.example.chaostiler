@@ -18,6 +18,7 @@ import com.fractal.tiler.MainActivity.Companion.bmImage
 import com.fractal.tiler.MainActivity.Companion.clickPos
 import com.fractal.tiler.MainActivity.Companion.mScaleFactor
 import com.fractal.tiler.MainActivity.Companion.offset
+import com.fractal.tiler.MainActivity.Companion.quiltType
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -213,7 +214,7 @@ class MyImageView @JvmOverloads constructor(
                     //val rect = Rect(0, 0, wd - 1, ht - 1)
                     wallpaperManager.setBitmap(texture)//, rect, false)
                 } else {
-                    bitmapToFile(texture)
+                    bitmapToFile(bmImage)
                 }
             } catch (ex: IOException) { }
         }
@@ -222,8 +223,10 @@ class MyImageView @JvmOverloads constructor(
     private fun bitmapToFile(bitmap: Bitmap): File? {
         var file: File? = null
 
-        val filename = "Wallpaper-"
+        val filename = resources.getStringArray(R.array.formula_types)[quiltType.ordinal] + "-"
+
         val filetype = ".png"
+
         val pattern = "0000"
         val formatter = DecimalFormat(pattern)
 

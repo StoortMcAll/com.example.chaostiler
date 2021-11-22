@@ -1,8 +1,7 @@
 package com.fractal.tiler
 
-// region Variable Declaration
-
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Point
 import android.graphics.PointF
@@ -14,15 +13,17 @@ import android.os.Looper
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import java.time.LocalDateTime
 import kotlin.random.Random
 
-// endregion
-
 
 class MainActivity : AppCompatActivity() {
+
+    // region Variable Declaration
+
     private val iconocatURL = "https://sites.google.com/view/wwwiconocatuk"
     private val privacyURL = "/privacy-policy"
 
@@ -43,11 +44,13 @@ class MainActivity : AppCompatActivity() {
 
         const val mSeekbarMax = 256
 
+        lateinit var myResources : Resources
+
         var mEnableDataClone = true
 
         var bmImage : Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
-        val bitmapColorSpread = BitmapColorSpread()
+        lateinit var colorClass : ColorClass
 
         var mScaleFactor = 1.0f
 
@@ -60,8 +63,9 @@ class MainActivity : AppCompatActivity() {
         var mViewSize = Point(0, 0)
 
         var scopeIO = CoroutineScope(Dispatchers.IO)
-
     }
+
+    // endregion
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +80,10 @@ class MainActivity : AppCompatActivity() {
             attrib.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
+
+        myResources = resources
+
+        colorClass = ColorClass()
 
         hideSystemUI()
 
@@ -106,6 +114,8 @@ class MainActivity : AppCompatActivity() {
             mViewSize.y = outPoint.x
             mViewSize.x = outPoint.y
         }
+
+        mScaleFactor = (mViewSize.x - 8).toFloat() / width.toFloat()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

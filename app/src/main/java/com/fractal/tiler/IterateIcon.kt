@@ -39,7 +39,7 @@ class IconValues(squareVals: SquareValues, trigdepth: Int) {
 
         val a1 = sqr.alpha * sqr.alpha + sqr.gamma * sqr.gamma
         val a2 = sqr.beta * sqr.beta + sqr.lambda * sqr.lambda
-        val a3: Double = sqr.alpha * sqr.lambda - sqr.beta * sqr.gamma
+        val a3 = sqr.alpha * sqr.lambda - sqr.beta * sqr.gamma
 
         if (a1 > 1.0 || a2 > 1.0 || (a1 * a2) > 1.0 - a3.pow(2.0)) return false
 
@@ -111,7 +111,7 @@ fun runIcon(wide : Int, high : Int, icon : IconValues) :ArrayList<Hit> {
 
         xnew = (xnew - xnew.toInt()) + 1
         xnew -= xnew.toInt()
-        ynew = (ynew - ynew.toLong()) + 1
+        ynew = (ynew - ynew.toInt()) + 1
         ynew -= ynew.toInt()
 
         hits.add(Hit((xnew * wide).toInt(), (ynew * high).toInt()))

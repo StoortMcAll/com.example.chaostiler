@@ -232,8 +232,8 @@ fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
         val midindex = kernsize / 2
         var index : Int
         var ik : Int
-        for (y in 0 until width) {
-            for (x in 0 until height) {
+        for (y in 0 until height) {
+            for (x in 0 until width) {
                 hitlist.clear()
                 index = 0
                 for (ky in 0 until kernHit) {
@@ -256,8 +256,8 @@ fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
     }
     else {
         val wt = 1.0F / weight
-        for (y in 0 until width) {
-            for (x in 0 until height) {
+        for (y in 0 until height) {
+            for (x in 0 until width) {
                 hits = 0
                 for (ky in 0 until kernHit) {
                     for (kx in 0 until kernWid) {

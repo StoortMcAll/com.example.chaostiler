@@ -12,8 +12,6 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
 
     // region Variable Declaration
 
-    val bitmapColorSpread = MainActivity.bitmapColorSpread
-
     private var mSeekBarHintPaint: Paint? = null
     private var mHintTextColor: Int = 0
     private var mHintTextSize: Float = 0.toFloat()
@@ -47,13 +45,13 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
 
     private fun init() {
         max = mSeekbarMax
-        if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
-            progress = bitmapColorSpread.aCurrentRange.progressIncrement
+        if (MainActivity.colorClass.aCurrentRange.dataProcess == DataProcess.LINEAR) {
+            progress = MainActivity.colorClass.aCurrentRange.progressIncrement
         }
         else{
-            progress = bitmapColorSpread.aCurrentRange.progressStatistic
+            progress = MainActivity.colorClass.aCurrentRange.progressStatistic
         }
-        secondaryProgress = bitmapColorSpread.aCurrentRange.progressSecond
+        secondaryProgress = MainActivity.colorClass.aCurrentRange.progressSecond
 
         mSeekBarHintPaint = TextPaint()
         mSeekBarHintPaint!!.color = mHintTextColor

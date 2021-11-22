@@ -6,8 +6,7 @@
     android:layout_height="0dp"
     android:background="@color/button_background"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintDimensionRatio="1.0"
-    tools:showIn="@layout/activity_main">
+    app:layout_constraintDimensionRatio="1.0">
 
     <FrameLayout
         android:layout_width="match_parent"

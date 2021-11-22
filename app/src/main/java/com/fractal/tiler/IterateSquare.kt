@@ -55,13 +55,13 @@ class SquareValues{
         delta = square.delta
         shift = square.shift
 
-        if (headOrTails()) alpha += getRand(min, randLevel)
-        if (headOrTails()) beta += getRand(min, randLevel)
-        if (headOrTails()) gamma += getRand(min, randLevel)
-        if (headOrTails()) lambda += getRand(min, randLevel)
-        if (headOrTails()) ma += getRand(min, randLevel)
-        if (headOrTails()) omega += getRand(min, randLevel)
-        if (headOrTails()) delta += getRand(min, randLevel)
+        if (headOrTails()) alpha = getRand(min, randLevel)
+        if (headOrTails()) beta = getRand(min, randLevel)
+        if (headOrTails()) gamma = getRand(min, randLevel)
+        if (headOrTails()) lambda = getRand(min, randLevel)
+        if (headOrTails()) ma = getRand(min, randLevel)
+        if (headOrTails()) omega = getRand(min, randLevel)
+        if (headOrTails()) delta = getRand(min, randLevel)
     }
 
     fun getRand(min : Double, max : Double) : Double {
@@ -80,15 +80,11 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
 
     val hits : ArrayList<Hit> = arrayListOf()
 
-    var xnew: Double
-    var ynew: Double
-    var x = square.x
-    var y = square.y
+    var x = square.x; var y = square.y
+    var sx: Double; var sy: Double
+    var xnew: Double; var ynew: Double
 
-    var p2x: Double
-    var p2y: Double
-    var sx: Double
-    var sy: Double
+    var p2x: Double; var p2y: Double
 
     var counter = 0
 
@@ -101,16 +97,16 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
         sx = sin(p2x); sy = sin(p2y)
 
         xnew = (square.lambda + square.alpha * cos(p2y)) * sx
-        xnew -= square.omega * sy
-        xnew += square.beta * sin(2.0 * p2x)
-        xnew += square.gamma * sin(3.0 * p2x) * cos(2 * p2y)
-        xnew += square.ma * x
+        xnew = xnew - square.omega * sy
+        xnew = xnew + square.beta * sin(2.0 * p2x)
+        xnew = xnew + square.gamma * sin(3.0 * p2x) * cos(2 * p2y)
+        xnew = xnew + square.ma * x
 
         ynew = (square.lambda + square.alpha * cos(p2x)) * sy
-        ynew += square.omega * sx
-        ynew += square.beta * sin(2.0 * p2y)
-        ynew += square.gamma * sin(3.0 * p2y) * cos(2 * p2x)
-        ynew += square.ma * y
+        ynew = ynew + square.omega * sx
+        ynew = ynew + square.beta * sin(2.0 * p2y)
+        ynew = ynew + square.gamma * sin(3.0 * p2y) * cos(2 * p2x)
+        ynew = ynew + square.ma * y
 
         xnew = (xnew - xnew.toLong()) + 1.0
         xnew -= xnew.toInt()

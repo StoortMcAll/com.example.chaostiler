@@ -2,16 +2,22 @@ package com.fractal.tiler
 
 // region Variable Declaration
 
+import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import androidx.core.graphics.alpha
 import androidx.core.graphics.blue
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import com.fractal.tiler.MainActivity.Companion.DataProcess
 import com.fractal.tiler.MainActivity.Companion.mSeekbarMax
 import com.fractal.tiler.MainActivity.Companion.rand
-import kotlin.math.abs
-import kotlin.math.max
+import androidx.fragment.app.Fragment
+import androidx.core.content.res.ResourcesCompat
+import com.fractal.tiler.MainActivity.Companion.myResources
+import kotlin.math.*
 
 private const val mMaximumColorRangeSeekbarProgress = mSeekbarMax
 
@@ -36,6 +42,8 @@ data class DPrimaryColors(val size : Int, val colors : IntArray) {
         return result
     }
 }
+
+private var colArray = IntArray(MainActivity.mSeekbarMax)
 
 // endregion
 
@@ -77,13 +85,16 @@ class ColorClass {
             Color.argb(255, 0,48, 16),
         ))
 
-    private var mCurrentRangeID = 0
-
+    lateinit var aPrevRange : ColorRangeClass
     lateinit var aCurrentRange : ColorRangeClass
+    lateinit var aNextRange : ColorRangeClass
 
-    private var mCurrentRangeCount = 0
+    private var mRangeIndexCounter = 0
+    private var mCurrentRangeIndex = 0
 
-    private var mColorRangeList = mutableListOf<ColorRangeClass>()
+    var mColorRangeList = mutableListOf<ColorRangeClass>()
+
+    var mNewColors = true
 
     // endregion
 
@@ -99,7 +110,7 @@ class ColorClass {
                  DRgbDataItem(0, Color.argb(255, 32, 0, 0)),
                  DRgbDataItem(32, Color.RED),
                  DRgbDataItem(96, Color.YELLOW),
-                 DRgbDataItem(255, Color.WHITE)))
+                 DRgbDataItem(255, Color.YELLOW)))
 
         addColorRanges(listOf(
                 DRgbDataItem(0, Color.argb(255, 0, 0, 32)),
@@ -107,34 +118,77 @@ class ColorClass {
                 DRgbDataItem(96, Color.RED),
                 DRgbDataItem(255, Color.GREEN)))
 
-        setCurrentColorRange(mCurrentRangeID)
+        setCurrentColorRange(0)
     }
 
+    fun getProgress(): Int {
+        return aCurrentRange.getRangeProgress()
+    }
 
-    fun increaseSpreadID() : ColorRangeClass{
-        mCurrentRangeID++
+    fun setProgress(prog: Int) {
+        aCurrentRange.setRangeProgress(prog)
 
-        if (mCurrentRangeID > mColorRangeList.size - 1)
-            mCurrentRangeID = 0
+        setCurrentColorRange(aCurrentRange.mColorRangeID)
 
-        setCurrentColorRange(mCurrentRangeID)
+        mNewColors = true
+    }
+
+    fun selectNextColorRange() : ColorRangeClass{
+        mCurrentRangeIndex++
+
+        if (mCurrentRangeIndex == mColorRangeList.size)
+            mCurrentRangeIndex = 0
+
+        setCurrentColorRange(mCurrentRangeIndex)
+
+        mNewColors = true
 
         return aCurrentRange
     }
 
-    fun decreaseSpreadID() : ColorRangeClass{
-        mCurrentRangeID--
+    fun selectPrevColorRange() : ColorRangeClass{
+        mCurrentRangeIndex--
 
-        if (mCurrentRangeID < 0)
-            mCurrentRangeID = mColorRangeList.size - 1
+        if (mCurrentRangeIndex == -1)
+            mCurrentRangeIndex = mColorRangeList.lastIndex
 
-        setCurrentColorRange(mCurrentRangeID)
+        setCurrentColorRange(mCurrentRangeIndex)
+
+        mNewColors = true
 
         return aCurrentRange
     }
 
-    fun addNewRandomPrimariesRange() : ColorRangeClass{
-        var dataitemcount = rand.nextInt(1, 4)
+    fun getPaletteByID(colorRangeID : Int) : ColorRangeClass {
+        if (colorRangeID < mColorRangeList.size){
+            return mColorRangeList[colorRangeID]
+        }
+
+        return mColorRangeList[0]
+    }
+
+    fun addNewColorA() : ColorRangeClass {
+        aCurrentRange = addNewRandomHSVRange()
+
+        setCurrentColorRange(aCurrentRange.mColorRangeID)
+
+        mNewColors = true
+
+        return aCurrentRange
+    }
+
+    fun addNewColorB() : ColorRangeClass {
+        aCurrentRange = addNewRandomPrimariesRange()
+
+        setCurrentColorRange(aCurrentRange.mColorRangeID)
+
+        mNewColors = true
+
+        return aCurrentRange
+    }
+
+    private fun addNewRandomPrimariesRange() : ColorRangeClass{
+        var dataitemcount = 3//rand.nextInt(1, 4)
 
         var range : Int
         var add : Int
@@ -142,7 +196,7 @@ class ColorClass {
         if (dataitemcount == 1) range = 256
         else if (dataitemcount == 2) range = 128
         else range = 64
-        add = range * 2
+        add = range// * 2
 
         var color : Int
         var colorIndex : Int
@@ -168,7 +222,7 @@ class ColorClass {
 
             range += add
 
-            add *= 2
+            //add *= 2
 
             lastColorIndex = colorIndex
 
@@ -176,14 +230,12 @@ class ColorClass {
 
         addColorRanges(tempColorDataItemList)
 
-        mCurrentRangeID = mColorRangeList.count() - 1
-
-        setCurrentColorRange(mCurrentRangeID)
+        setCurrentColorRange(mColorRangeList[mColorRangeList.lastIndex].mColorRangeID)
 
         return aCurrentRange
     }
 
-    fun addNewRandomColorsRange() : ColorRangeClass {
+    private fun addNewRandomColorsRange() : ColorRangeClass {
         var counter = rand.nextInt(1, 4)
 
         var range = 0
@@ -226,15 +278,13 @@ class ColorClass {
 
         addColorRanges(tempColorDataItemList)
 
-        mColorRangeList.lastIndex.also { mCurrentRangeID = it }
-
-        setCurrentColorRange(mCurrentRangeID)
+        setCurrentColorRange(mColorRangeList[mColorRangeList.lastIndex].mColorRangeID)
 
         return aCurrentRange
     }
 
-    fun addNewRandomHSVRange() : ColorRangeClass {
-        var counter = rand.nextInt(1, 4)
+    private fun addNewRandomHSVRange() : ColorRangeClass {
+        var counter = rand.nextInt(2, 4)
 
         var range : Int
         var add : Int
@@ -242,7 +292,7 @@ class ColorClass {
         if (counter == 1) range = 256
         else if (counter == 2) range = 128
         else range = 64
-        add = range * 2
+        add = range// * 2
 
         var isDifPos: Boolean
         val angle = rand.nextInt(0, 256)
@@ -259,7 +309,7 @@ class ColorClass {
 
         var dif : Int
         do{
-            dif = rand.nextInt(16, 48)
+            dif = rand.nextInt(8, 24)
             isDifPos = rand.nextBoolean()
 
             isLumHi = if (isLumHi) rand.nextInt(4) < 2 else true
@@ -271,16 +321,14 @@ class ColorClass {
 
             range += add
 
-            add *= 2
+            //add *= 2
 
             tempColorDataItemList.add(colorDataItem)
         }while(--counter > 0)
 
         addColorRanges(tempColorDataItemList, DataProcess.LINEAR,true)
 
-        mColorRangeList.lastIndex.also { mCurrentRangeID = it }
-
-        setCurrentColorRange(mCurrentRangeID)
+        setCurrentColorRange(mColorRangeList[mColorRangeList.lastIndex].mColorRangeID)
 
         return aCurrentRange
     }
@@ -289,27 +337,40 @@ class ColorClass {
         return abs(d1 - d2)
     }
 
-    private fun setCurrentColorRange(rangeID : Int){
-        var index = 0
-        do {
-            if (mColorRangeList[index].mColorRangeID == rangeID){
-                mCurrentRangeID = rangeID
-                aCurrentRange = mColorRangeList[index]
-
-                return
-            }
-            index++
-        }while (index < mColorRangeList.size)
-
-        // If rangeID not valid set to range 0
-        aCurrentRange = mColorRangeList[0]
-        mCurrentRangeID = aCurrentRange.mColorRangeID
+    private fun addColorRanges(colorRanges: List<DRgbDataItem>, dataprocess : DataProcess = DataProcess.LINEAR, isHSV : Boolean = false){
+        mColorRangeList.add(ColorRangeClass(mRangeIndexCounter++, colorRanges, dataprocess, isHSV))
     }
 
-    private fun addColorRanges(colorRanges: List<DRgbDataItem>, dataprocess : DataProcess = DataProcess.LINEAR, isHSV : Boolean = false){
-        mColorRangeList.add(ColorRangeClass(mCurrentRangeCount, colorRanges, dataprocess, isHSV))
+    private fun setCurrentColorRange(rangeID : Int){
+        var index = 0
+        var invalid = true
 
-        mCurrentRangeCount++
+        do {
+            if (mColorRangeList[index].mColorRangeID == rangeID){
+                mCurrentRangeIndex = rangeID
+                invalid = false
+            }
+            else {
+                if (++index == mColorRangeList.size){
+                    mCurrentRangeIndex = 0
+                    invalid = false
+                }
+            }
+        }while (invalid)
+
+        aCurrentRange = mColorRangeList[mCurrentRangeIndex]
+
+        index = mCurrentRangeIndex + 1
+        if (index == mColorRangeList.size)
+            aNextRange = mColorRangeList[0]
+        else
+            aNextRange = mColorRangeList[index]
+
+        index = mCurrentRangeIndex - 1
+        if (index == -1)
+            aPrevRange = mColorRangeList[mColorRangeList.lastIndex]
+        else
+            aPrevRange = mColorRangeList[index]
     }
 
 }
@@ -326,18 +387,26 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess :
 
     var dataProcess = dataprocess
 
-    private val mColorDataList = colorDataList
+    val mColorDataList = colorDataList
+
+    val colorRangeBitmap : Bitmap = Bitmap.createBitmap(mSeekbarMax, 1, Bitmap.Config.ARGB_8888)
+    lateinit var colorRangeDrawable : Drawable
 
     val mColorSpreadCount = colorDataList.last().range + 1
 
-    var aColorSpread : IntArray = IntArray(mColorSpreadCount)
+    var aColorSpread = IntArray(mColorSpreadCount)
+
+    var primaryColors = IntArray(colorDataList.size)
 
     // endregion
 
     init {
         if (isHSV) processHSVSpread()
         else processColorSpread()
+
+        updateColorSpreadBitmap()
     }
+
 
     fun getRangeProgress() : Int{
         if (dataProcess == MainActivity.Companion.DataProcess.LINEAR)
@@ -353,6 +422,184 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess :
         else{
             progressStatistic = prog
         }
+
+        updateColorSpreadBitmap()
+    }
+
+
+    fun updateColorSpreadBitmap() {
+        if (dataProcess == DataProcess.LINEAR) {
+            drawColorSpreadForIncremental(progressIncrement)
+        } else {
+            drawColorSpreadForSinwave(progressStatistic)
+        }
+
+        colorRangeDrawable = colorRangeBitmap.toDrawable(MainActivity.myResources)
+    }
+
+
+    private fun drawColorSpreadForIncremental(currentPos: Int = mSeekbarMax) {
+
+        val seekPosAsFraction = currentPos * (1.0 / mSeekbarMax.toDouble())
+
+        val colorscount = 32 + ((aColorSpread.lastIndex - 32) * seekPosAsFraction).toInt()
+
+        val bmWid = colorRangeBitmap.width
+        val wd = bmWid - 1
+        val widthover1 = 1.0f / wd
+        var value: Int
+
+        for (x in 0..wd) {
+            value = (colorscount * (x * widthover1)).toInt()
+
+            colArray[x] = aColorSpread[value]
+        }
+
+        colorRangeBitmap.setPixels(colArray, 0, bmWid, 0, 0, bmWid, 1)
+    }
+
+    private fun drawColorSpreadForSinwave(currentPos: Int) {
+
+        val seekPosAsFraction = currentPos * (1.0 / mSeekbarMax.toDouble())
+
+        val colorscount = aColorSpread.lastIndex
+
+        val arc = PI / 2.0
+        val bmWid = colorRangeBitmap.width
+        val wd = bmWid - 1
+        val widthover1 = 1.0f / wd
+        var valueInc: Float
+        var valueArc: Float
+        var dif: Float
+        var index: Int
+
+        for (x in 0..wd) {
+            valueInc = x * widthover1
+            valueArc = sin(valueInc * arc).toFloat()
+
+            dif = valueArc - valueInc
+
+            index = ((valueInc + dif * seekPosAsFraction) * colorscount).toInt()
+
+            colArray[x] = aColorSpread[index]
+        }
+
+        colorRangeBitmap.setPixels(colArray, 0, bmWid, 0, 0, bmWid, 1)
+    }
+
+    private fun drawColorSpreadForStatistical(currentPos: Int, pixelDataCopy: PixelData) {
+        val colorscount = aColorSpread.lastIndex
+
+        val maxhits = pixelDataCopy.mMaxHits
+
+        val seekPosAsFraction = currentPos * (1.0 / mSeekbarMax.toDouble())
+
+        val percentage = FloatArray(pixelDataCopy.mMaxHits + 1) { 0.0F }
+        for (i in 1 until pixelDataCopy.mMaxHits) {
+            percentage[i] =
+                percentage[i - 1] + (pixelDataCopy.aHitStats[i - 1] / pixelDataCopy.arraySize.toFloat())
+        }
+        percentage[pixelDataCopy.mMaxHits] = 1.0F
+
+        val bmWid = colorRangeBitmap.width
+        val wd = bmWid - 1
+        val dx = 1.0f / wd
+        var value: Int
+        var findex: Float
+        var basecol: Int
+        var df: Int
+        var fpos: Float
+
+        for (x in 0 until wd) {
+            fpos = maxhits * (x * dx)
+
+            basecol = ((x * dx) * colorscount).toInt()
+
+            value = fpos.toInt()
+
+            findex = percentage[value]
+
+            fpos -= value
+
+            findex += (percentage[value + 1] - percentage[value]) * fpos
+
+            value = (colorscount * findex).toInt()
+
+            df = value - basecol
+
+            basecol += (df * seekPosAsFraction).toInt()
+
+            colArray[x] = aColorSpread[basecol]
+        }
+        colArray[wd] = aColorSpread[colorscount]
+
+        colorRangeBitmap.setPixels(colArray, 0, bmWid, 0, 0, bmWid, 1)
+    }
+
+    private fun drawColorSpreadForCosec(currentPos: Int, pixelDataCopy: PixelData) {
+
+        val colorscount = aColorSpread.lastIndex
+
+        val maxhits = pixelDataCopy.mMaxHits
+
+        val seekPosAsFraction = currentPos * (1.0 / mSeekbarMax.toDouble())
+
+        val percentage = FloatArray(pixelDataCopy.mMaxHits + 1) { 0.0F }
+        for (i in 1 until pixelDataCopy.mMaxHits) {
+            percentage[i] =
+                percentage[i - 1] + (pixelDataCopy.aHitStats[i - 1] / pixelDataCopy.arraySize.toFloat())
+        }
+        percentage[pixelDataCopy.mMaxHits] = 1.0F
+
+        val bmWid = colorRangeBitmap.width
+        val wd = bmWid - 1
+        val dx = 1.0f / wd
+        var value: Int
+        var findex: Float
+        var basecol: Int
+        var df: Int
+        var fpos: Float
+
+        for (x in 0 until wd) {
+            fpos = maxhits * (x * dx)
+
+            basecol = ((x * dx) * colorscount).toInt()
+
+            value = fpos.toInt()
+
+            findex = percentage[value]
+
+            fpos -= value
+
+            findex += (percentage[value + 1] - percentage[value]) * fpos
+
+            value = (colorscount * findex).toInt()
+
+            df = value - basecol
+
+            basecol += (df * seekPosAsFraction).toInt()
+
+            colArray[x] = aColorSpread[basecol]
+        }
+        colArray[wd] = aColorSpread[colorscount]
+
+        colorRangeBitmap.setPixels(colArray, 0, bmWid, 0, 0, bmWid, 1)
+    }
+
+    private fun setCosecValues(width: Int, colorsCount: Int): IntArray {
+        val max = acos(1.0 / (width + 1.0))
+
+        val slice = max / width
+
+        val mult = colorsCount / width.toDouble()
+
+        val colorIndex = IntArray(width + 1)
+
+        for (x in 0..width) {
+            colorIndex[x] = (mult * ((1.0 / cos(x * slice)) - 1.0)).toInt()
+        }
+
+        return colorIndex
     }
 
     private fun processHSVSpread() {
@@ -408,6 +655,10 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess :
         }
 
         aColorSpread[index] = Color.HSVToColor(floatArrayOf(angle, 1.0f, lum))
+
+        for (cr in 0 until mColorDataList.size) {
+            primaryColors[cr] = aColorSpread[mColorDataList[cr].range]
+        }
     }
 
     private fun processColorSpread() {
@@ -420,6 +671,10 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess :
 
         aColorSpread[0] = mColorDataList[0].color
         aColorSpread[aColorSpread.lastIndex] = mColorDataList[mColorDataList.lastIndex].color
+
+        for (cr in 0 until mColorDataList.size) {
+            primaryColors[cr] = mColorDataList[cr].color
+        }
 
         for (cr in 1 until mColorDataList.size) {
             val maxd: Int = mColorDataList[cr].range - mColorDataList[cr- 1].range

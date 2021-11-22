@@ -1,5 +1,7 @@
 package com.fractal.tiler
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
@@ -37,6 +40,19 @@ class DataFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         _fragmentDataBinding = FragmentDataBinding.inflate(inflater, container, false)
+/*
+
+        val gradient = GradientDrawable()
+
+        gradient.orientation = GradientDrawable.Orientation.LEFT_RIGHT
+        gradient.shape= GradientDrawable.RECTANGLE
+        gradient.colors = intArrayOf(Color.MAGENTA, Color.CYAN, Color.YELLOW, Color.GREEN)
+        gradient.cornerRadius = 8.0F
+        gradient.setStroke(2, resources.getColor(R.color.button_stroke))
+
+        val button : Button = binding.undoChanges
+        button.foreground =  gradient
+*/
 
         return binding.root
     }

@@ -8,6 +8,12 @@
         <item>Median</item>
     </string-array>
 
+    <string-array name="formula_types">
+        <item>Square</item>
+        <item>Icon</item>
+        <item>Hexagon</item>
+    </string-array>
+
     <string name="app_name">Fractal Wallpaper</string>
 
     <string name="first_fragment_label">First Fragment</string>

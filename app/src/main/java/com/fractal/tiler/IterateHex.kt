@@ -36,18 +36,18 @@ class HexValues @JvmOverloads constructor(squareVals: SquareValues, randomLevel:
     // endregion
 
     init {
-        k11 = if (randomLevel == 0 && square.headOrTails() == false) sk11 else square.getRand(0.0, 1.0)
-        k12 = if (randomLevel == 0 && square.headOrTails() == false) sk12 else square.getRand(0.0, 1.0)
-        k21 = if (randomLevel == 0 && square.headOrTails() == false) sk21 else square.getRand(0.0, 1.0)
-        el11 = if (randomLevel == 0 && square.headOrTails() == false) sel11 else square.getRand(0.0, 1.0)
-        el21 = if (randomLevel == 0 && square.headOrTails() == false) sel21 else square.getRand(0.0, 1.0)
-        if (square.headOrTails() == true) square.alpha += square.getRand(-1.0, 1.0)
-        if (square.headOrTails() == true) square.beta += square.getRand(-1.0, 1.0)
-        if (square.headOrTails() == true) square.gamma += square.getRand(-1.0, 1.0)
-        if (square.headOrTails() == true) square.delta += square.getRand(-1.0, 1.0)
-        if (square.headOrTails() == true) square.ma += square.getRand(-1.0, 1.0)
-        if (square.headOrTails() == true) square.omega += square.getRand(-1.0, 1.0)
-        if (square.headOrTails() == true) square.shift += square.getRand(-1.0, 1.0)
+        k11 = sk11 //if (randomLevel == 0 && square.headOrTails() == false) sk11 else square.getRand(0.0, 1.0)
+        k12 = sk12 //if (randomLevel == 0 && square.headOrTails() == false) sk12 else square.getRand(0.0, 1.0)
+        k21 = sk21 //if (randomLevel == 0 && square.headOrTails() == false) sk21 else square.getRand(0.0, 1.0)
+        el11 = sel11 //if (randomLevel == 0 && square.headOrTails() == false) sel11 else square.getRand(0.0, 1.0)
+        el21 = sel21 //if (randomLevel == 0 && square.headOrTails() == false) sel21 else square.getRand(0.0, 1.0)
+        if (square.headOrTails()) square.alpha = square.getRand(-1.0, 1.0)
+        if (square.headOrTails()) square.beta = square.getRand(-1.0, 1.0)
+        if (square.headOrTails()) square.gamma = square.getRand(-1.0, 1.0)
+        if (square.headOrTails()) square.delta = square.getRand(-1.0, 1.0)
+        if (square.headOrTails()) square.ma = square.getRand(-1.0, 1.0)
+        if (square.headOrTails()) square.omega = square.getRand(-1.0, 1.0)
+        if (square.headOrTails()) square.shift = square.getRand(-1.0, 1.0)
         k22 = sq3 / 2.0
         el12 = -1.0 / sq3
         el22 = 2.0 / sq3
@@ -97,12 +97,13 @@ fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<Hit> {
     val hex = hexagon.square
 
     var bx: Double; var by : Double
+    var xnew = hex.x; var ynew = hex.y
+
     var s11 : Double; var s12 : Double; var s13 : Double
     var s21 : Double; var s22 : Double; var s23 : Double
     var s31 : Double; var s32 : Double; var s33 : Double
     var s3h1 : Double; var s3h2 : Double; var s3h3 : Double
-    var xnew = hex.x
-    var ynew = hex.y
+
 
     var counter = 0
 
@@ -129,18 +130,18 @@ fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<Hit> {
 
         xnew = hex.ma * xnew + hex.lambda * sx - hex.omega * sy
         ynew = hex.ma * ynew + hex.lambda * sy + hex.omega * sx
-        xnew += (hex.alpha * (hexagon.em11 * s21 + hexagon.em21 * s22 + hexagon.em31 * s23))
-        ynew += (hex.alpha * (hexagon.em12 * s21 + hexagon.em22 * s22 + hexagon.em32 * s23))
-        xnew += (hexagon.a11 * s31 + hexagon.a21 * s32 + hexagon.a31 * s33)
-        ynew += (hexagon.a12 * s31 + hexagon.a22 * s32 + hexagon.a32 * s33)
-        xnew += (hexagon.ah11 * s3h1 + hexagon.ah21 * s3h2 + hexagon.ah31 * s3h3)
-        ynew += (hexagon.ah12 * s3h1 + hexagon.ah22 * s3h2 + hexagon.ah32 * s3h3)
+        xnew = xnew + (hex.alpha * (hexagon.em11 * s21 + hexagon.em21 * s22 + hexagon.em31 * s23))
+        ynew = ynew + (hex.alpha * (hexagon.em12 * s21 + hexagon.em22 * s22 + hexagon.em32 * s23))
+        xnew = xnew +  (hexagon.a11 * s31 + hexagon.a21 * s32 + hexagon.a31 * s33)
+        ynew = ynew + (hexagon.a12 * s31 + hexagon.a22 * s32 + hexagon.a32 * s33)
+        xnew = xnew + (hexagon.ah11 * s3h1 + hexagon.ah21 * s3h2 + hexagon.ah31 * s3h3)
+        ynew = ynew + (hexagon.ah12 * s3h1 + hexagon.ah22 * s3h2 + hexagon.ah32 * s3h3)
 
         by = 2.0 * ynew / sq3; bx = xnew - (by / 2.0)
 
-        bx = (bx - bx.toLong()) + 1
+        bx = (bx - bx.toInt()) + 1
         bx -= bx.toInt()
-        by = (by - by.toLong()) + 1
+        by = (by - by.toInt()) + 1
         by -= by.toInt()
 
         xnew = bx * hexagon.k11 + by * hexagon.k21

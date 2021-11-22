@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <item android:id="@+id/layer_color"
+        android:bottom="4dp"
+        android:top="4dp"
+        android:start="3dp"
+        android:end="3dp"
+        android:drawable="@color/black">
+    </item>
+
+    <item
+        android:bottom="2dp"
+        android:top="2dp"
+        android:start="1dp"
+        android:end="1dp"
+        android:drawable="@drawable/shape_stroke_trans">
+    </item>
+
+
+</layer-list>

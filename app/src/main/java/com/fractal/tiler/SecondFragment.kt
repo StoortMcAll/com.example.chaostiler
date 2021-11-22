@@ -16,7 +16,6 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.fractal.tiler.MainActivity.Companion.DataProcess
-import com.fractal.tiler.MainActivity.Companion.bitmapColorSpread
 import com.fractal.tiler.MainActivity.Companion.filter
 import com.fractal.tiler.MainActivity.Companion.ImageFilter
 import com.fractal.tiler.MainActivity.Companion.mEnableDataClone
@@ -65,11 +64,9 @@ class SecondFragment : Fragment() {
             pixelDataClone = pixelData.clone()
         }
 
-        bitmapColorSpread.updateColorSpreadBitmap(pixelDataClone)
+        binding.paletteScaler?.setImageBitmap(MainActivity.colorClass.aCurrentRange.colorRangeBitmap)
 
-        binding.includePaletteScale?.paletteScaler?.setImageBitmap(bitmapColorSpread.seekbarBitmap)
-
-        bitmapColorSpread.mNewColors = false
+        MainActivity.colorClass.mNewColors = false
 
         return binding.root
     }
@@ -121,7 +118,7 @@ class SecondFragment : Fragment() {
                     } else {
                         seekBar.progress = progress
                         if (jobTextures == null || jobTextures?.isActive == false) {
-                            bitmapColorSpread.setProgress(seekBar.progress)
+                            MainActivity.colorClass.setProgress(seekBar.progress)
 
                             if (!calcActive) {
                                 updateTextures()
@@ -142,8 +139,8 @@ class SecondFragment : Fragment() {
                     }
 
                     seekBar.progress.also { seekBar.secondaryProgress = it }
-                    bitmapColorSpread.setProgress(seekBar.progress)
-                    bitmapColorSpread.aCurrentRange.progressSecond = seekBar.progress
+                    MainActivity.colorClass.setProgress(seekBar.progress)
+                    MainActivity.colorClass.aCurrentRange.progressSecond = seekBar.progress
 
                     if (!calcActive) {
                         updateTextures()
@@ -186,7 +183,7 @@ class SecondFragment : Fragment() {
         view.findViewById<Button>(R.id.data_to_colour_type).setOnClickListener {
             switchProcessType()
 
-            seekbar.progress = bitmapColorSpread.getProgress()
+            seekbar.progress = MainActivity.colorClass.getProgress()
             seekbar.secondaryProgress = seekbar.progress
 
             setAnalysisButtonTitle()
@@ -264,11 +261,12 @@ class SecondFragment : Fragment() {
             }
         }
 
+
         view.findViewById<Button>(R.id.palette_left).setOnClickListener {
             if (!calcActive) {
-                bitmapColorSpread.prevPalette()
+                MainActivity.colorClass.selectPrevColorRange()
 
-                seekbar.progress = bitmapColorSpread.getProgress()
+                seekbar.progress = MainActivity.colorClass.getProgress()
                 seekbar.secondaryProgress = seekbar.progress
 
                 setAnalysisButtonTitle()
@@ -279,9 +277,9 @@ class SecondFragment : Fragment() {
 
         view.findViewById<Button>(R.id.palette_right).setOnClickListener {
             if (!calcActive) {
-                bitmapColorSpread.nextPalette()
+                MainActivity.colorClass.selectNextColorRange()
 
-                seekbar.progress = bitmapColorSpread.getProgress()
+                seekbar.progress = MainActivity.colorClass.getProgress()
                 seekbar.secondaryProgress = seekbar.progress
 
                 setAnalysisButtonTitle()
@@ -290,11 +288,12 @@ class SecondFragment : Fragment() {
             }
         }
 
+
         view.findViewById<Button>(R.id.add_new_palette).setOnClickListener {
             if (!calcActive) {
-                bitmapColorSpread.addNewColorA()
+                MainActivity.colorClass.addNewColorA()
 
-                seekbar.progress = bitmapColorSpread.getProgress()
+                seekbar.progress = MainActivity.colorClass.getProgress()
                 seekbar.secondaryProgress = seekbar.progress
 
                 setAnalysisButtonTitle()
@@ -305,9 +304,9 @@ class SecondFragment : Fragment() {
 
         view.findViewById<Button>(R.id.add_new_palette2).setOnClickListener {
             if (!calcActive) {
-                bitmapColorSpread.addNewColorB()
+                MainActivity.colorClass.addNewColorB()
 
-                seekbar.progress = bitmapColorSpread.getProgress()
+                seekbar.progress = MainActivity.colorClass.getProgress()
                 seekbar.secondaryProgress = seekbar.progress
 
                 setAnalysisButtonTitle()
@@ -331,12 +330,12 @@ class SecondFragment : Fragment() {
 
     private fun updateTextures(setTileView: Boolean = true) {
         jobTextures = CoroutineScope(Dispatchers.IO).launch {
-            bitmapColorSpread.updateColorSpreadBitmap(pixelDataClone)
+
 
             CoroutineScope(Dispatchers.Main).launch {
-                if (bitmapColorSpread.mNewColors) {
-                    imageButton.setImageBitmap(bitmapColorSpread.seekbarBitmap)
-                    bitmapColorSpread.mNewColors = false
+                if (MainActivity.colorClass.mNewColors) {
+                    imageButton.setImageBitmap(MainActivity.colorClass.aCurrentRange.colorRangeBitmap)
+                    MainActivity.colorClass.mNewColors = false
                 }
             }
 
@@ -345,7 +344,7 @@ class SecondFragment : Fragment() {
     }
 
     private fun setAnalysisButtonTitle(){
-        val text : KotlinString = if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
+        val text : KotlinString = if (MainActivity.colorClass.aCurrentRange.dataProcess == DataProcess.LINEAR) {
             "Linear"
         } else {
             "Statistical"

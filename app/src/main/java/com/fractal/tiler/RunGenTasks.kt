@@ -5,7 +5,6 @@ package com.fractal.tiler
 import android.graphics.Bitmap
 import android.widget.TextView
 import com.fractal.tiler.MainActivity.Companion.DataProcess
-import com.fractal.tiler.MainActivity.Companion.bitmapColorSpread
 import com.fractal.tiler.MainActivity.Companion.height
 import com.fractal.tiler.MainActivity.Companion.mSeekbarMax
 import com.fractal.tiler.MainActivity.Companion.quiltType
@@ -44,7 +43,7 @@ fun setHitsInfoTextView(hitsview : TextView){
 }
 
 fun switchProcessType() {
-    val currentRange = bitmapColorSpread.aCurrentRange
+    val currentRange = MainActivity.colorClass.aCurrentRange
     if (currentRange.dataProcess == DataProcess.LINEAR){
         currentRange.dataProcess = DataProcess.STATISTICAL
     }
@@ -130,7 +129,7 @@ fun startNewRunFormula(isNewRun : Boolean) {
         }
 
         if (pixelData.addHitsToPixelArray(hits)) {
-            aColors = if (bitmapColorSpread.aCurrentRange.dataProcess == DataProcess.LINEAR) {
+            aColors = if (MainActivity.colorClass.aCurrentRange.dataProcess == DataProcess.LINEAR) {
                 buildPixelArrayFromIncrementalColors(pixelData)
             } else {
                 buildPixelArrayFromSinwave(pixelData)
@@ -176,7 +175,7 @@ fun upDataUI() {
 
 
 fun setTileViewBitmap(pixeldatacopy: PixelData) {
-    aColors = when (bitmapColorSpread.aCurrentRange.dataProcess) {
+    aColors = when (MainActivity.colorClass.aCurrentRange.dataProcess) {
         DataProcess.LINEAR -> {
             buildPixelArrayFromIncrementalColors(pixeldatacopy)
         }
@@ -194,7 +193,7 @@ fun setTileViewBitmap(pixeldatacopy: PixelData) {
 
 
 fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
-    val curRange = bitmapColorSpread.aCurrentRange
+    val curRange = MainActivity.colorClass.aCurrentRange
 
     val mColors = curRange.aColorSpread
 
@@ -228,7 +227,7 @@ fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
 
 
 fun buildPixelArrayFromSinwave(pixeldata: PixelData) : IntArray {
-    val colrange = bitmapColorSpread.aCurrentRange
+    val colrange = MainActivity.colorClass.aCurrentRange
 
     val colspreadcount = colrange.aColorSpread.lastIndex
 
@@ -269,7 +268,7 @@ fun buildPixelArrayFromSinwave(pixeldata: PixelData) : IntArray {
 
 
 fun buildPixelArrayFromCosecColors(pixeldata: PixelData) : IntArray {
-    val colrange = bitmapColorSpread.aCurrentRange
+    val colrange = MainActivity.colorClass.aCurrentRange
 
     val colspreadcount = colrange.aColorSpread.lastIndex
 
@@ -330,7 +329,7 @@ private fun setCosecValues(maxHit : Int, colorsCount : Int) : IntArray{
 
 
 fun buildPixelArrayFromStatisticalColors(pixeldata: PixelData) : IntArray {
-    val colrange = bitmapColorSpread.aCurrentRange
+    val colrange = MainActivity.colorClass.aCurrentRange
 
     val colspreadcount = colrange.aColorSpread.lastIndex
 

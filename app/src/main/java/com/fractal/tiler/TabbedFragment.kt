@@ -1,5 +1,6 @@
 package com.fractal.tiler
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,10 +13,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
+private lateinit var tileImageView : MyImageView
+
 class TabbedFragment : Fragment() {
+
     private lateinit var pTabs: TabLayout
     private lateinit var pViewPager: ViewPager
     private lateinit var pagerAdapters: PagerAdapters
+
 
     val mThisPageID = 1
 
@@ -38,6 +43,12 @@ class TabbedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
+
+        if (MainActivity.mEnableDataClone) {
+            pixelDataClone = pixelData.clone()
+            MainActivity.mEnableDataClone = false
+        }
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tabbed, container, false)
     }
@@ -45,6 +56,7 @@ class TabbedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         pTabs = view.findViewById(R.id.mytabs)
         pViewPager = view.findViewById(R.id.myPagerView)
         pagerAdapters = PagerAdapters(childFragmentManager)
@@ -62,6 +74,15 @@ class TabbedFragment : Fragment() {
         pTabs.getTabAt(2)!!.setIcon(R.drawable.ic_notifications)
     */
 
+        tileImageView = view.findViewById(R.id.tile_image_view)
+
+        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+
+        setTileImageView(tileImageView)// Set reference to MyImageView in RunGenTasks
+
+        //updateTextures(false)
+        setTileViewBitmap(pixelDataClone)
+
         view.findViewById<Button>(R.id.backto_firstfragment).setOnClickListener {
             findNavController().navigate(R.id.action_TabbedFragment_to_FirstFragment)
         }
@@ -69,4 +90,10 @@ class TabbedFragment : Fragment() {
             findNavController().navigate(R.id.action_TabbedFragment_to_SecondFragment)
         }
     }
+
+
+}
+
+fun returnTileView() : MyImageView {
+    return tileImageView
 }

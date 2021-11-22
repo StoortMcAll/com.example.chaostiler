@@ -1,21 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/constraint_background"
     tools:context=".ColorFragment">
 
-    <Button
-        android:id="@+id/backto_firstfragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/goto_generate_tile" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/add_new_palette"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetRight="1dp"
+            android:contentDescription="@string/content_description_icon"
+            android:foreground="@drawable/add_1_button_up" />
 
 
-    <Button
-        android:id="@+id/coltab_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/goto_generate_tile" />
+        <Button
+            android:id="@+id/add_new_palette2"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:foreground="@drawable/add_2_button_up"
+            android:contentDescription="@string/content_description_hexagon"
+            android:insetLeft="1dp" />
 
-</FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/palleft"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetRight="1dp"
+            android:contentDescription="@string/content_description_icon"
+            android:foreground="@drawable/layer_colorrange_right" />
+
+
+        <TextView
+            android:id="@+id/palmid"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:contentDescription="@string/content_description_icon"
+            android:foreground="@drawable/layer_colorrange_mid"
+            android:insetLeft="1dp"
+            android:insetRight="1dp" />
+
+        <Button
+            android:id="@+id/palright"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:foreground="@drawable/layer_colorrange_left"
+            android:contentDescription="@string/content_description_hexagon"
+            android:insetLeft="1dp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+
+    </Space>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/start_color"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:foreground="@drawable/layer_textview_color"
+            android:contentDescription="@string/content_description_icon"
+            android:insetRight="1dp" />
+
+        <Button
+            android:id="@+id/color_0"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:foreground="@drawable/color_button_states"
+            android:contentDescription="@string/content_description_hexagon"
+            android:insetLeft="1dp"
+            android:insetRight="1dp"/>
+
+        <Button
+            android:id="@+id/color_1"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:foreground="@drawable/color_button_states"
+            android:contentDescription="@string/content_description_hexagon"
+            android:insetLeft="1dp"
+            android:insetRight="1dp"/>
+
+        <Button
+            android:id="@+id/color_2"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:foreground="@drawable/color_button_states"
+            android:contentDescription="@string/content_description_hexagon"
+            android:insetLeft="1dp"
+            android:insetRight="1dp"/>
+
+        <TextView
+            android:id="@+id/end_color"
+            style="@style/outlineButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:foreground="@drawable/layer_textview_color"
+            android:contentDescription="@string/content_description_icon"
+            android:insetLeft="1dp"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/constraint_background">
+
+        <ImageButton
+            android:id="@+id/palette_scaler"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:contentDescription="@string/content_description_adjust_spread_image"
+            android:scaleType="fitXY"
+            android:background="@drawable/greyscale"/>
+
+        <com.fractal.tiler.MySeekbar
+            android:id="@+id/seekBar"
+            style="@style/outlineButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:contentDescription="@string/content_description_adjust_spread"
+            android:max="255"
+            android:progress="0"
+            android:progressTint="@color/progress_thumb_tint"
+            android:secondaryProgress="50"
+            android:thumbTint="@color/progress_thumb_tint" />
+
+    </FrameLayout>
+</LinearLayout>

@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/content_description_adjust_spread_image"
         android:scaleType="fitXY"
-        android:background="@color/constraint_background"/>
+        android:background="@drawable/greyscale"/>
 
     <com.fractal.tiler.MySeekbar
         android:id="@+id/seekBar"
