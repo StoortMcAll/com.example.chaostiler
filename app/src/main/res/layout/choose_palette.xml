@@ -19,7 +19,7 @@
 		android:layout_weight="0.5"
 		android:contentDescription="@string/content_description_palette_left"
 		android:insetRight="1dp"
-		app:icon="@drawable/ic_baseline_chevron_left_24"
+		app:icon="@drawable/ic_chevron_left_24"
 		app:iconGravity="textStart"/>
 
 	<Button
@@ -30,7 +30,7 @@
 		android:layout_weight="0.5"
 		android:contentDescription="@string/content_description_palette_right"
 		android:insetLeft="1dp"
-		app:icon="@drawable/ic_baseline_chevron_right_24"
+		app:icon="@drawable/ic_chevron_right_24"
 		app:iconGravity="textStart"/>
 
     <TextView

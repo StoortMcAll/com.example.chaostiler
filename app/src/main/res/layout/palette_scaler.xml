@@ -11,7 +11,7 @@
     tools:showIn="@layout/fragment_second">
 
     <ImageButton
-        android:id="@+id/palette_scaler"
+        android:id="@+id/colorrange_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="2dp"

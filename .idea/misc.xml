@@ -3,32 +3,46 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/add_1_button_up.xml" value="0.5" />
-        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/add_2_button_up.xml" value="0.215625" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/add_1_button_up.xml" value="0.1" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/add_2_button_up.xml" value="0.12407407407407407" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/background_bitmap.xml" value="0.2203125" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/background_color.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/button_states_icon.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/button_states_scratch.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/button_states_square.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/color_button_states.xml" value="0.15" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/colorrange_left_states.xml" value="0.2203125" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/colorrange_right_states.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/gradient_hsv.xml" value="0.215625" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/gradient_rgb.xml" value="0.215625" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/gradient_rgb_add.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/gradient_stroke.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/gradient_test.xml" value="0.22" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_add_24.xml" value="0.2203125" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_arrow_down_24.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2111111111111111" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_baseline_arrow_down_24.xml" value="0.11203703703703703" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_baseline_arrow_down_pressed_24.xml" value="0.17592592592592593" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.2123076923076923" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_baseline_chevron_right_24.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.3828125" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_chevron_left_pressed_24.xml" value="0.75" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/ic_chevron_right_pressed_24.xml" value="0.75" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/icon_button_states.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_button_color.xml" value="0.21574074074074073" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_button_color_pressed.xml" value="0.21574074074074073" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange.xml" value="0.2046875" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_edit.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_left.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_left_pressed.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_lst.xml" value="0.21979166666666666" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_mid.xml" value="0.33" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_right.xml" value="0.21614583333333334" />
-        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_textview_color.xml" value="0.3828125" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_right_pressed.xml" value="0.2203125" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_textview_color.xml" value="0.1" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/pause_states.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/resume_states.xml" value="0.3828125" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/shape_stroke_blue.xml" value="0.1" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/shape_stroke_trans.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout-land/activity_main.xml" value="0.2994791666666667" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout-land/analysis_type.xml" value="0.2" />
@@ -42,11 +56,11 @@
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/choose_palette.xml" value="0.1590909090909091" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/content_main.xml" value="0.2046875" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/dropdown_filter.xml" value="0.22" />
-        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_color.xml" value="0.33" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_color.xml" value="0.4420401854714065" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_data.xml" value="0.5723114956736712" />
-        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_first.xml" value="0.48166877370417194" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_first.xml" value="0.33" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_fullscreen.xml" value="0.1" />
-        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_second.xml" value="0.22" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_second.xml" value="0.1010194624652456" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_tabbed.xml" value="0.22" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_third.xml" value="0.2046875" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/palette_scaler.xml" value="0.25" />

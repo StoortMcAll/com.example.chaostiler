@@ -37,7 +37,7 @@ class DataFragment : Fragment() {
         callback.isEnabled
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         _fragmentDataBinding = FragmentDataBinding.inflate(inflater, container, false)
 /*

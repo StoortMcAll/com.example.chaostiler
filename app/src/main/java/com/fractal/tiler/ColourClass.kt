@@ -21,7 +21,7 @@ import kotlin.math.*
 
 private const val mMaximumColorRangeSeekbarProgress = mSeekbarMax
 
-data class DRgbDataItem(val range: Int = 0, val color: Int = 0)
+data class DRgbDataItem(var range: Int = 0, var color: Int = 0)
 
 data class DPrimaryColors(val size : Int, val colors : IntArray) {
     override fun equals(other: Any?): Boolean {
@@ -43,7 +43,7 @@ data class DPrimaryColors(val size : Int, val colors : IntArray) {
     }
 }
 
-private var colArray = IntArray(MainActivity.mSeekbarMax)
+private var colArray = IntArray(mSeekbarMax)
 
 // endregion
 
@@ -118,7 +118,7 @@ class ColorClass {
                 DRgbDataItem(96, Color.RED),
                 DRgbDataItem(255, Color.GREEN)))
 
-        setCurrentColorRange(0)
+        setCurrentColorRange(2)
     }
 
     fun getProgress(): Int {
@@ -188,17 +188,17 @@ class ColorClass {
     }
 
     private fun addNewRandomPrimariesRange() : ColorRangeClass{
-        var dataitemcount = 3//rand.nextInt(1, 4)
+        var dataitemcount = rand.nextInt(2, 5)
 
         var range : Int
-        var add : Int
+        val add : Int
 
-        if (dataitemcount == 1) range = 256
-        else if (dataitemcount == 2) range = 128
-        else range = 64
+        if (dataitemcount == 2) range = 256
+        else if (dataitemcount == 3) range = 192
+        else range = 128
         add = range// * 2
 
-        var color : Int
+        val color : Int
         var colorIndex : Int
         var lastColorIndex : Int
 
@@ -287,11 +287,11 @@ class ColorClass {
         var counter = rand.nextInt(2, 4)
 
         var range : Int
-        var add : Int
+        val add : Int
 
-        if (counter == 1) range = 256
-        else if (counter == 2) range = 128
-        else range = 64
+        if (counter == 2) range = 256
+        else if (counter == 3) range = 192
+        else range = 128
         add = range// * 2
 
         var isDifPos: Boolean
@@ -385,6 +385,8 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess :
 
     var mColorRangeID = id
 
+    var mActiveColorButtonId = 1
+
     var dataProcess = dataprocess
 
     val mColorDataList = colorDataList
@@ -416,12 +418,10 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess :
     }
 
     fun setRangeProgress(prog : Int){
-        if (dataProcess == MainActivity.Companion.DataProcess.LINEAR){
-            progressIncrement = prog
-        }
-        else{
-            progressStatistic = prog
-        }
+        //if (dataProcess == MainActivity.Companion.DataProcess.LINEAR){
+        progressIncrement = prog
+        progressSecond = prog
+        mColorDataList[mActiveColorButtonId + 1].range = prog
 
         updateColorSpreadBitmap()
     }
@@ -434,7 +434,7 @@ class ColorRangeClass(id : Int, colorDataList: List<DRgbDataItem>, dataprocess :
             drawColorSpreadForSinwave(progressStatistic)
         }
 
-        colorRangeDrawable = colorRangeBitmap.toDrawable(MainActivity.myResources)
+        colorRangeDrawable = colorRangeBitmap.toDrawable(myResources)
     }
 
 

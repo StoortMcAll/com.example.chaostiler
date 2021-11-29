@@ -6,20 +6,10 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
 
-    <item android:id="@+id/layer_color"
-        android:bottom="4dp"
-        android:top="4dp"
-        android:start="3dp"
-        android:end="3dp"
-        android:drawable="@color/black">
-    </item>
-
     <item
         android:bottom="2dp"
         android:top="2dp"
-        android:start="1dp"
-        android:end="1dp"
-        android:drawable="@drawable/shape_stroke_trans">
+        android:drawable="@drawable/shape_stroke_blue">
     </item>
 
 

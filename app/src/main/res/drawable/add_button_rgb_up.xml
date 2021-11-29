@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/layer_image"
-        android:bottom="4dp"
-        android:top="4dp"
-        android:start="4dp"
-        android:end="3dp"
-        android:drawable="@drawable/greyscale">
-    </item>
-
     <item
+        android:id="@+id/gradient"
         android:bottom="2dp"
         android:top="2dp"
         android:start="2dp"
         android:end="1dp"
-        android:drawable="@drawable/gradient_rgb">
+        android:drawable="@drawable/gradient_rgb_add">
     </item>
 
     <item
@@ -22,7 +15,7 @@
         android:top="4dp"
         android:start="4dp"
         android:end="4dp"
-        android:drawable="@drawable/ic_baseline_add_24">
+        android:drawable="@drawable/ic_add_24">
     </item>
 
 </layer-list>

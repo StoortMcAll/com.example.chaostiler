@@ -81,37 +81,36 @@
             android:src="@drawable/greyscale"
             android:orientation="horizontal">
 
-            <Button
+
+            <ImageButton
                 android:id="@+id/color_range_right"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:contentDescription="@string/content_description_icon"
-                android:foreground="@drawable/layer_colorrange_right"
+                android:layout_weight="0.25"
                 android:insetRight="1dp"
-                app:cornerRadius="8dp"
-                app:strokeWidth="2dp" />
+                android:contentDescription="@string/content_description_icon"
+                android:background="@drawable/layer_background_bitmap"
+                android:foreground="@drawable/colorrange_right_states" />
 
-            <Button
+
+            <ImageButton
                 android:id="@+id/color_range_mid"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:insetLeft="1dp"
-                android:insetRight="1dp"
-                android:background="@color/transparent"
-                android:foreground="@drawable/layer_colorrange_mid"/>
+                android:layout_weight="1"
+                android:contentDescription="@string/content_description_icon"
+                android:foreground="@drawable/layer_background_bitmap" />
 
-            <Button
+
+            <ImageButton
                 android:id="@+id/color_range_left"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.25"
                 android:insetLeft="1dp"
-                android:background="@color/transparent"
-                android:foreground="@drawable/layer_colorrange_left"
-                android:contentDescription="@string/content_description_hexagon" />
+                android:contentDescription="@string/content_description_icon"
+                android:background="@drawable/layer_background_bitmap"
+                android:foreground="@drawable/colorrange_left_states" />
 
         </LinearLayout>
 
