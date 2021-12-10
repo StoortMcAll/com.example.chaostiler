@@ -6,14 +6,6 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
 
-    <item
-        android:bottom="2dp"
-        android:top="2dp"
-        android:start="1dp"
-        android:end="1dp"
-        android:drawable="@drawable/shape_stroke_blue">
-    </item>
-
     <item android:id="@+id/layer_color"
         android:bottom="3dp"
         android:top="3dp"
@@ -24,7 +16,7 @@
             android:shape="rectangle">
 
             <solid
-               android:color="@color/my_yellow">
+               android:color="@color/light_grey">
             </solid>
 
             <corners
@@ -32,6 +24,14 @@
             </corners>
 
         </shape>
+    </item>
+
+    <item
+        android:bottom="2dp"
+        android:top="2dp"
+        android:start="1dp"
+        android:end="1dp"
+        android:drawable="@drawable/shape_stroke_blue">
     </item>
 
 </layer-list>

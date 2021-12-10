@@ -59,16 +59,9 @@ class ThirdFragment : Fragment() {
 
         imageView = view.findViewById(R.id.fullscreenImageView)
 
-        //tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
         setTileImageView(imageView)
 
         imageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
-
-
-
-        //tileImageView = view.findViewById(R.id.fullscreenImageView)
-
-       // tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
         view.findViewById<Button>(R.id.save_wallpaper).setOnClickListener {
             val shaderView = view.findViewById<TextView>(R.id.shader)

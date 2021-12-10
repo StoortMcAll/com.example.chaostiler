@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.widget.TextView
 import com.fractal.tiler.MainActivity.Companion.DataProcess
 import com.fractal.tiler.MainActivity.Companion.height
-import com.fractal.tiler.MainActivity.Companion.mSeekbarMax
+import com.fractal.tiler.MainActivity.Companion.mColorRangeLastIndex
 import com.fractal.tiler.MainActivity.Companion.quiltType
 import com.fractal.tiler.MainActivity.Companion.width
 import kotlinx.coroutines.*
@@ -65,7 +65,7 @@ fun runSetToZero() {
 
     if (min > 0) {
         for (i in 0 until arraySize) {
-            pixelDataClone.aPixelArray[i] -= min
+            pixelDataClone.aHitsArray[i] -= min
         }
 
         pixelDataClone.mMaxHits -= min
@@ -100,10 +100,10 @@ fun runSetToZero() {
 
     var hits : Int
     for (i in 0 until arraySize) {
-        hits = pixelDataClone.aPixelArray[i]
+        hits = pixelDataClone.aHitsArray[i]
         if (hits > index){
             hits = index
-            pixelDataClone.aPixelArray[i] = hits
+            pixelDataClone.aHitsArray[i] = hits
         }
 
         pixelDataClone.mHitsCount += hits
@@ -129,11 +129,11 @@ fun startNewRunFormula(isNewRun : Boolean) {
         }
 
         if (pixelData.addHitsToPixelArray(hits)) {
-            aColors = if (MainActivity.colorClass.aCurrentRange.dataProcess == DataProcess.LINEAR) {
+            aColors =// if (MainActivity.colorClass.aCurrentRange.dataProcess == DataProcess.LINEAR) {
                 buildPixelArrayFromIncrementalColors(pixelData)
-            } else {
-                buildPixelArrayFromSinwave(pixelData)
-            }
+           // } else {
+            //    buildPixelArrayFromSinwave(pixelData)
+           // }
         }
         else{
             prepareForNewRun()
@@ -175,14 +175,17 @@ fun upDataUI() {
 
 
 fun setTileViewBitmap(pixeldatacopy: PixelData) {
-    aColors = when (MainActivity.colorClass.aCurrentRange.dataProcess) {
+    /*aColors = when (MainActivity.colorClass.aCurrentRange.dataProcess) {
         DataProcess.LINEAR -> {
             buildPixelArrayFromIncrementalColors(pixeldatacopy)
         }
         else -> {
             buildPixelArrayFromSinwave(pixeldatacopy)
         }
-    }
+    }*/
+
+    aColors = buildPixelArrayFromIncrementalColors(pixeldatacopy)
+
     bmTexture.setPixels(aColors, 0, width, 0, 0, width, height)
 
     CoroutineScope(Dispatchers.Main).launch {
@@ -197,29 +200,31 @@ fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
 
     val mColors = curRange.aColorSpread
 
-    val seekPosAsFraction = curRange.getRangeProgress() * (1.0 / mSeekbarMax.toDouble())
+   // val seekPosAsFraction = curRange.getRangeProgress() * (1.0 / mColorRangeLastIndex.toDouble())
 
     val leastcolors = 32
-    val colorscount = leastcolors + ((mColors.lastIndex - leastcolors) * seekPosAsFraction).toInt()
+    val colorscount = mColors.lastIndex//leastcolors + ((mColors.lastIndex - leastcolors) * seekPosAsFraction).toInt()
 
     val count = pixeldata.arraySize
 
     val cols = IntArray(count)
-
+/*
     var mult = 1.0F
     if (pixeldata.mMaxHits == 0){
         cols[0] = mColors[0]
     } else{
         mult /= pixeldata.mMaxHits
     }
-    var cl : Int
+    var cl : Int*/
 
     for (i in 0  until count){
-        cl = ((pixeldata.aPixelArray[i] * mult) * colorscount).toInt()
+       /* cl = ((pixeldata.aHitsArray[i] * mult) * colorscount).toInt()
 
         if (cl > colorscount) cl = colorscount
 
         cols[i] = mColors[cl]
+*/
+        cols[i] = mColors[pixeldata.aScaledHitsArray[i]]
     }
 
     return  cols
@@ -231,7 +236,7 @@ fun buildPixelArrayFromSinwave(pixeldata: PixelData) : IntArray {
 
     val colspreadcount = colrange.aColorSpread.lastIndex
 
-    val seekPosAsFraction = colrange.getRangeProgress() * (1.0 / mSeekbarMax.toFloat())
+    val seekPosAsFraction = colrange.progressIncrement * (1.0 / mColorRangeLastIndex.toFloat())
 
     val count = pixeldata.arraySize
     val cols = IntArray(count)
@@ -257,7 +262,7 @@ fun buildPixelArrayFromSinwave(pixeldata: PixelData) : IntArray {
     }
 
     for (i in 0  until count){
-        index = pixeldata.aPixelArray[i]
+        index = pixeldata.aHitsArray[i]
 
         cols[i] = colrange.aColorSpread[hitindex[index]]
     }
@@ -272,7 +277,7 @@ fun buildPixelArrayFromCosecColors(pixeldata: PixelData) : IntArray {
 
     val colspreadcount = colrange.aColorSpread.lastIndex
 
-    val colspreadmaxrange = colrange.getRangeProgress() * (1.0 / mSeekbarMax.toFloat())
+    val colspreadmaxrange = colrange.progressIncrement * (1.0 / mColorRangeLastIndex.toFloat())
 
     val count = pixeldata.arraySize
     val cols = IntArray(count)
@@ -299,7 +304,7 @@ fun buildPixelArrayFromCosecColors(pixeldata: PixelData) : IntArray {
     var cl : Int
 
     for (i in 0  until count){
-        cl = pixeldata.aPixelArray[i]
+        cl = pixeldata.aHitsArray[i]
 
         cl = finalIndex[cl]
 
@@ -333,7 +338,7 @@ fun buildPixelArrayFromStatisticalColors(pixeldata: PixelData) : IntArray {
 
     val colspreadcount = colrange.aColorSpread.lastIndex
 
-    val colspreadmaxrange = colrange.getRangeProgress() * (1.0 / mSeekbarMax.toFloat())
+    val colspreadmaxrange = colrange.progressIncrement * (1.0 / mColorRangeLastIndex.toFloat())
 
     val count = pixeldata.arraySize
     val cols = IntArray(count)
@@ -359,7 +364,7 @@ fun buildPixelArrayFromStatisticalColors(pixeldata: PixelData) : IntArray {
     var cl : Int
 
     for (i in 0  until count){
-        cl = pixeldata.aPixelArray[i]
+        cl = pixeldata.aHitsArray[i]
 
         cl = percentage[cl].toInt()
 

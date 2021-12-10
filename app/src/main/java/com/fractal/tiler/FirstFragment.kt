@@ -272,12 +272,12 @@ class FirstFragment : Fragment() {
     }
 
     private fun setTileViewBitmap(pixeldatacopy: PixelData) {
-        if (MainActivity.colorClass.aCurrentRange.dataProcess == MainActivity.Companion.DataProcess.LINEAR){
+        //if (MainActivity.colorClass.aCurrentRange.dataProcess == MainActivity.Companion.DataProcess.LINEAR){
             aColors = buildPixelArrayFromIncrementalColors(pixeldatacopy)
-        }
-        else{
-            aColors = buildPixelArrayFromSinwave(pixeldatacopy)
-        }
+       // }
+        //else{
+        //    aColors = buildPixelArrayFromSinwave(pixeldatacopy)
+        //}
 
         bmTexture.setPixels(aColors, 0,
             MainActivity.width, 0, 0,

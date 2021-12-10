@@ -15,7 +15,7 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/add_new_palette"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -25,7 +25,7 @@
             android:foreground="@drawable/add_button_rgb_up" />
 
 
-        <Button
+        <ImageButton
             android:id="@+id/add_new_palettehsv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -106,10 +106,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/layer_background_color"
-            android:foreground="@drawable/color_button_states"
             android:contentDescription="@string/content_description_hexagon"
+            android:focusableInTouchMode="true"
+            android:foreground="@drawable/color_button_states"
             android:insetLeft="1dp"
-            android:insetRight="1dp"/>
+            android:insetRight="1dp" />
 
         <ImageButton
             android:id="@+id/color_1"
@@ -117,10 +118,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/layer_background_color"
-            android:foreground="@drawable/color_button_states"
             android:contentDescription="@string/content_description_hexagon"
+            android:focusableInTouchMode="true"
+            android:foreground="@drawable/color_button_states"
             android:insetLeft="1dp"
-            android:insetRight="1dp"/>
+            android:insetRight="1dp" />
 
         <ImageButton
             android:id="@+id/color_2"
@@ -128,10 +130,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/layer_background_color"
-            android:foreground="@drawable/color_button_states"
             android:contentDescription="@string/content_description_hexagon"
+            android:focusableInTouchMode="true"
+            android:foreground="@drawable/color_button_states"
             android:insetLeft="1dp"
-            android:insetRight="1dp"/>
+            android:insetRight="1dp" />
 
         <ImageButton
             android:id="@+id/end_color"
@@ -144,36 +147,21 @@
             android:background="@drawable/layer_background_color"/>
     </LinearLayout>
 
-    <FrameLayout
+    <com.fractal.tiler.MySeekbar
+        android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/constraint_background">
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:clickable="false"
+        android:background="@drawable/layer_background_bitmap"
+        android:contentDescription="@string/content_description_adjust_spread"
+        android:max="256"
+        android:progress="128"
+        android:progressBackgroundTint="#00000000"
+        android:progressTint="#00000000"
+        android:secondaryProgress="0"
+        android:thumbTint="@color/progress_thumb_tint" />
 
-        <ImageButton
-            android:id="@+id/colorrange_image"
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:contentDescription="@string/content_description_adjust_spread_image"
-            android:background="@drawable/layer_colorrange_edit"/>
-
-        <com.fractal.tiler.MySeekbar
-            android:id="@+id/seekBar"
-            style="@style/outlineButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="false"
-            android:contentDescription="@string/content_description_adjust_spread"
-            android:max="255"
-            android:progress="0"
-            android:progressTint="@color/progress_thumb_tint"
-            android:secondaryProgress="50"
-            android:thumbTint="@color/progress_thumb_tint" />
-
-    </FrameLayout>
 </LinearLayout>

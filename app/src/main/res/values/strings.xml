@@ -66,7 +66,7 @@
     <string name="fullscreen_image">Fullscreen Image</string>
     <string name="save_image">Save Image</string>
     <string name="content_description_save_image">Save Image to Picture folder</string>
-    <string name="set_to_zero">Zero Minimum</string>
+    <string name="set_to_zero">Set Upper Limit</string>
     <string name="linear">Linear</string>
     <string name="content_description_colour_distribution">How to apply ColourRange to generated results </string>
     <string name="reset_the_minimum_hits_per_pixel_to_0">Reset the minimum hits per pixel to 0</string>

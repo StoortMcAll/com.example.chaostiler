@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         const val width = 768; const val height = 768
 
-        const val mSeekbarMax = 256
+        const val mColorRangeLastIndex = 511
 
         lateinit var myResources : Resources
 

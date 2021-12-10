@@ -40,6 +40,10 @@ class MyImageView @JvmOverloads constructor(
     private lateinit var shader: Shader
     private val shaderMatrix = Matrix()
 
+    private var paintGreyed = Paint()
+    private lateinit var shaderGreyed: Shader
+    private val textureGreyed = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+
     private var pIndex0 : Int = 0
     private var pIndex1 : Int = 0
 
@@ -76,6 +80,11 @@ class MyImageView @JvmOverloads constructor(
         mScaleDetector = ScaleGestureDetector(context, scaleListener)
 
         bmImage = Bitmap.createBitmap(MainActivity.width, MainActivity.height, Bitmap.Config.ARGB_8888)
+
+        textureGreyed.setPixel(0, 0, Color.argb(96, 33, 66, 99))
+        shaderGreyed = BitmapShader(textureGreyed, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+
+        paintGreyed.shader = shaderGreyed
 
         setBitmap(bmImage)
     }
@@ -181,11 +190,24 @@ class MyImageView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        mScaleFitToCanvas = this.width  / bmImage.width.toFloat()
+        mScaleFitToCanvas = this.width / bmImage.width.toFloat()
 
         setOffsetScale()
 
-        canvas.drawRect(0.0f, 0.0f, width.toFloat(), height.toFloat(), paint)
+        canvas.drawRect(0.0f, 0.0f, (width - 1).toFloat(), (height - 1).toFloat(), paint)
+
+        if (MainActivity.mCurrentPageID == -1) {
+            val bandThickness =
+                if (width < height) width * 0.08f - 1.0f
+                else height * 0.08f - 1.0f
+
+            canvas.drawRect(0.0f, 0.0f, bandThickness, (height - 1).toFloat(), paintGreyed)
+            canvas.drawRect(0.0f, 0.0f, (width - 1).toFloat(), bandThickness, paintGreyed)
+            canvas.drawRect((width - 1 - bandThickness).toFloat(),0.0f,
+                (width - 1).toFloat(), (height - 1).toFloat(), paintGreyed)
+            canvas.drawRect(0.0f, (height - 1 - bandThickness).toFloat(),
+                (width - 1).toFloat(), (height - 1).toFloat(), paintGreyed)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -194,25 +216,19 @@ class MyImageView @JvmOverloads constructor(
         val wallpaperManager: WallpaperManager = WallpaperManager.getInstance(this.context)
         if (wallpaperManager.isWallpaperSupported) {
 
-            val wd = width//wallpaperManager.desiredMinimumWidth
-            val ht = height//wallpaperManager.desiredMinimumHeight
+            val wd = width
+            val ht = height
 
             val texture = Bitmap.createBitmap(wd, ht, Bitmap.Config.ARGB_8888)
 
             val canvas = Canvas(texture)
 
-                shaderMatrix.setTranslate(offset.x - bmImage.width * mScaleFactor * 0.08f, offset.y - bmImage.width * mScaleFactor * 0.08f)
-
-                shaderMatrix.preScale(mScaleFactor * 0.92f, mScaleFactor * 0.92f)
-
-                shader.setLocalMatrix(shaderMatrix)
-
             canvas.drawRect(0.0f, 0.0f, wd.toFloat() - 1.0f, ht.toFloat() - 1.0f, paint)
 
             try {
                 if (isWallpaper) {
-                    //val rect = Rect(0, 0, wd - 1, ht - 1)
-                    wallpaperManager.setBitmap(texture)//, rect, false)
+                    wallpaperManager.setBitmap(texture, null, false)
+                   // wallpaperManager.setBitmap(texture)//, rect, false)
                 } else {
                     bitmapToFile(bmImage)
                 }

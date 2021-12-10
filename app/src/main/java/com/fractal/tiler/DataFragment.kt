@@ -1,7 +1,10 @@
 package com.fractal.tiler
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,11 +13,18 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.SeekBar
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.navigation.fragment.findNavController
 import com.fractal.tiler.MainActivity.Companion.filter
 import com.fractal.tiler.databinding.FragmentDataBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 class DataFragment : Fragment() {
@@ -22,8 +32,21 @@ class DataFragment : Fragment() {
     private var _fragmentDataBinding : FragmentDataBinding? = null
     private val binding get() = _fragmentDataBinding!!
 
+
+    private lateinit var seekbar: MySeekbar
+    private lateinit var seebarBackground : LayerDrawable
+    private val seebarBitmap : Bitmap = Bitmap.createBitmap(MainActivity.mColorRangeLastIndex + 1, 1, Bitmap.Config.ARGB_8888)
+    private var seebarDrawable = seebarBitmap.toDrawable(MainActivity.myResources)
+
+    private var mMaxSeekbarHit = 100
+    private var mSeekbarProgess = 100
+
     var filterId = filter.ordinal
 
+
+    var calcActive = false
+
+    var jobTextures : Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +63,25 @@ class DataFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         _fragmentDataBinding = FragmentDataBinding.inflate(inflater, container, false)
+
+        if (MainActivity.mEnableDataClone) {
+            pixelDataClone = pixelData.clone()
+            MainActivity.mEnableDataClone = false
+        }
+
+        seekbar = binding.maxhitSeeker
+
+        seebarBackground =
+            ResourcesCompat.getDrawable(resources, R.drawable.layer_colorrange_edit, null) as LayerDrawable
+
+        mMaxSeekbarHit = pixelDataClone.mMaxHits
+
+        seekbar.max = mMaxSeekbarHit
+
+        seekbar.progress = mMaxSeekbarHit
+
+
+
 /*
 
         val gradient = GradientDrawable()
@@ -56,6 +98,85 @@ class DataFragment : Fragment() {
 
         return binding.root
     }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            var isStarted = false
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (!isStarted) {
+                    if (fromUser) {
+                        isStarted = true
+                    }
+                } else {
+                    mSeekbarProgess = progress
+                    if (mSeekbarProgess < pixelDataClone.mMinHits)
+                        mSeekbarProgess = pixelDataClone.mMinHits
+
+                    seekBar.progress = progress
+
+                    if (jobTextures == null || jobTextures?.isActive == false) {
+
+                        if (!calcActive) {
+                            updateTextures()
+                        }
+                    }
+
+                    return
+                }
+
+                if (isStarted) {
+                    mSeekbarProgess = progress
+                    if (mSeekbarProgess < pixelDataClone.mMinHits)
+                        mSeekbarProgess = pixelDataClone.mMinHits
+
+                    seekBar.progress = progress
+                }
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                if (jobTextures != null && jobTextures?.isActive == true) {
+                    jobTextures?.cancel()
+                }
+
+                mSeekbarProgess = seekBar.progress
+                if (mSeekbarProgess < pixelDataClone.mMinHits)
+                    mSeekbarProgess = pixelDataClone.mMinHits
+
+                if (!calcActive) {
+                    updateTextures()
+                }
+
+                isStarted = false
+            }
+
+        })
+
+    }
+
+
+    private fun updateTextures(setTileView: Boolean = true) {
+
+        var doSetTileView = setTileView
+
+        jobTextures = CoroutineScope(Dispatchers.Default).launch {
+
+            if (doSetTileView) {
+                pixelDataClone.recalcScaledHitsArray(mSeekbarProgess)
+
+                setTileViewBitmap(pixelDataClone)
+
+            }
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()

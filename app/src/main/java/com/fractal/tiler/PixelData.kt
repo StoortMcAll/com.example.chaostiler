@@ -59,7 +59,9 @@ class PixelData(val width : Int, val height : Int) {
 
     var aHitStats : MutableList<Int> = mutableListOf(arraySize)
 
-    var aPixelArray : IntArray = IntArray(arraySize)
+    var aHitsArray : IntArray = IntArray(arraySize)
+
+    var aScaledHitsArray : IntArray = IntArray(arraySize)
 
     // endregion
 
@@ -67,6 +69,8 @@ class PixelData(val width : Int, val height : Int) {
     fun addHitsToPixelArray(hits : ArrayList<Hit>) : Boolean{
         var index : Int
         var value : Int
+
+        var newMaxHits = false
 
         mPixelArrayBusy = true
 
@@ -80,12 +84,14 @@ class PixelData(val width : Int, val height : Int) {
                 return false
             }
 
-            value = aPixelArray[index]
-            aPixelArray[index]++
+            value = aHitsArray[index]
+            aHitsArray[index]++
 
             aHitStats[value]--
             value++
+
             if (value > mMaxHits) {
+                newMaxHits = true
                 mMaxHits++
                 aHitStats.add(0)
             }
@@ -95,12 +101,55 @@ class PixelData(val width : Int, val height : Int) {
 
         while (aHitStats[mMinHits] == 0) mMinHits++
 
+        val scalar =
+            if (mMaxHits == 0) 0.0F
+            else MainActivity.mColorRangeLastIndex / mMaxHits.toFloat()
+
+        if (newMaxHits){
+            val scaledValues = IntArray(mMaxHits + 1)
+
+            for (i in 0..mMaxHits){
+                scaledValues[i] = (i * scalar).toInt()
+            }
+
+            for (i in 0 until arraySize){
+                aScaledHitsArray[i] = scaledValues[aHitsArray[i]]
+            }
+        }else {
+            hits.forEach {
+                index = it.x + it.y * width
+                aScaledHitsArray[index] = (aHitsArray[index] * scalar).toInt()
+            }
+        }
+
         mPixelArrayBusy = false
 
         if (mMaxHits / mHitsCount.toDouble() > 0.01)
             return false
 
         return true
+    }
+
+    fun recalcScaledHitsArray(newMax : Int){
+        val colorRangeLastIndex = MainActivity.mColorRangeLastIndex
+        val scalar =
+            if (newMax == 0) 0.0F
+            else colorRangeLastIndex / newMax.toFloat()
+
+
+        var hits : Int
+        val scaledValues = IntArray(mMaxHits + 1)
+
+        for (i in 0..mMaxHits){
+            if (i > newMax)
+                scaledValues[i] = colorRangeLastIndex
+            else
+                scaledValues[i] = (i * scalar).toInt()
+        }
+
+        for (i in 0 until arraySize){
+            aScaledHitsArray[i] = scaledValues[aHitsArray[i]]
+        }
     }
 
     fun recalcHitStats() {
@@ -110,8 +159,8 @@ class PixelData(val width : Int, val height : Int) {
         aHitStats = arrayListOf(0)
 
         var hits : Int
-        for (i in 0..aPixelArray.lastIndex){
-            hits = aPixelArray[i]
+        for (i in 0..aHitsArray.lastIndex){
+            hits = aHitsArray[i]
 
             mHitsCount += hits
 
@@ -139,7 +188,8 @@ class PixelData(val width : Int, val height : Int) {
 
         mHitsCount = 0
 
-        aPixelArray.fill(0, 0, aPixelArray.count())
+        aHitsArray.fill(0, 0, aHitsArray.count())
+        aScaledHitsArray.fill(0, 0, aScaledHitsArray.count())
 
         aHitStats = mutableListOf(arraySize)
     }
@@ -151,7 +201,8 @@ class PixelData(val width : Int, val height : Int) {
 
         clonePD.mHitsCount = mHitsCount
 
-        clonePD.aPixelArray = aPixelArray.clone()
+        clonePD.aHitsArray = aHitsArray.clone()
+        clonePD.aScaledHitsArray = aScaledHitsArray.clone()
 
         clonePD.aHitStats = mutableListOf()
         for (i in 0..aHitStats.lastIndex) {
@@ -206,9 +257,9 @@ class Filter(val kernel : Array<IntArray>) {
 
 
     fun doImageFilter(pixelDataCopy : PixelData){
-        val wideArray = getWideArray(pixelDataCopy.aPixelArray)
+        val wideArray = getWideArray(pixelDataCopy.aHitsArray)
 
-        pixelDataCopy.aPixelArray = performFunction(wideArray)
+        pixelDataCopy.aHitsArray = performFunction(wideArray)
 
         pixelDataCopy.recalcHitStats()
     }

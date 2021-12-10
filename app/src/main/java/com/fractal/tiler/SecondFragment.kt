@@ -140,7 +140,7 @@ class SecondFragment : Fragment() {
 
                     seekBar.progress.also { seekBar.secondaryProgress = it }
                     MainActivity.colorClass.setProgress(seekBar.progress)
-                    MainActivity.colorClass.aCurrentRange.progressSecond = seekBar.progress
+                   // MainActivity.colorClass.aCurrentRange.progressSecond = seekBar.progress
 
                     if (!calcActive) {
                         updateTextures()
