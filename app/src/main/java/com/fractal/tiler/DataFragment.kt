@@ -2,9 +2,7 @@ package com.fractal.tiler
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
-import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.SeekBar
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -29,27 +26,37 @@ import kotlinx.coroutines.launch
 
 class DataFragment : Fragment() {
 
+    // region Variable Declaration
+
     private var _fragmentDataBinding : FragmentDataBinding? = null
     private val binding get() = _fragmentDataBinding!!
 
+    private val seekbarBitmapWidth = 512
+    private var aBitmapColors = IntArray(seekbarBitmapWidth)
 
     private lateinit var seekbar: MySeekbar
-    private lateinit var seebarBackground : LayerDrawable
-    private val seebarBitmap : Bitmap = Bitmap.createBitmap(MainActivity.mColorRangeLastIndex + 1, 1, Bitmap.Config.ARGB_8888)
-    private var seebarDrawable = seebarBitmap.toDrawable(MainActivity.myResources)
+    private lateinit var seekbarBackground : LayerDrawable
+    private val seekbarBitmap : Bitmap = Bitmap.createBitmap(seekbarBitmapWidth, 1, Bitmap.Config.ARGB_8888)
+    private var seebarDrawable = seekbarBitmap.toDrawable(MainActivity.myResources)
 
-    private var mMaxSeekbarHit = 100
-    private var mSeekbarProgess = 100
+    private var mMaxSeekbarHit = seekbarBitmapWidth - 1
+    private var mSeekbarProgess = mMaxSeekbarHit
+
+    private var mOneOverWidth = 1.0f / mMaxSeekbarHit
 
     var filterId = filter.ordinal
-
 
     var calcActive = false
 
     var jobTextures : Job? = null
 
+    // endregion
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        aBitmapColors.fill(0xffa0a0a0.toInt(), 0, seekbarBitmapWidth - 1)
 
         if ((this.activity as AppCompatActivity).supportActionBar?.isShowing == false)
             (this.activity as AppCompatActivity).supportActionBar?.show()
@@ -70,9 +77,17 @@ class DataFragment : Fragment() {
         }
 
         seekbar = binding.maxhitSeeker
+        setSeekbarProgressAndMax()
 
-        seebarBackground =
-            ResourcesCompat.getDrawable(resources, R.drawable.layer_colorrange_edit, null) as LayerDrawable
+        seekbarBackground =
+            ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
+
+        setSeekbarBitmapColors()
+
+        seekbar.setBackground(seekbarBackground)
+        seekbar.invalidate()
+
+        //seekbarBackground.setDrawableByLayerId(R.id.layer_bitmap, seebarDrawable)
 
         mMaxSeekbarHit = pixelDataClone.mMaxHits
 
@@ -80,29 +95,11 @@ class DataFragment : Fragment() {
 
         seekbar.progress = mMaxSeekbarHit
 
-
-
-/*
-
-        val gradient = GradientDrawable()
-
-        gradient.orientation = GradientDrawable.Orientation.LEFT_RIGHT
-        gradient.shape= GradientDrawable.RECTANGLE
-        gradient.colors = intArrayOf(Color.MAGENTA, Color.CYAN, Color.YELLOW, Color.GREEN)
-        gradient.cornerRadius = 8.0F
-        gradient.setStroke(2, resources.getColor(R.color.button_stroke))
-
-        val button : Button = binding.undoChanges
-        button.foreground =  gradient
-*/
-
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
@@ -150,9 +147,7 @@ class DataFragment : Fragment() {
                 if (mSeekbarProgess < pixelDataClone.mMinHits)
                     mSeekbarProgess = pixelDataClone.mMinHits
 
-                if (!calcActive) {
-                    updateTextures()
-                }
+                updateTextures()
 
                 isStarted = false
             }
@@ -167,16 +162,62 @@ class DataFragment : Fragment() {
         var doSetTileView = setTileView
 
         jobTextures = CoroutineScope(Dispatchers.Default).launch {
+            setSeekbarBitmapColors()
+            seekbar.invalidate()
 
             if (doSetTileView) {
+                calcActive = true
+
                 pixelDataClone.recalcScaledHitsArray(mSeekbarProgess)
 
                 setTileViewBitmap(pixelDataClone)
 
+                calcActive = false
             }
         }
     }
 
+    private fun setSeekbarProgressAndMax(){
+        seekbar.progress = mSeekbarProgess
+        seekbar.max = mMaxSeekbarHit
+    }
+
+    private fun setSeekbarBitmapColors(){
+        val aPercentOfTotalHits = IntArray(pixelDataClone.mMaxHits + 1)
+        val mTotal = 255.0f / pixelDataClone.arraySize
+
+        var mRunningTotal = 0
+
+        for (i in 0..pixelDataClone.mMaxHits){
+            mRunningTotal += pixelDataClone.aHitStats[i]
+            aPercentOfTotalHits[i] = (mRunningTotal * mTotal).toInt()
+        }
+
+        var iscaled : Int
+        var alpha = 255
+        var r : Int
+        var gb : Int
+        var shader = 1.0f
+        val mult = pixelDataClone.mMaxHits / (seekbarBitmapWidth - 1).toFloat()
+
+        //todo stretch mMaxHitValue across bitmapWidth
+        for (i in 0 until seekbarBitmapWidth) {
+            iscaled = (i * mult).toInt()
+
+            if (iscaled >= mSeekbarProgess) {
+                alpha = 32
+                shader = 0.0f
+            }
+
+            r = (aPercentOfTotalHits[iscaled])
+            gb = (r * shader).toInt()
+
+            aBitmapColors[i] = Color.argb(alpha, r, r, r)
+        }
+
+        seekbarBitmap.setPixels(aBitmapColors, 0, seekbarBitmapWidth, 0, 0, seekbarBitmapWidth, 1)
+        seekbarBackground.setDrawableByLayerId(R.id.layer_bitmap, seekbarBitmap.toDrawable(resources))
+    }
 
     override fun onResume() {
         super.onResume()
@@ -219,5 +260,6 @@ class DataFragment : Fragment() {
         super.onDestroyView()
         _fragmentDataBinding = null
     }
+
 }
 

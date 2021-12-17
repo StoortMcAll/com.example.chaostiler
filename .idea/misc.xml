@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/add_1_button_up.xml" value="0.1" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/add_2_button_up.xml" value="0.12407407407407407" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/add_button_hsv_up.xml" value="0.28958333333333336" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/background_bitmap.xml" value="0.2203125" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/background_color.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/button_states_icon.xml" value="0.2203125" />
@@ -43,6 +44,7 @@
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_mid.xml" value="0.33" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_right.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_colorrange_right_pressed.xml" value="0.2203125" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_hitmax_edit.xml" value="0.28958333333333336" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_textview_color.xml" value="0.1" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/layer_thumb_bars.xml" value="0.1361111111111111" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/drawable/pause_states.xml" value="0.2203125" />
@@ -62,7 +64,7 @@
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/content_main.xml" value="0.2046875" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/dropdown_filter.xml" value="0.22" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_color.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_data.xml" value="0.1" />
+        <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_data.xml" value="0.45" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_first.xml" value="0.33" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_fullscreen.xml" value="0.1" />
         <entry key="..\:/Users/stuar/StudioProjects/com.example.chaostiler/app/src/main/res/layout/fragment_second.xml" value="0.1010194624652456" />
@@ -75,7 +77,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

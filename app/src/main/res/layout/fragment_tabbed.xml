@@ -37,6 +37,8 @@
                 android:layout_height="match_parent"
                 android:layout_margin="1dp"
                 android:backgroundTint="@color/constraint_background"
+                android:clickable="true"
+
                 android:textAllCaps="false"
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/button_background"

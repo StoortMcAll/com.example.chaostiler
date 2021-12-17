@@ -128,20 +128,11 @@ class ColorFragment : Fragment() {
         seekbar = binding.seekBar
         setSeekbarValues()
 
-        val bars =
-            ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_drag_handle_24, null) as VectorDrawable
-
-
         seebarBackground =
             ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
-
-        //imageButton?.setForeground(imageButtonLayer)
         seekbar.setBackground(seebarBackground)
-      //  imageButtonDrawable = imageButtonLayer.findDrawableByLayerId(R.id.layer_bitmap) as GradientDrawable
 
         setSeekbarFromActiveButtonBitmap()
-
-        //isLinearView = binding.dataColourConstraint.dataToColourType
 
         return binding.root
     }
@@ -349,7 +340,6 @@ class ColorFragment : Fragment() {
     private fun setNextColorRangeBackground(){
         nextRangeDrawable = colorClass.aNextRange.colorRangeDrawable
         nextRangeLayer.setDrawableByLayerId(R.id.layer_bitmap, nextRangeDrawable)
-        //colorRangeLeft?.setForeground(colorRLayerLeft)
         selectNextColorRange?.invalidate()
     }
     private fun setAllColorRangeBackgrounds(){

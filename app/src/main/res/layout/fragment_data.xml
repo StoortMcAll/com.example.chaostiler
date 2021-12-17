@@ -78,11 +78,11 @@ android:foreground="@drawable/shape_stroke_blue"
         android:layout_weight="1"
         android:clickable="false"
         android:hint="@string/content_description_adjust_spread_image"
-        android:background="@drawable/layer_colorrange_edit"
-        android:max="255"
-        android:progress="255"
+        android:background="@drawable/layer_background_bitmap"
+        android:max="512"
+        android:progress="512"
         android:progressTint="@color/progress_thumb_tint"
-        android:secondaryProgress="50"
+        android:secondaryProgress="512"
         android:thumbTint="@color/progress_thumb_tint" />
 
 

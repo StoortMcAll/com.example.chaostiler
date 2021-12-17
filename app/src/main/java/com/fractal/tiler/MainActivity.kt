@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+/*
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         if (Build.VERSION.SDK_INT >= 30) {
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             val attrib = window.attributes
             attrib.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
+        }*/
 
         myResources = resources
 
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun hideSystemUI() {
-        //window.setDecorFitsSystemWindows(false)
+       // window.setDecorFitsSystemWindows(false)
 /*
         window.setFlags(2048 or 1024 or 512 or 256 or 4 or 2,
             2048 or 1024 or 512 or 256 or 4 or 2)
@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                 2048 or 1024 or 512 or 256 or 4 or 2)
         } else {*/
 
-       // supportActionBar?.hide()
+        //supportActionBar?.hide()
 
             // Enables regular immersive mode.
             // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.

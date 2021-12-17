@@ -17,7 +17,8 @@
         <activity
             android:name="com.fractal.tiler.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.FractalTiler.NoActionBar">
+            android:theme="@style/Theme.FractalTiler.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
