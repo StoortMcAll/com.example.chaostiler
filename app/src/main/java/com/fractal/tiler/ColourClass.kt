@@ -210,6 +210,11 @@ class ColorClass {
     private fun addNewRandomPrimariesRange() : ColorRangeClass{
         var dataitemcount = rand.nextInt(2, 5)
 
+        val itemsSlicesCount = Math.pow(2.0, dataitemcount.toDouble()).toInt() - 1
+        //for (i in 0 until dataitemcount){
+         //   itemsSlicesCount += Math.pow(2.0, i.toDouble()).toInt()
+        //}
+
         val add = 1.0F / dataitemcount
 
         val color : Int
@@ -224,18 +229,26 @@ class ColorClass {
             color = aPrimaries.colors[lastColorIndex]
         }
 
-        val tempColorDataItemList = mutableListOf(DRgbDataItem(0.0F, color))
+        var value = 1.0f / itemsSlicesCount
+        val testArray = FloatArray(dataitemcount + 1){0.0f}
+        //for (i in 1..dataitemcount){
+         //   testArray[i] = value
+            //value += (Math.pow(2.0, i.toDouble()) / itemsSlicesCount).toFloat()
+        //}
+//todo rescale colorRanges
 
+        val tempColorDataItemList = mutableListOf(DRgbDataItem(0.0F, color))
         for (i in 1..dataitemcount){
             do {
                 colorIndex = rand.nextInt(0, aPrimaries.colors.size)
             }while (colorIndex == lastColorIndex)
 
             tempColorDataItemList.add(
-                DRgbDataItem(i * add, aPrimaries.colors[colorIndex]))
-
+                DRgbDataItem(value, aPrimaries.colors[colorIndex]))
+                //DRgbDataItem(i * add, aPrimaries.colors[colorIndex]))
+            testArray[i] = value
             lastColorIndex = colorIndex
-
+            value += (Math.pow(2.0, i.toDouble()) / itemsSlicesCount).toFloat()
         }
 
         addColorRanges(tempColorDataItemList)

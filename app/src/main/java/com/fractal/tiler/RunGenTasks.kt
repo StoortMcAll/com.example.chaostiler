@@ -208,22 +208,8 @@ fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
     val count = pixeldata.arraySize
 
     val cols = IntArray(count)
-/*
-    var mult = 1.0F
-    if (pixeldata.mMaxHits == 0){
-        cols[0] = mColors[0]
-    } else{
-        mult /= pixeldata.mMaxHits
-    }
-    var cl : Int*/
 
     for (i in 0  until count){
-       /* cl = ((pixeldata.aHitsArray[i] * mult) * colorscount).toInt()
-
-        if (cl > colorscount) cl = colorscount
-
-        cols[i] = mColors[cl]
-*/
         cols[i] = mColors[pixeldata.aScaledHitsArray[i]]
     }
 
@@ -269,8 +255,6 @@ fun buildPixelArrayFromSinwave(pixeldata: PixelData) : IntArray {
 
     return  cols
 }
-
-
 
 fun buildPixelArrayFromCosecColors(pixeldata: PixelData) : IntArray {
     val colrange = MainActivity.colorClass.aCurrentRange

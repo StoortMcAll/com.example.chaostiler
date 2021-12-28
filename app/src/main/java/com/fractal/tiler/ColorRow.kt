@@ -56,7 +56,7 @@ class ColorImageButton(val button: ImageButton?, drawableLayerId : Int,
 }
 
 
-class ColorsRow(binding : FragmentColorBinding) {
+class ColorsRow(binding : FragmentColorBinding, focusedButtonId : Int) {
 
     // region Variable Declaration
 
@@ -72,7 +72,7 @@ class ColorsRow(binding : FragmentColorBinding) {
 
     val colorButtons: Array<ColorImageButton>
 
-    var activeButtonId = 1
+    var activeButtonId = 0
 
     // endregion
 
@@ -103,7 +103,7 @@ class ColorsRow(binding : FragmentColorBinding) {
                 R.id.layer_color,
                 4))
 
-        setActiveButton(1)
+        setActiveButton(focusedButtonId)
     }
 
     fun setColors(primaryColors: IntArray, activeButtonId: Int) {

@@ -46,6 +46,10 @@ class TabbedFragment : Fragment() {
 
         if (MainActivity.mEnableDataClone) {
             pixelDataClone = pixelData.clone()
+
+            pixelDataClone.recalcScaledHitsArray(
+                (MainActivity.dataFragmentSeekbarProgress * pixelDataClone.mMaxHits).toInt())
+
             MainActivity.mEnableDataClone = false
         }
 
@@ -87,13 +91,8 @@ class TabbedFragment : Fragment() {
             findNavController().navigate(R.id.action_TabbedFragment_to_FirstFragment)
         }
         view.findViewById<Button>(R.id.switch_to_editor).setOnClickListener {
-            findNavController().navigate(R.id.action_TabbedFragment_to_SecondFragment)
+            findNavController().navigate(R.id.action_TabbedFragment_to_ThirdFragment)
         }
     }
 
-
-}
-
-fun returnTileView() : MyImageView {
-    return tileImageView
 }

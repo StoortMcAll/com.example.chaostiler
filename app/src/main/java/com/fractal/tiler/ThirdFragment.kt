@@ -37,7 +37,7 @@ class ThirdFragment : Fragment() {
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
             if (!isBusy) {
-                findNavController().navigate(R.id.action_ThirdFragment_to_SecondFragment)
+                findNavController().navigate(R.id.action_ThirdFragment_to_TabbedFragment)
             }
         }
         callback.isEnabled
@@ -109,7 +109,7 @@ class ThirdFragment : Fragment() {
 
         view.findViewById<Button>(R.id.back_to_secondFragment).setOnClickListener {
             if (!isBusy) {
-                findNavController().navigate(R.id.action_ThirdFragment_to_SecondFragment)
+                findNavController().navigate(R.id.action_ThirdFragment_to_TabbedFragment)
             }
         }
     }

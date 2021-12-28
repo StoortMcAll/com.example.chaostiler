@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         lateinit var myResources : Resources
 
+        var dataFragmentSeekbarProgress = 1.0f
+
         var mEnableDataClone = true
 
         var bmImage : Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)

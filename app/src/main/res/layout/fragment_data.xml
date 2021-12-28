@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
-android:foreground="@drawable/shape_stroke_blue"
+            android:foreground="@drawable/shape_stroke_blue"
             android:contentDescription="@string/content_description_open_generate_frag"
             android:text="@string/perform_blur" />
 

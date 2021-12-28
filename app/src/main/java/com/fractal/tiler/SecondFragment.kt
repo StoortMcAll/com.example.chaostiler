@@ -236,9 +236,6 @@ class SecondFragment : Fragment() {
                     calcActive = true
 
                     when (filter) {
-                        ImageFilter.BoxBlur -> {
-                            BoxBlur.doImageFilter(pixelDataClone)
-                        }
                         ImageFilter.Blur -> {
                             Blur.doImageFilter(pixelDataClone)
                         }
@@ -248,8 +245,11 @@ class SecondFragment : Fragment() {
                         ImageFilter.Motion -> {
                             Motion.doImageFilter(pixelDataClone)
                         }
+                        ImageFilter.BoxBlur -> {
+                            BoxBlur.doImageFilter(pixelDataClone)
+                        }
                         ImageFilter.Median -> {
-                            Median.doImageFilter(pixelDataClone)
+                            BoxBlur.doImageFilter(pixelDataClone)
                         }
                     }
                     //blurRight()
@@ -262,70 +262,6 @@ class SecondFragment : Fragment() {
         }
 
 
-        view.findViewById<Button>(R.id.palette_left).setOnClickListener {
-            if (!calcActive) {
-                MainActivity.colorClass.selectPrevColorRange()
-
-                seekbar.progress = MainActivity.colorClass.getProgress()
-                seekbar.secondaryProgress = seekbar.progress
-
-                setAnalysisButtonTitle()
-
-                updateTextures()
-            }
-        }
-
-        view.findViewById<Button>(R.id.palette_right).setOnClickListener {
-            if (!calcActive) {
-                MainActivity.colorClass.selectNextColorRange()
-
-                seekbar.progress = MainActivity.colorClass.getProgress()
-                seekbar.secondaryProgress = seekbar.progress
-
-                setAnalysisButtonTitle()
-
-                updateTextures()
-            }
-        }
-
-
-        view.findViewById<Button>(R.id.add_new_palette).setOnClickListener {
-            if (!calcActive) {
-                MainActivity.colorClass.addNewColorA()
-
-                seekbar.progress = MainActivity.colorClass.getProgress()
-                seekbar.secondaryProgress = seekbar.progress
-
-                setAnalysisButtonTitle()
-
-                updateTextures()
-            }
-        }
-
-        view.findViewById<Button>(R.id.add_new_palette2).setOnClickListener {
-            if (!calcActive) {
-                MainActivity.colorClass.addNewColorB()
-
-                seekbar.progress = MainActivity.colorClass.getProgress()
-                seekbar.secondaryProgress = seekbar.progress
-
-                setAnalysisButtonTitle()
-
-                updateTextures()
-            }
-        }
-
-        view.findViewById<Button>(R.id.backto_firstfragment).setOnClickListener {
-
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-        }
-
-        view.findViewById<Button>(R.id.to_savewallpaper).setOnClickListener {
-
-            //(this.activity as AppCompatActivity).supportActionBar?.hide()
-
-            findNavController().navigate(R.id.action_SecondFragment_to_ThirdFragment)
-        }
     }
 
     private fun updateTextures(setTileView: Boolean = true) {

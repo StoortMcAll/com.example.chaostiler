@@ -94,7 +94,6 @@ class FirstFragment : Fragment() {
         callback.isEnabled
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
 
@@ -185,7 +184,6 @@ class FirstFragment : Fragment() {
             makeInvisible(view)
 
             if (job == null || job?.isActive == false) {
-                //MainActivity.scopeIO = CoroutineScope(Dispatchers.IO)
                 job = MainActivity.scopeIO.launch {
                     quiltType = QuiltType.HEXAGONAL
                     startNewRunFormula(true)
@@ -350,6 +348,11 @@ class FirstFragment : Fragment() {
         hitsInfoTextView.text = text.subSequence(0, text.length)
 
         resumbut.foreground = ResourcesCompat.getDrawable(resources, R.drawable.pause_states, null)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragmentFirstBinding = null
     }
 
 }

@@ -115,15 +115,16 @@ class ColorFragment : Fragment() {
         setNextColorRangeBackground()
 
 
-        colorsRow = ColorsRow(binding)
+        colorsRow = ColorsRow(binding, colorClass.aCurrentRange.mActiveColorButtonId)
+/*
 
         for (i in 0..2){
             colorsRow.colorButtons[i].button?.isVisible =
                 (colorClass.aCurrentRange.mColorDataList.size > i + 2)
         }
+*/
 
         colorsRow.setColors(colorClass.aCurrentRange.aDataListColors, colorsRow.activeButtonId)
-        //colorsRow.colorButtons[colorClass.aCurrentRange.mActiveColorButtonId].button?.requestFocus()
 
         seekbar = binding.seekBar
         setSeekbarValues()
@@ -360,8 +361,6 @@ class ColorFragment : Fragment() {
         seekbar?.invalidate()
     }
 
-
-
     private fun updateTextures(setTileView: Boolean = true) {
 
         var doSetTileView = setTileView
@@ -415,4 +414,10 @@ class ColorFragment : Fragment() {
         }
        //isLinearView.text = text.subSequence(0, text.length)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragmentColorBinding = null
+    }
+
 }
