@@ -4,6 +4,8 @@ package com.fractal.tiler
 
 import com.fractal.tiler.MainActivity.Companion.height
 import com.fractal.tiler.MainActivity.Companion.width
+import kotlin.math.atan
+import kotlin.math.tan
 
 data class Hit(val x: Int, val y: Int)
 
@@ -29,20 +31,17 @@ val Motion = Filter(9.0F, 0, arrayOf(
     intArrayOf(0, 1, 0, 1, 0),
     intArrayOf(1, 0, 0, 0, 1)))
 
-val BoxBlur = Filter(25.0F, 0, arrayOf(
-    intArrayOf(1, 1, 1, 1, 1),
-    intArrayOf(1, 1, 1, 1, 1),
-    intArrayOf(1, 1, 1, 1, 1),
-    intArrayOf(1, 1, 1, 1, 1),
-    intArrayOf(1, 1, 1, 1, 1)))
+val Sharpen = Filter(-8.0F, 0, arrayOf(
+    intArrayOf(1, 1, 1),
+    intArrayOf(1, 0, 1),
+    intArrayOf(1, 1, 1)))
 
-val Median = Filter(-1.0F, 0, arrayOf(
-    intArrayOf(1, 2, 1),
-    intArrayOf(2, 4, 2),
-    intArrayOf(1, 2, 1)))
+val Smooth = Filter(-9.0F, 0, arrayOf(
+    intArrayOf(1, 1, 1),
+    intArrayOf(1, 1, 1),
+    intArrayOf(1, 1, 1)))
 
 // endregion
-
 
 class PixelData(val width : Int, val height : Int) {
 
@@ -52,16 +51,15 @@ class PixelData(val width : Int, val height : Int) {
 
     var mPixelArrayBusy = false
 
-    var mMinHits : Int = 0
-    var mMaxHits : Int = 0
+    var mMinHits = 0
+    var mMaxHits = 0
 
     var mHitsCount = 0
 
     var aHitStats : MutableList<Int> = mutableListOf(arraySize)
+    var aTanIndex : MutableList<Int> = mutableListOf(arraySize)
 
-    var aHitsArray : IntArray = IntArray(arraySize)
-
-    var aScaledHitsArray : IntArray = IntArray(arraySize)
+    val aHitsArray = IntArray(arraySize)
 
     // endregion
 
@@ -69,8 +67,6 @@ class PixelData(val width : Int, val height : Int) {
     fun addHitsToPixelArray(hits : ArrayList<Hit>) : Boolean{
         var index : Int
         var value : Int
-
-        var newMaxHits = false
 
         mPixelArrayBusy = true
 
@@ -91,36 +87,15 @@ class PixelData(val width : Int, val height : Int) {
             value++
 
             if (value > mMaxHits) {
-                newMaxHits = true
                 mMaxHits++
                 aHitStats.add(0)
+               // aTanIndex.add(0)
             }
 
             aHitStats[value]++
         }
 
         while (aHitStats[mMinHits] == 0) mMinHits++
-
-        val scalar =
-            if (mMaxHits == 0) 0.0F
-            else MainActivity.mColorRangeLastIndex / mMaxHits.toFloat()
-
-        if (newMaxHits){
-            val scaledValues = IntArray(mMaxHits + 1)
-
-            for (i in 0..mMaxHits){
-                scaledValues[i] = (i * scalar).toInt()
-            }
-
-            for (i in 0 until arraySize){
-                aScaledHitsArray[i] = scaledValues[aHitsArray[i]]
-            }
-        }else {
-            hits.forEach {
-                index = it.x + it.y * width
-                aScaledHitsArray[index] = (aHitsArray[index] * scalar).toInt()
-            }
-        }
 
         mPixelArrayBusy = false
 
@@ -130,31 +105,14 @@ class PixelData(val width : Int, val height : Int) {
         return true
     }
 
-    fun recalcScaledHitsArray(newMax : Int){
-        val colorRangeLastIndex = MainActivity.mColorRangeLastIndex
-        val scalar =
-            if (newMax == 0) 0.0F
-            else colorRangeLastIndex / newMax.toFloat()
+    fun recalcScaledHitStats() {
+        return
 
-        val scaledValues = IntArray(mMaxHits + 1)
-
-        for (i in 0..mMaxHits){
-            if (i > newMax)
-                scaledValues[i] = colorRangeLastIndex
-            else
-                scaledValues[i] = (i * scalar).toInt()
-        }
-
-        for (i in 0 until arraySize){
-            aScaledHitsArray[i] = scaledValues[aHitsArray[i]]
-        }
-    }
-
-    fun recalcHitStats() {
         mHitsCount = 0
         mMinHits = 0
         mMaxHits = 0
         aHitStats = arrayListOf(0)
+        aTanIndex = arrayListOf(0)
 
         var hits : Int
         for (i in 0..aHitsArray.lastIndex){
@@ -165,20 +123,27 @@ class PixelData(val width : Int, val height : Int) {
             while(hits > mMaxHits){
                 mMaxHits++
                 aHitStats.add(0)
+                aTanIndex.add(mMaxHits)
             }
 
             aHitStats[hits]++
         }
 
-        if(mMaxHits == 0){
-            mMaxHits++
-            aHitStats.add(0)
-        }
-        else{
-            while (aHitStats[mMinHits] == 0) mMinHits++
-        }
+        while (aHitStats[mMinHits] == 0) mMinHits++
     }
 
+    fun calcTangentScale() {
+        val maxAngle = 0.4 + (1.15 * MainActivity.dataFragmentSeekbarProgress)
+        val mult = tan(maxAngle) / mMaxHits
+        val colmult = MainActivity.mColorRangeLastIndex / maxAngle
+        var r : Int
+
+        for (i in 0..mMaxHits) {
+            r = (atan(i * mult) * colmult).toInt()
+
+            aTanIndex[i] = r
+        }
+    }
 
     fun clearData() {
         mMinHits = 0
@@ -187,27 +152,73 @@ class PixelData(val width : Int, val height : Int) {
         mHitsCount = 0
 
         aHitsArray.fill(0, 0, aHitsArray.count())
-        aScaledHitsArray.fill(0, 0, aScaledHitsArray.count())
 
         aHitStats = mutableListOf(arraySize)
+
+        aTanIndex = mutableListOf(0)
     }
 
     fun clone(): PixelData {
         val clonePD = PixelData(width, height)
 
-        clonePD.mMaxHits = mMaxHits
+        clonePD.mMinHits = mMinHits
 
-        clonePD.mHitsCount = mHitsCount
-
-        clonePD.aHitsArray = aHitsArray.clone()
-        clonePD.aScaledHitsArray = aScaledHitsArray.clone()
-
-        clonePD.aHitStats = mutableListOf()
-        for (i in 0..aHitStats.lastIndex) {
-            clonePD.aHitStats.add(aHitStats[i])
-        }
+        reduceMax(clonePD)
 
         return clonePD
     }
 
+    fun reduceMax(clonePD : PixelData){
+        val arry = aHitsArray
+        val newStats = IntArray(aHitStats.size)
+
+        var count : Int
+        var i = 0
+        var iref = 0
+        while (i < aHitStats.size){
+            count = aHitStats[i]
+            newStats[i] = iref
+
+            if (count < 10) {
+                while (count < 10) {
+                    if (++i == aHitStats.size) {
+                        count = 10
+                    } else {
+                        count += aHitStats[i]
+                        newStats[i] = iref
+                    }
+
+                    iref++
+                }
+            }else {
+                i++
+                iref++
+            }
+        }
+
+        clonePD.mMaxHits = newStats[newStats.lastIndex]
+
+        clonePD.aHitStats = mutableListOf()
+        clonePD.aTanIndex = mutableListOf()
+
+        val maxh = newStats[newStats.lastIndex]
+        val finalStats = IntArray(maxh + 1)
+        count = 0
+        var n = 0
+
+        for (i in 0..arry.lastIndex){
+            n = newStats[arry[i]]
+            clonePD.aHitsArray[i] = n
+            finalStats[n]++
+        }
+
+        for (i in 0..finalStats.lastIndex) {
+            n = finalStats[i]
+            count += n * i
+            clonePD.aHitStats.add(n)
+            clonePD.aTanIndex.add(i)
+        }
+
+        clonePD.mHitsCount = count
+    }
 }

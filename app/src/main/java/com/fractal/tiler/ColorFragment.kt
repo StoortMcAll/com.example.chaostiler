@@ -2,6 +2,10 @@ package com.fractal.tiler
 
 // region Variable Declaration
 
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.graphics.drawable.*
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,8 +18,8 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toDrawable
-import androidx.core.view.isVisible
+import androidx.core.graphics.drawable.RoundedBitmapDrawable
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.navigation.fragment.findNavController
 import com.fractal.tiler.databinding.FragmentColorBinding
 import kotlinx.coroutines.CoroutineScope
@@ -52,10 +56,11 @@ class ColorFragment : Fragment() {
     private lateinit var colorsRow : ColorsRow
 
     private lateinit var seekbar: MySeekbar
-    private lateinit var seebarBackground : LayerDrawable
+    private lateinit var seekbarLayer: LayerDrawable
 
-   // private lateinit var imageButtonDrawable : GradientDrawable
+    lateinit var roundedBitmapDrawable: RoundedBitmapDrawable
 
+    val dpToPx = MainActivity.dpToPx
 
     val mThisPageID = 1
 
@@ -86,54 +91,33 @@ class ColorFragment : Fragment() {
 
         _fragmentColorBinding = FragmentColorBinding.inflate(inflater, container, false)
 
-        prevRangeLayer =
-            ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
-        prevRangeDrawable = colorClass.aPrevRange.colorRangeDrawable
+        colorsRow = ColorsRow(binding, colorClass.aCurrentRange.aRgbColorsList)
 
-        midRangeLayer =
-            ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
-        colorRDrawableMid = colorClass.aCurrentRange.colorRangeDrawable
+        colorsRow.setActiveButton(colorClass.aCurrentRange.mActiveColorIndex)
 
-        //colorRLayerMid = colorRangeMid?.background as LayerDrawable
-        val transStrokeDrawable = ResourcesCompat.getDrawable(resources, R.drawable.shape_stroke_trans, null) as GradientDrawable
-        midRangeLayer.setDrawableByLayerId(R.id.layer_stroke, transStrokeDrawable)
+        prevRangeLayer = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
 
-        nextRangeLayer =
-            ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
-        nextRangeDrawable = colorClass.aNextRange.colorRangeDrawable
+        midRangeLayer = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_trans_stroke, null) as LayerDrawable
+
+        nextRangeLayer = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
+
+
+        seekbarLayer = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
+        seekbarLayer.mutate()
 
         selectPrevColorRange = binding.palleft
-        selectPrevColorRange?.setBackground(prevRangeLayer)
-        setPrevColorRangeBackground()
-
         colorRangeMid = binding.palmid
-        colorRangeMid?.setForeground(midRangeLayer)
-        setColorRangeMidBackground()
-
         selectNextColorRange = binding.palright
-        selectNextColorRange?.setBackground(nextRangeLayer)
-        setNextColorRangeBackground()
-
-
-        colorsRow = ColorsRow(binding, colorClass.aCurrentRange.mActiveColorButtonId)
-/*
-
-        for (i in 0..2){
-            colorsRow.colorButtons[i].button?.isVisible =
-                (colorClass.aCurrentRange.mColorDataList.size > i + 2)
-        }
-*/
-
-        colorsRow.setColors(colorClass.aCurrentRange.aDataListColors, colorsRow.activeButtonId)
 
         seekbar = binding.seekBar
         setSeekbarValues()
 
-        seebarBackground =
-            ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
-        seekbar.setBackground(seebarBackground)
+        setAllColorRangeBackgrounds(false)
 
-        setSeekbarFromActiveButtonBitmap()
+        selectPrevColorRange?.setBackground(prevRangeLayer)
+        colorRangeMid?.setForeground(midRangeLayer)
+        selectNextColorRange?.setBackground(nextRangeLayer)
+        seekbar.setBackground(seekbarLayer)
 
         return binding.root
     }
@@ -141,10 +125,6 @@ class ColorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /* isLinearView = view.findViewById(R.id.data_to_colour_type) */
-
-        setAnalysisButtonTitle()
-        //setColorButtons()
         updateTextures(false)
 
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -183,9 +163,7 @@ class ColorFragment : Fragment() {
                     jobTextures?.cancel()
                 }
 
-                //seekBar.progress.also { seekBar.secondaryProgress = it }
                 colorClass.setProgress(seekBar.progress)
-                //colorClass.aCurrentRange.progressSecond = seekBar.progress
 
                 if (!calcActive) {
                     //setColorButtons()
@@ -198,53 +176,17 @@ class ColorFragment : Fragment() {
 
         } )
 
-        colorsRow.colorButtons[1].button?.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus){
-                colorClass.aCurrentRange.setActiveColorId(1)
-                setSeekbarValues()
-                if (colorsRow.activeButtonId != 1) {
-                    colorsRow.setActiveButton(1)
-
-                    //setColorButtons()
-                    newRangeProgress = true
-                    colorClass.mNewColors = false
-
-                    updateTextures(false)
-                    //setColorButtons()
-                }
-            }
+        colorsRow.colorButtons[1].button?.setOnLongClickListener{
+            true
         }
-        colorsRow.colorButtons[2].button?.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus){
-                colorClass.aCurrentRange.setActiveColorId(2)
-                setSeekbarValues()
-                if (colorsRow.activeButtonId != 2) {
-                    colorsRow.setActiveButton(2)
-
-                    //setColorButtons()
-                    newRangeProgress = true
-                    colorClass.mNewColors = false
-
-                    updateTextures(false)
-                    //setColorButtons()
-                }
-            }
+        colorsRow.colorButtons[1].button?.setOnClickListener{
+            colorButtonClicked(1)
         }
-        colorsRow.colorButtons[3].button?.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus){
-                colorClass.aCurrentRange.setActiveColorId(3)
-                setSeekbarValues()
-                if (colorsRow.activeButtonId != 3) {
-                    colorsRow.setActiveButton(3)
-
-                    //setColorButtons()
-                    newRangeProgress = true
-                    colorClass.mNewColors = false
-
-                    updateTextures(false)
-                    //setColorButtons()
-                }
-            }
+        colorsRow.colorButtons[2].button?.setOnClickListener{
+            colorButtonClicked(2)
+        }
+        colorsRow.colorButtons[3].button?.setOnClickListener{
+            colorButtonClicked(3)
         }
 
         selectPrevColorRange?.setOnClickListener {
@@ -252,18 +194,11 @@ class ColorFragment : Fragment() {
                 colorClass.selectPrevColorRange()
                 setSeekbarValues()
 
-                //colorsRow.setActiveButton(colorClass.aCurrentRange.mActiveColorButtonId)
-
                 setSeekbarFromActiveButtonBitmap()
-                setAnalysisButtonTitle()
 
                 newColorRange = true
 
                 updateTextures()
-
-                //layer.setDrawableByLayerId(R.id.layer_image, colorClass.aCurrentRange.colorRangeBitmap.toDrawable(resources))
-
-                //palmid.setBackground(layer)
             }
         }
         selectNextColorRange?.setOnClickListener {
@@ -271,13 +206,7 @@ class ColorFragment : Fragment() {
                 colorClass.selectNextColorRange()
                 setSeekbarValues()
 
-                //colorsRow.setActiveButton(colorClass.aCurrentRange.mActiveColorButtonId)
-
                 setSeekbarFromActiveButtonBitmap()
-
-                //setColorButtons()
-
-                setAnalysisButtonTitle()
 
                 newColorRange = true
 
@@ -290,8 +219,6 @@ class ColorFragment : Fragment() {
                 colorClass.addNewColorB()
 
                 setSeekbarValues()
-
-                setAnalysisButtonTitle()
 
                 newColorRange = true
 
@@ -314,51 +241,86 @@ class ColorFragment : Fragment() {
 
                 setSeekbarValues()
 
-                setAnalysisButtonTitle()
-
                 newColorRange = true
 
                 updateTextures()
-
-                //layer.setDrawableByLayerId(R.id.layer_image, MainActivity.colorClass.aCurrentRange.colorRangeBitmap.toDrawable(resources))
-
-                //palmid.setBackground(layer)
             }
         }
     }
 
 
-    private fun setPrevColorRangeBackground(){
-        prevRangeDrawable = colorClass.aPrevRange.colorRangeDrawable
-        prevRangeLayer.setDrawableByLayerId(R.id.layer_bitmap, prevRangeDrawable)
-        selectPrevColorRange?.invalidate()
-    }
-    private fun setColorRangeMidBackground(){
-        colorRDrawableMid = colorClass.aCurrentRange.colorRangeBitmap.toDrawable(resources)
-        midRangeLayer.setDrawableByLayerId(R.id.layer_bitmap, colorRDrawableMid)
-        colorRangeMid?.invalidate()
-    }
-    private fun setNextColorRangeBackground(){
-        nextRangeDrawable = colorClass.aNextRange.colorRangeDrawable
-        nextRangeLayer.setDrawableByLayerId(R.id.layer_bitmap, nextRangeDrawable)
-        selectNextColorRange?.invalidate()
-    }
-    private fun setAllColorRangeBackgrounds(){
-        setPrevColorRangeBackground()
-        setColorRangeMidBackground()
-        setNextColorRangeBackground()
+    private fun colorButtonClicked(id : Int){
 
-        setSeekbarFromActiveButtonBitmap()
+        if (colorsRow.activeButtonId != id) {
+            colorClass.aCurrentRange.setActiveColorId(colorsRow.buttonGroup.group[id].colorIndex)
+            setSeekbarValues()
+            colorsRow.setActiveButton(id)
+
+            newRangeProgress = true
+            colorClass.mNewColors = false
+
+            updateTextures(false)
+        }
+
+    }
+
+    private fun getRoundedBitmap(bitmap : Bitmap) : RoundedBitmapDrawable {
+        roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap)
+        roundedBitmapDrawable.cornerRadius = dpToPx
+
+        return roundedBitmapDrawable
     }
 
     private fun setSeekbarValues(){
-        seekbar.progress = colorClass.aCurrentRange.progressIncrement
         seekbar.max = colorClass.aCurrentRange.seekbarMax
+        seekbar.progress = colorClass.aCurrentRange.progressIncrement
+
     }
 
-    private fun setSeekbarFromActiveButtonBitmap() {
-        seebarBackground.setDrawableByLayerId(R.id.layer_bitmap, colorClass.aCurrentRange.activeButtonDrawable)
-        seekbar?.invalidate()
+    private fun setPrevColorRangeBackground(invalid : Boolean = true){
+        //prevRangeDrawable = colorClass.aPrevRange.colorRangeDrawable
+        prevRangeLayer.setDrawableByLayerId(
+            R.id.layer_bitmap,
+            getRoundedBitmap(colorClass.aPrevRange.colorRangeBitmap)
+        )
+
+        if (invalid)
+            selectPrevColorRange?.invalidate()
+    }
+    private fun setColorRangeMidBackground(invalid : Boolean = true){
+        //colorRDrawableMid = colorClass.aCurrentRange.colorRangeBitmap.toDrawable(resources)
+        midRangeLayer.setDrawableByLayerId(
+            R.id.layer_bitmap,
+            getRoundedBitmap(colorClass.aCurrentRange.colorRangeBitmap)
+        )
+
+        if (invalid) colorRangeMid?.invalidate()
+    }
+    private fun setNextColorRangeBackground(invalid : Boolean = true){
+        //nextRangeDrawable = colorClass.aNextRange.colorRangeDrawable
+        nextRangeLayer.setDrawableByLayerId(
+            R.id.layer_bitmap,
+            getRoundedBitmap(colorClass.aNextRange.colorRangeBitmap)
+        )
+
+        if (invalid) selectNextColorRange?.invalidate()
+    }
+
+    private fun setSeekbarFromActiveButtonBitmap(invalid : Boolean = true) {
+        seekbarLayer.setDrawableByLayerId(
+            R.id.layer_bitmap,
+            getRoundedBitmap(colorClass.aCurrentRange.colorButtonBitmap)
+        )
+
+        if (invalid) seekbar.invalidate()
+    }
+
+    private fun setAllColorRangeBackgrounds(invalid : Boolean = true){
+        setPrevColorRangeBackground(invalid)
+        setColorRangeMidBackground(invalid)
+        setNextColorRangeBackground(invalid)
+
+        setSeekbarFromActiveButtonBitmap(invalid)
     }
 
     private fun updateTextures(setTileView: Boolean = true) {
@@ -366,8 +328,6 @@ class ColorFragment : Fragment() {
         var doSetTileView = setTileView
 
         jobTextures = CoroutineScope(Dispatchers.Default).launch {
-
-            //colorClass.aCurrentRange.updateColorSpreadBitmap()
 
             CoroutineScope(Dispatchers.Main).launch {
 
@@ -382,37 +342,15 @@ class ColorFragment : Fragment() {
                 else if (colorClass.mNewColors) {
                     setAllColorRangeBackgrounds()
 
-                  /*  val lastIndex = colorClass.aCurrentRange.mColorDataList.lastIndex
-                    for (i in 1..3) {
-                        colorsRow.colorButtons[i].button?.isVisible = (lastIndex > i)
-                    }*/
+                    colorsRow.setColors(colorClass.aCurrentRange.aRgbColorsList, colorClass.aCurrentRange.mActiveColorIndex)
 
-                    //colorsRow.colorButtons[colorClass.aCurrentRange.mActiveColorButtonId].button?.requestFocus()
-
-                    colorsRow.setColors(colorClass.aCurrentRange.aDataListColors, colorClass.aCurrentRange.mActiveColorButtonId)
-
-
-                    //if (colorClass.mNewColors) {
-
-                        colorClass.mNewColors = false
+                    colorClass.mNewColors = false
                 }
 
-              //  } else if (newRangeProgress){
-
-               // }
             }
 
-            if (doSetTileView) setTileViewBitmap(pixelDataClone)
+            if (doSetTileView) setTileViewBitmap(pixelDataClone, true)
         }
-    }
-
-    private fun setAnalysisButtonTitle(){
-        val text : String = if (colorClass.aCurrentRange.dataProcess == MainActivity.Companion.DataProcess.LINEAR) {
-            "Linear"
-        } else {
-            "Statistical"
-        }
-       //isLinearView.text = text.subSequence(0, text.length)
     }
 
     override fun onDestroyView() {

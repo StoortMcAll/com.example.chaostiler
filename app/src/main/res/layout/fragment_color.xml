@@ -9,7 +9,8 @@
     android:background="@color/constraint_background"
     tools:context=".ColorFragment">
 
-    <LinearLayout
+    <!-- Start - Add new colorRange -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -18,9 +19,14 @@
         <ImageButton
             android:id="@+id/add_new_palette"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:insetRight="1dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/add_new_palettehsv"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/content_description_icon"
             android:foreground="@drawable/add_button_rgb_up" />
 
@@ -28,29 +34,39 @@
         <ImageButton
             android:id="@+id/add_new_palettehsv"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/add_new_palette"
+            app:layout_constraintTop_toTopOf="parent"
             android:foreground="@drawable/add_button_hsv_up"
-            android:contentDescription="@string/content_description_hexagon"
-            android:insetLeft="1dp" />
+            android:contentDescription="@string/content_description_hexagon" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <!-- Start - Select colorRange -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
-
         <ImageButton
             android:id="@+id/palleft"
+            style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:insetRight="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/palmid"
+            app:layout_constraintHorizontal_weight="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="1dp"
             android:contentDescription="@string/content_description_icon"
-            android:background="@drawable/layer_background_bitmap"
+            android:background="@drawable/layer_bitmap_stroke"
             android:foreground="@drawable/colorrange_right_states" />
 
 
@@ -58,33 +74,36 @@
             android:id="@+id/palmid"
             style="@style/outlineButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/palleft"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintEnd_toStartOf="@id/palright"
+            app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/content_description_icon"
-            android:foreground="@drawable/layer_background_bitmap"
-            android:insetLeft="1dp"
-            android:insetRight="1dp" />
+            android:foreground="@drawable/layer_bitmap_trans_stroke"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp" />
 
         <ImageButton
             android:id="@+id/palright"
+            style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:insetLeft="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="0.25"
+            app:layout_constraintStart_toEndOf="@id/palmid"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="1dp"
             android:contentDescription="@string/content_description_icon"
-            android:background="@drawable/layer_background_bitmap"
+            android:background="@drawable/layer_bitmap_stroke"
             android:foreground="@drawable/colorrange_left_states" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5">
-
-    </Space>
-
-    <LinearLayout
+    <!-- Start - Select range color -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -92,70 +111,91 @@
 
         <ImageButton
             android:id="@+id/start_color"
+            style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.175"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/content_description_icon"
-            android:background="@drawable/layer_background_color" />
+            android:background="@drawable/shape_rectangle"/>
 
         <ImageButton
             android:id="@+id/color_0"
+            style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/layer_background_color"
+            android:layout_height="0dp"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_1"
+            app:layout_constraintWidth_percent="0.175"
+            app:layout_constraintStart_toEndOf="@id/start_color"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/shape_rectangle"
             android:contentDescription="@string/content_description_hexagon"
-            android:focusableInTouchMode="true"
             android:foreground="@drawable/color_button_states"
-            android:insetLeft="1dp"
-            android:insetRight="1dp" />
+            android:longClickable="true" />
 
         <ImageButton
             android:id="@+id/color_1"
+            style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/layer_background_color"
+            android:layout_height="0dp"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_2"
+            app:layout_constraintWidth_percent="0.175"
+            app:layout_constraintStart_toEndOf="@id/color_0"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/shape_rectangle"
             android:contentDescription="@string/content_description_hexagon"
-            android:focusableInTouchMode="true"
             android:foreground="@drawable/color_button_states"
-            android:insetLeft="1dp"
-            android:insetRight="1dp" />
+            android:longClickable="true" />
 
         <ImageButton
             android:id="@+id/color_2"
+            style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/layer_background_color"
+            android:layout_height="0dp"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/end_color"
+            app:layout_constraintWidth_percent="0.175"
+            app:layout_constraintStart_toEndOf="@id/color_1"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/shape_rectangle"
             android:contentDescription="@string/content_description_hexagon"
-            android:focusableInTouchMode="true"
             android:foreground="@drawable/color_button_states"
-            android:insetLeft="1dp"
-            android:insetRight="1dp" />
+            android:longClickable="true" />
 
         <ImageButton
             android:id="@+id/end_color"
+            style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="2dp"
+            android:layout_height="0dp"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.175"
+            app:layout_constraintStart_toEndOf="@id/color_2"
+            app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/content_description_icon"
-            android:background="@drawable/layer_background_color"/>
-    </LinearLayout>
+            android:background="@drawable/shape_rectangle"/>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Start - Edit range color ratio  -->
     <com.fractal.tiler.MySeekbar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
+        android:layout_margin="2dp"
         android:clickable="false"
-        android:background="@drawable/layer_background_bitmap"
+        android:background="@drawable/shape_gradient_stroke"
         android:contentDescription="@string/content_description_adjust_spread"
         android:max="256"
         android:progress="128"

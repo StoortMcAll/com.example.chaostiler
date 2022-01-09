@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
-import com.fractal.tiler.MainActivity.Companion.DataProcess
 import com.fractal.tiler.MainActivity.Companion.mColorRangeLastIndex
 
 
@@ -45,13 +44,8 @@ class MySeekbar: androidx.appcompat.widget.AppCompatSeekBar {
 
     private fun init() {
         max = mColorRangeLastIndex
-        if (MainActivity.colorClass.aCurrentRange.dataProcess == DataProcess.LINEAR) {
-            progress = MainActivity.colorClass.aCurrentRange.progressIncrement
-        }
-        else{
-            progress = MainActivity.colorClass.aCurrentRange.progressStatistic
-        }
-        secondaryProgress = 0//MainActivity.colorClass.aCurrentRange.progressSecond
+        progress = 0
+        secondaryProgress = 0
 
         mSeekBarHintPaint = TextPaint()
         mSeekBarHintPaint!!.color = mHintTextColor

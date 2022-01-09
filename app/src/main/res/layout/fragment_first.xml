@@ -8,6 +8,7 @@
     android:background="@color/constraint_background"
     tools:context=".FirstFragment">
 
+    <!-- Start - Control Buttons  -->
     <LinearLayout
         android:id="@+id/main_page"
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- Start - Generating Buttons -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/generate_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -27,111 +28,133 @@
             android:orientation="horizontal"
             android:background="@color/constraint_background">
 
+            <!-- Start - Begin Generating Square  -->
             <Button
                 android:id="@+id/run_square"
                 style="@style/outlineButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="0dp"
                 android:contentDescription="@string/content_description_square"
-                android:foreground="@drawable/square_button_states"
-                android:insetRight="1dp" />
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/run_scratch"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+            </Button>
+
+            <!-- Start - Begin Generating Scratch  -->
             <Button
                 android:id="@+id/run_scratch"
                 style="@style/outlineButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:insetLeft="1dp"
-                android:insetRight="1dp"
-                android:foreground="@drawable/scratch_button_states"
-                android:contentDescription="@string/content_description_icon" />
+                android:layout_height="0dp"
+                android:contentDescription="@string/content_description_icon"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/run_hex"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/run_square"
+                app:layout_constraintTop_toTopOf="parent">
 
+            </Button>
+
+            <!-- Start - Begin Generating Hex  -->
             <Button
                 android:id="@+id/run_hex"
                 style="@style/outlineButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:insetLeft="1dp"
-                android:foreground="@drawable/icon_button_states"
-                android:contentDescription="@string/content_description_hexagon" />
+                android:layout_height="0dp"
+                android:contentDescription="@string/content_description_hexagon"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/run_scratch"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+            </Button>
 
-        <!-- Start - Pause Resume Button -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Start - Pause/Resume Button -->
         <Button
             android:id="@+id/resume"
             style="@style/outlineButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:foreground="@drawable/resume_states"
             android:contentDescription="@string/resume_current_image_generation"
-            android:visibility="visible" >
+            android:foreground="@drawable/resume_states"
+            android:visibility="invisible">
         </Button>
 
         <!-- Start - Choose ColorRange Buttons -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/pal_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:src="@drawable/greyscale"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible">
 
-
+            <!-- Start - Next ColorRange  -->
             <ImageButton
                 android:id="@+id/color_range_right"
+                style="@style/imageButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.25"
-                android:insetRight="1dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/color_range_mid"
+                app:layout_constraintHorizontal_weight="0.25"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="@string/content_description_icon"
-                android:background="@drawable/layer_background_bitmap"
-                android:foreground="@drawable/colorrange_right_states" />
+                android:background="@drawable/layer_bitmap_stroke"
+                android:foreground="@drawable/colorrange_right_states">
+            </ImageButton>
 
-
+            <!-- Start - Current ColorRange  -->
             <ImageButton
                 android:id="@+id/color_range_mid"
+                style="@style/imageButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/color_range_left"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/color_range_right"
+                app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="@string/content_description_icon"
-                android:foreground="@drawable/layer_background_bitmap" />
+                android:foreground="@drawable/layer_bitmap_trans_stroke">
+            </ImageButton>
 
-
+            <!-- Start - Previous ColorRange  -->
             <ImageButton
                 android:id="@+id/color_range_left"
+                style="@style/imageButton"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.25"
-                android:insetLeft="1dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.25"
+                app:layout_constraintStart_toEndOf="@id/color_range_mid"
+                app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="@string/content_description_icon"
-                android:background="@drawable/layer_background_bitmap"
-                android:foreground="@drawable/colorrange_left_states" />
+                android:background="@drawable/layer_bitmap_stroke"
+                android:foreground="@drawable/colorrange_left_states">
+            </ImageButton>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--
 
-        &lt;!&ndash; Start - Colour Style Button &ndash;&gt;
-        <include layout="@layout/choose_palette" />
--->
-
-        <LinearLayout
-            android:id="@+id/analysis_linearlayout"
+        <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/constraint_background"
-            android:orientation="horizontal"
-            tools:context=".FirstFragment">
-
-            <include layout="@layout/analysis_type" />
-
-        </LinearLayout>
+            android:layout_weight="1">
+        </View>
 
         <!-- Start - Generation Info  -->
         <TextView
@@ -140,33 +163,33 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="@string/hitsmin_string"
-            android:contentDescription="@string/content_description_hits">
+            android:contentDescription="@string/content_description_hits"
+            android:gravity="bottom|center"
+            android:text="@string/hitsmin_string">
         </TextView>
 
         <!-- Start - Goto Editor Button -->
-<!-- 9826903727608879537 -->
-
         <Button
             android:id="@+id/switch_to_editor"
             style="@style/outlineButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.8"
+            android:layout_weight="1"
             android:text="@string/goto_tile_editor_right"
-            android:contentDescription="@string/content_description_open_editor_frag" >
+            android:contentDescription="@string/content_description_open_editor_frag"
+            android:visibility="invisible">
         </Button>
 
     </LinearLayout>
 
+    <!-- Start - MyImageView -->
     <include
         android:id="@+id/tile_image_generate"
         layout="@layout/tile_layout"
-        android:backgroundTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_page"
-        tools:context=".FirstFragment"/>
+        app:layout_constraintTop_toBottomOf="@id/main_page">
+    </include>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

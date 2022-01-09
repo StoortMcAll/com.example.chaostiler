@@ -34,14 +34,14 @@ class MyImageView @JvmOverloads constructor(
 
     // region Variable Declaration
 
-    private var mScaleFitToCanvas = 1.0f
+    //private var mScaleFitToCanvas = 1.0f
 
     private var paint = Paint()
     private lateinit var shader: Shader
     private val shaderMatrix = Matrix()
 
     private var paintGreyed = Paint()
-    private lateinit var shaderGreyed: Shader
+    private var shaderGreyed: Shader
     private val textureGreyed = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
 
     private var pIndex0 : Int = 0
@@ -190,49 +190,57 @@ class MyImageView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        mScaleFitToCanvas = this.width / bmImage.width.toFloat()
+       // mScaleFitToCanvas = this.width / bmImage.width.toFloat()
 
         setOffsetScale()
 
-        canvas.drawRect(0.0f, 0.0f, (width - 1).toFloat(), (height - 1).toFloat(), paint)
+        canvas.drawRect(0.0f, 0.0f, width.toFloat() - 1.0f, height.toFloat() - 1.0f, paint)
 
-        if (MainActivity.mCurrentPageID == -1) {
-            val bandThickness =
-                if (width < height) width * 0.08f - 1.0f
-                else height * 0.08f - 1.0f
-
-            canvas.drawRect(0.0f, 0.0f, bandThickness, (height - 1).toFloat(), paintGreyed)
-            canvas.drawRect(0.0f, 0.0f, (width - 1).toFloat(), bandThickness, paintGreyed)
-            canvas.drawRect((width - 1 - bandThickness).toFloat(),0.0f,
-                (width - 1).toFloat(), (height - 1).toFloat(), paintGreyed)
-            canvas.drawRect(0.0f, (height - 1 - bandThickness).toFloat(),
-                (width - 1).toFloat(), (height - 1).toFloat(), paintGreyed)
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     fun paintWallpaper(isWallpaper : Boolean)
     {
-        val wallpaperManager: WallpaperManager = WallpaperManager.getInstance(this.context)
-        if (wallpaperManager.isWallpaperSupported) {
+        if (isWallpaper) {
+            val wallpaperManager: WallpaperManager = WallpaperManager.getInstance(this.context)
+            if (wallpaperManager.isWallpaperSupported) {
 
-            val wd = width
-            val ht = height
+                val wd: Int
+                val ht: Int
 
-            val texture = Bitmap.createBitmap(wd, ht, Bitmap.Config.ARGB_8888)
+                if (isWallpaper && Build.VERSION.SDK_INT == 30) {
+                    wd = (width * 1.1).toInt()
+                    ht = (height * 1.1).toInt()
 
-            val canvas = Canvas(texture)
+                    val tempOffset = PointF(offset.x + (width * 0.05f), offset.y + (height * 0.05f))
+                    val tempScale = mScaleFactor
+                    shaderMatrix.setTranslate(tempOffset.x, tempOffset.y)
+                    shaderMatrix.preScale(tempScale, tempScale)
+                    shader.setLocalMatrix(shaderMatrix)
 
-            canvas.drawRect(0.0f, 0.0f, wd.toFloat() - 1.0f, ht.toFloat() - 1.0f, paint)
-
-            try {
-                if (isWallpaper) {
-                    wallpaperManager.setBitmap(texture, null, false)
-                   // wallpaperManager.setBitmap(texture)//, rect, false)
                 } else {
-                    bitmapToFile(bmImage)
+                    wd = width
+                    ht = height
                 }
-            } catch (ex: IOException) { }
+
+                val texture = Bitmap.createBitmap(wd, ht, Bitmap.Config.ARGB_8888)
+
+                val canvas = Canvas(texture)
+                canvas.drawRect(0.0f, 0.0f, wd.toFloat() - 1.0f, ht.toFloat() - 1.0f, paint)
+
+                try {
+                    if (Build.VERSION.SDK_INT == 30)
+                        wallpaperManager.setBitmap(texture, null, false)
+                    else
+                        wallpaperManager.setBitmap(texture)
+
+                } catch (ex: IOException) {
+                }
+
+
+            }
+        }else {
+            bitmapToFile(bmImage)
         }
     }
 
@@ -256,6 +264,7 @@ class MyImageView @JvmOverloads constructor(
             filefullname = filepath + filename + filenumberText + filetype
         }while(File(filefullname).exists())
 
+
         return try {
             file = File(filefullname)
             file.createNewFile()
@@ -277,8 +286,6 @@ class MyImageView @JvmOverloads constructor(
         }
     }
 
-
-    @SuppressLint("SetTextI18n")
     private fun winPosToTextureCoord(winLocation: PointF) : PointF{
         val textureCoord = winLocation - offset
 

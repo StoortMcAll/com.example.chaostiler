@@ -5,13 +5,8 @@
     android:viewportHeight="24"
     android:shape="rectangle">
 
-    <corners
-        android:radius="6dp">
-    </corners>
+    <solid android:color="@color/light_grey"/>
 
-    <stroke
-        android:width="4dp"
-        android:color="@color/white">
-    </stroke>
+    <corners android:radius="6dp"/>
 
 </shape>

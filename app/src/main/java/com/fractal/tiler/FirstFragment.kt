@@ -3,9 +3,8 @@ package com.fractal.tiler
 // region Variable Declaration
 
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.LayerDrawable
+import android.graphics.Color
+import android.graphics.drawable.*
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,8 +13,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.drawable.RoundedBitmapDrawable
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -50,16 +51,22 @@ class FirstFragment : Fragment() {
     lateinit var hitsInfoTextView : TextView
 
     var colorRangeRight : ImageButton? = null
-    lateinit var colorRLayerRight : LayerDrawable
-    lateinit var colorRDrawableRight : Drawable
+    lateinit var colorRLayerPrev : LayerDrawable
 
     var colorRangeLeft : ImageButton? = null
-    lateinit var colorRLayerLeft : LayerDrawable
-    lateinit var colorRDrawableLeft : Drawable
+    lateinit var colorRLayerNext : LayerDrawable
 
     var colorRangeMid : ImageButton? = null
     lateinit var colorRLayerMid : LayerDrawable
     lateinit var colorRDrawableMid : Drawable
+
+    var runSquare : Button? = null
+    var runScratch : Button? = null
+    var runHex : Button? = null
+
+    lateinit var roundedBitmapDrawable: RoundedBitmapDrawable
+
+    val dpToPx = MainActivity.dpToPx
 
     companion object{
         var mHitsMinString : String = ""
@@ -100,41 +107,40 @@ class FirstFragment : Fragment() {
         _fragmentFirstBinding = FragmentFirstBinding.inflate(inflater, container, false)
 
         MainActivity.mCurrentPageID = mThisPageID
-
         tileImageView = binding.tileImageGenerate.tileImageView
         tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
-        colorRLayerRight = ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
-        colorRDrawableRight = MainActivity.colorClass.aPrevRange.colorRangeDrawable
+        colorRLayerPrev = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
+       // colorRDrawableRight = MainActivity.colorClass.aPrevRange.colorRangeDrawable
 
-        colorRLayerMid = ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
-        colorRDrawableMid = MainActivity.colorClass.aCurrentRange.colorRangeDrawable
+        colorRLayerMid = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_trans_stroke, null) as LayerDrawable
+       // colorRDrawableMid = MainActivity.colorClass.aCurrentRange.colorRangeDrawable
 
-        colorRLayerLeft = ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
-        colorRDrawableLeft = MainActivity.colorClass.aNextRange.colorRangeDrawable
+        colorRLayerNext = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
+        //colorRDrawableLeft = MainActivity.colorClass.aNextRange.colorRangeDrawable
 
         colorRangeRight = binding.colorRangeRight
-        colorRangeRight?.setBackground(colorRLayerRight)
-        setColorRangeRightBackground()
-
         colorRangeMid = binding.colorRangeMid
-        colorRangeMid?.setForeground(colorRLayerMid)
-
-        //colorRLayerMid = colorRangeMid?.background as LayerDrawable
-        val transStrokeDrawable = ResourcesCompat.getDrawable(resources, R.drawable.shape_stroke_trans, null) as GradientDrawable
-        colorRLayerMid.setDrawableByLayerId(R.id.layer_stroke, transStrokeDrawable)
-
-        setColorRangeMidBackground()
-
         colorRangeLeft = binding.colorRangeLeft
-        colorRangeLeft?.setBackground(colorRLayerLeft)
-        setColorRangeLeftBackground()
+        setAllColorRangeBackgrounds(false)
+
+        colorRangeRight?.setBackground(colorRLayerPrev)
+        colorRangeMid?.setForeground(colorRLayerMid)
+        colorRangeLeft?.setBackground(colorRLayerNext)
+
+        runSquare = binding.runSquare
+        setRunStateBitmaps(runSquare, R.drawable.square_up, R.drawable.square_down)
+
+        runScratch = binding.runScratch
+        setRunStateBitmaps(runScratch, R.drawable.icon_up, R.drawable.icon_down)
+
+        runHex = binding.runHex
+        setRunStateBitmaps(runHex, R.drawable.hexagon_up, R.drawable.hexagon_down)
 
         hitsInfoTextView = binding.firstMaxhits
 
         return binding.root
     }
-
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -154,7 +160,7 @@ class FirstFragment : Fragment() {
 
         applyPaletteChangeToBitmap(pixelData)
 
-        binding.runSquare.setOnClickListener {
+        runSquare?.setOnClickListener {
             makeInvisible(view)
 
             if (job == null || job?.isActive == false) {
@@ -167,7 +173,7 @@ class FirstFragment : Fragment() {
             }
         }
 
-        binding.runScratch.setOnClickListener {
+        runScratch?.setOnClickListener {
             makeInvisible(view)
 
             if (job == null || job?.isActive == false) {
@@ -180,7 +186,7 @@ class FirstFragment : Fragment() {
             }
         }
 
-        binding.runHex.setOnClickListener {
+        runHex?.setOnClickListener {
             makeInvisible(view)
 
             if (job == null || job?.isActive == false) {
@@ -232,35 +238,70 @@ class FirstFragment : Fragment() {
 
         binding.switchToEditor.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_TabbedFragment)
-            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
     }
 
+    private fun setRunStateBitmaps(button : Button?, bitmapUpId: Int, bitmapDownId: Int){
 
-    private fun setColorRangeRightBackground(){
-        colorRDrawableRight = MainActivity.colorClass.aPrevRange.colorRangeDrawable
-        colorRLayerRight.setDrawableByLayerId(R.id.layer_bitmap, colorRDrawableRight)
+        val bitmapDrawableDown = ResourcesCompat.getDrawable(resources, bitmapDownId, null) as BitmapDrawable
+        val layerDown = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
+        layerDown.setDrawableByLayerId(R.id.layer_bitmap, getRoundedBitmap(bitmapDrawableDown.bitmap))
 
-        colorRangeRight?.invalidate()
+        val bitmapDrawableUp = ResourcesCompat.getDrawable(resources, bitmapUpId, null) as BitmapDrawable
+        val layerUp = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
+        layerUp.setDrawableByLayerId(R.id.layer_bitmap, getRoundedBitmap(bitmapDrawableUp.bitmap))
+
+        val newStates = StateListDrawable()
+
+        newStates.addState(intArrayOf(-android.R.attr.state_pressed, android.R.attr.state_enabled), layerUp)
+        newStates.addState(intArrayOf(android.R.attr.state_pressed, android.R.attr.state_enabled), layerDown)
+        newStates.addState(intArrayOf(-android.R.attr.state_enabled), ColorDrawable(Color.WHITE))
+
+        button?.setForeground(newStates)
     }
-    private fun setColorRangeMidBackground(){
-        colorRDrawableMid = MainActivity.colorClass.aCurrentRange.colorRangeBitmap.toDrawable(resources)
-        colorRLayerMid.setDrawableByLayerId(R.id.layer_bitmap, colorRDrawableMid)
 
-        colorRangeMid?.invalidate()
+    private fun setPrevColorRangeBackground(invalidate : Boolean = true) {
+        //colorRDrawableRight = MainActivity.colorClass.aPrevRange.colorRangeDrawable
+        colorRLayerPrev.setDrawableByLayerId(
+            R.id.layer_bitmap,
+            getRoundedBitmap(MainActivity.colorClass.aPrevRange.colorRangeBitmap)
+        )
+
+        if (invalidate)
+            colorRangeRight?.invalidate()
     }
-    private fun setColorRangeLeftBackground(){
-        colorRDrawableLeft = MainActivity.colorClass.aNextRange.colorRangeDrawable
-        colorRLayerLeft.setDrawableByLayerId(R.id.layer_bitmap, colorRDrawableLeft)
+    private fun setColorRangeMidBackground(invalidate : Boolean = true) {
+        //colorRDrawableMid = MainActivity.colorClass.aCurrentRange.colorRangeBitmap.toDrawable(resources)
+        colorRLayerMid.setDrawableByLayerId(
+            R.id.layer_bitmap,
+            getRoundedBitmap(MainActivity.colorClass.aCurrentRange.colorRangeBitmap)
+        )
 
-        colorRangeLeft?.invalidate()
+        if (invalidate)
+            colorRangeMid?.invalidate()
+    }
+    private fun setNextColorRangeBackground(invalidate : Boolean = true) {
+        //colorRDrawableLeft = MainActivity.colorClass.aNextRange.colorRangeDrawable
+        colorRLayerNext.setDrawableByLayerId(
+            R.id.layer_bitmap,
+            getRoundedBitmap(MainActivity.colorClass.aNextRange.colorRangeBitmap)
+        )
+
+        if (invalidate)
+            colorRangeLeft?.invalidate()
     }
 
-    private fun setAllColorRangeBackgrounds(){
-        setColorRangeRightBackground()
-        setColorRangeMidBackground()
-        setColorRangeLeftBackground()
+    private fun getRoundedBitmap(bitmap : Bitmap) : RoundedBitmapDrawable {
+        roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap)
+        roundedBitmapDrawable.cornerRadius = dpToPx
+
+        return roundedBitmapDrawable
+    }
+    private fun setAllColorRangeBackgrounds(invalidate : Boolean = true){
+        setPrevColorRangeBackground(invalidate)
+        setColorRangeMidBackground(invalidate)
+        setNextColorRangeBackground(invalidate)
     }
 
     private fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
@@ -270,12 +311,7 @@ class FirstFragment : Fragment() {
     }
 
     private fun setTileViewBitmap(pixeldatacopy: PixelData) {
-        //if (MainActivity.colorClass.aCurrentRange.dataProcess == MainActivity.Companion.DataProcess.LINEAR){
-            aColors = buildPixelArrayFromIncrementalColors(pixeldatacopy)
-       // }
-        //else{
-        //    aColors = buildPixelArrayFromSinwave(pixeldatacopy)
-        //}
+        aColors = buildPixelArrayFromIncrementalColors(pixeldatacopy)
 
         bmTexture.setPixels(aColors, 0,
             MainActivity.width, 0, 0,
@@ -289,15 +325,12 @@ class FirstFragment : Fragment() {
 
     private fun makeVisible(view: View) {
         val resumbut = view.findViewById<Button>(R.id.resume)
-        view.findViewById<FrameLayout>(R.id.colourstyle_framelayout).setVisibility(View.INVISIBLE)
-        val chspal = view.findViewById<LinearLayout>(R.id.pal_linearlayout)
-        //view.findViewById<Button>(R.id.add_new_palette).setVisibility(View.INVISIBLE)
-        //view.findViewById<Button>(R.id.add_new_palette2).setVisibility(View.INVISIBLE)
+        val chspal = view.findViewById<ConstraintLayout>(R.id.pal_linearlayout)
         val navi = view.findViewById<Button>(R.id.switch_to_editor)
 
         if (pixelData.mMaxHits > 0) {
             if (!doingCalc) {
-                view.findViewById<LinearLayout>(R.id.generate_linearlayout).isVisible = true
+                view.findViewById<ConstraintLayout>(R.id.generate_linearlayout).isVisible = true
                 navi.isVisible = true
                 chspal.isVisible = true
                 resumbut.isVisible = true
@@ -305,7 +338,6 @@ class FirstFragment : Fragment() {
 
                 val mmin = pixelData.mMinHits.toString()
                 val mmax = pixelData.mMaxHits.toString()
-                //val iters = pixelData.mHitsCount.toString()
 
                 val text = mHitsMinString+ " "  + mmin.padStart(4)+ " "  + mHitsMaxString + " " + mmax.padStart(4)
                 hitsInfoTextView.text = text.subSequence(0, text.length)
@@ -313,9 +345,9 @@ class FirstFragment : Fragment() {
                 resumbut.foreground = ResourcesCompat.getDrawable(MainActivity.myResources, R.drawable.resume_states, null)
             }
             else{
-                view.findViewById<LinearLayout>(R.id.generate_linearlayout).setVisibility(View.INVISIBLE)
+                view.findViewById<ConstraintLayout>(R.id.generate_linearlayout).setVisibility(View.INVISIBLE)
                 navi.setVisibility(View.INVISIBLE)
-                chspal.isVisible = true
+               // chspal.isVisible = true
                 resumbut.isVisible = true
                 hitsInfoTextView.isVisible = true
 
@@ -323,18 +355,17 @@ class FirstFragment : Fragment() {
             }
         }
         else{
-            view.findViewById<LinearLayout>(R.id.generate_linearlayout).isVisible = true
+            view.findViewById<ConstraintLayout>(R.id.generate_linearlayout).isVisible = true
             navi.setVisibility(View.INVISIBLE)
             chspal.setVisibility(View.INVISIBLE)
-            resumbut.setVisibility(View.INVISIBLE)
+          //  resumbut.setVisibility(View.INVISIBLE)
             hitsInfoTextView.setVisibility(View.INVISIBLE)
         }
     }
 
     private fun makeInvisible(view: View) {
-        view.findViewById<LinearLayout>(R.id.generate_linearlayout).setVisibility(View.INVISIBLE)
-        view.findViewById<FrameLayout>(R.id.colourstyle_framelayout).setVisibility(View.INVISIBLE)
-        view.findViewById<LinearLayout>(R.id.pal_linearlayout).isVisible = true
+        view.findViewById<ConstraintLayout>(R.id.generate_linearlayout).setVisibility(View.INVISIBLE)
+        view.findViewById<ConstraintLayout>(R.id.pal_linearlayout).isVisible = true
         view.findViewById<Button>(R.id.switch_to_editor).setVisibility(View.INVISIBLE)
         val resumbut = view.findViewById<Button>(R.id.resume)
         resumbut.isVisible = true

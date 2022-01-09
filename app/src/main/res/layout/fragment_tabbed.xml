@@ -37,7 +37,6 @@
                 android:layout_height="match_parent"
                 android:layout_margin="1dp"
                 android:backgroundTint="@color/constraint_background"
-                android:clickable="true"
 
                 android:textAllCaps="false"
                 app:tabGravity="fill"
@@ -64,11 +63,16 @@
 
         </androidx.viewpager.widget.ViewPager>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25"/>
+
         <LinearLayout
             android:id="@+id/navigate_to"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.8"
+            android:layout_weight="1.0"
             android:orientation="horizontal">
 
             <Button

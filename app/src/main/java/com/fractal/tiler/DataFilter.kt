@@ -1,5 +1,7 @@
 package com.fractal.tiler
 
+import android.graphics.Color
+import com.fractal.tiler.MainActivity.Companion.colorClass
 
 
 class Filter(val kernel : Array<IntArray>) {
@@ -39,15 +41,82 @@ class Filter(val kernel : Array<IntArray>) {
         this.offset = offset.toFloat()
     }
 
+    fun doImageFilter() : IntArray{
+        val wideArray = getWideArray(aColors)
 
-    fun doImageFilter(pixelDataCopy : PixelData){
-        val wideArray = getWideArray(pixelDataCopy.aHitsArray)
+        performColorFunction(wideArray).copyInto(aColors)
 
-        pixelDataCopy.aHitsArray = performFunction(wideArray)
-
-        pixelDataCopy.recalcHitStats()
+        return aColors
     }
 
+    fun doHitsFilter(pixelDataCopy : PixelData){
+        val wideArray = getWideArray(pixelDataCopy.aHitsArray)
+
+        performFunction(wideArray).copyInto(pixelDataCopy.aHitsArray)
+
+        pixelDataCopy.recalcScaledHitStats()
+    }
+
+}
+
+fun Filter.performColorFunction(wideArray: Array<IntArray>) : IntArray{
+
+    val array = IntArray(MainActivity.width * MainActivity.height)
+
+    var color : Int
+    var red : Int
+    var green : Int
+    var blue : Int
+    var i = 0
+
+    if (weight < 0) { // Smooth Filter
+        for (y in 0 until MainActivity.height) {
+            for (x in 0 until MainActivity.width) {
+                red = 0
+                green = 0
+                blue = 0
+                for (ky in 0 until kernHit) {
+                    for (kx in 0 until kernWid) {
+                        if (kernel[ky][kx] == 1) {
+                            color = wideArray[y + ky][x + kx]
+                            red += Color.red(color)
+                            green += Color.green(color)
+                            blue += Color.blue(color)
+                        }
+                    }
+                }
+
+                val wt = -1.0f / weight
+
+                array[i++] = Color.argb(
+                    255, (red * wt).toInt(), (green * wt).toInt(), (blue * wt).toInt())
+            }
+        }
+    } else {
+        val wt = 1.0F / weight
+        var kern : Int
+        for (y in 0 until MainActivity.height) {
+            for (x in 0 until MainActivity.width) {
+                red = 0
+                green = 0
+                blue = 0
+                for (ky in 0 until kernHit) {
+                    for (kx in 0 until kernWid) {
+                        color = wideArray[y + ky][x + kx]
+                        kern = kernel[ky][kx]
+                        red += Color.red(color) * kern
+                        green += Color.green(color) * kern
+                        blue += Color.blue(color) * kern
+                    }
+                }
+
+                array[i++] = Color.argb(
+                    255, (red * wt).toInt(), (green * wt).toInt(), (blue * wt).toInt())
+            }
+        }
+    }
+
+    return array
 }
 
 fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
@@ -56,38 +125,24 @@ fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
 
     var hits : Int
 
-    var middlehit : Int
-
     var i = 0
 
-    if (weight == -1) {
-        val kernsize = kernWid * kernHit
-
-        val hitlist = mutableListOf<Int>()
-        val midindex = kernsize / 2
-        var index : Int
-        var ik : Int
+    if (weight == -1) { // Smooth Filter
         for (y in 0 until MainActivity.height) {
             for (x in 0 until MainActivity.width) {
-                hitlist.clear()
-                index = 0
+                hits = 0
                 for (ky in 0 until kernHit) {
                     for (kx in 0 until kernWid) {
-                        ik = 0
-                        hits = wideArray[y + ky][x + kx] * kernel[ky][kx]
-                        while(ik < index && hits > hitlist[ik]) ik++
-                        hitlist.add(ik, hits)
-                        index++
+                        if (kernel[ky][kx] == 1) {
+                            hits += wideArray[y + ky][x + kx]
+                        }
                     }
                 }
 
-                middlehit = wideArray[y + offBot][x + offRight]
-
-                array[i++] = middlehit + ((hitlist[midindex] - middlehit) * 0.75F).toInt()
+                array[i++] = (hits * 0.125f).toInt()
             }
         }
-    }
-    else {
+    } else {
         val wt = 1.0F / weight
         for (y in 0 until MainActivity.height) {
             for (x in 0 until MainActivity.width) {

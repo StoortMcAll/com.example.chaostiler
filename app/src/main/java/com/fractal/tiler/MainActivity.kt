@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.TypedValue
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         lateinit var myResources : Resources
 
-        var dataFragmentSeekbarProgress = 1.0f
+        var dataFragmentSeekbarProgress = 0.0f
 
         var mEnableDataClone = true
 
@@ -64,6 +65,8 @@ class MainActivity : AppCompatActivity() {
 
         var mViewSize = Point(0, 0)
 
+        var dpToPx = 0.0f
+
         var scopeIO = CoroutineScope(Dispatchers.IO)
     }
 
@@ -72,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-/*
+
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         if (Build.VERSION.SDK_INT >= 30) {
@@ -81,13 +84,16 @@ class MainActivity : AppCompatActivity() {
             val attrib = window.attributes
             attrib.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }*/
+        }
+
+        dpToPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 7.0f, resources.displayMetrics)
 
         myResources = resources
 
         colorClass = ColorClass()
 
-        hideSystemUI()
+        //hideSystemUI()
+        //setFullScreen()
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
@@ -118,6 +124,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         mScaleFactor = (mViewSize.x - 8).toFloat() / width.toFloat()
+
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -157,11 +164,11 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun hideSystemUI() {
-       // window.setDecorFitsSystemWindows(false)
-/*
+        //window.setDecorFitsSystemWindows(false)
+
         window.setFlags(2048 or 1024 or 512 or 256 or 4 or 2,
             2048 or 1024 or 512 or 256 or 4 or 2)
-
+/*
         if (Build.VERSION.SDK_INT >= 19) {
             window.setFlags(2048 or 1024 or 512 or 256 or 4 or 2,
                 2048 or 1024 or 512 or 256 or 4 or 2)

@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.fractal.tiler.MainActivity.Companion.filter
 import com.fractal.tiler.databinding.FragmentDataBinding
 import kotlinx.coroutines.*
+import kotlin.math.atan
 
 
 class DataFragment : Fragment() {
@@ -46,6 +47,7 @@ class DataFragment : Fragment() {
 
     var filterId = filter.ordinal
 
+    var doUndoChanges = false
     var doFilter = false
     var calcActive = false
 
@@ -75,8 +77,9 @@ class DataFragment : Fragment() {
         setSeekbarProgressAndMax()
 
         seekbarBackground =
-            ResourcesCompat.getDrawable(resources, R.drawable.layer_background_bitmap, null) as LayerDrawable
+            ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
 
+      //  pixelDataClone.calcTangentScale()
         setSeekbarBitmapColors()
 
         seekbar.setBackground(seekbarBackground)
@@ -102,9 +105,7 @@ class DataFragment : Fragment() {
 
         undoChangesButton.setOnClickListener {
             if (jobTextures == null || jobTextures?.isActive == false) {
-                pixelDataClone = pixelData.clone()
-
-                setSeekbarProgressAndMax()
+                doUndoChanges = true
 
                 updateTextures()
             }
@@ -136,11 +137,13 @@ class DataFragment : Fragment() {
 
                     seekBar.progress = progress
 
-                    MainActivity.dataFragmentSeekbarProgress = mSeekbarProgess / mMaxSeekbarHit.toFloat()
+                    MainActivity.dataFragmentSeekbarProgress = 1.0f - (mSeekbarProgess / mMaxSeekbarHit.toFloat())
 
                     if (jobTextures == null || jobTextures?.isActive == false) {
 
                         if (!calcActive) {
+                            pixelDataClone.calcTangentScale()
+
                             updateTextures()
                         }
                     }
@@ -166,7 +169,9 @@ class DataFragment : Fragment() {
                 if (mSeekbarProgess < pixelDataClone.mMinHits)
                     mSeekbarProgess = pixelDataClone.mMinHits
 
-                MainActivity.dataFragmentSeekbarProgress = mSeekbarProgess / mMaxSeekbarHit.toFloat()
+                MainActivity.dataFragmentSeekbarProgress = 1.0f - (mSeekbarProgess / mMaxSeekbarHit.toFloat())
+
+                pixelDataClone.calcTangentScale()
 
                 updateTextures()
 
@@ -187,25 +192,37 @@ class DataFragment : Fragment() {
             if (doFilter) {
                 when (filter) {
                     MainActivity.Companion.ImageFilter.Blur -> {
-                        Blur.doImageFilter(pixelDataClone)
+                        Blur.doHitsFilter(pixelDataClone)
                     }
                     MainActivity.Companion.ImageFilter.Gaussian -> {
-                        Gaussian.doImageFilter(pixelDataClone)
+                        Gaussian.doHitsFilter(pixelDataClone)
                     }
                     MainActivity.Companion.ImageFilter.Motion -> {
-                        Motion.doImageFilter(pixelDataClone)
+                        Motion.doHitsFilter(pixelDataClone)
                     }
                     MainActivity.Companion.ImageFilter.BoxBlur -> {
-                        BoxBlur.doImageFilter(pixelDataClone)
+                        Sharpen.doHitsFilter(pixelDataClone)
                     }
                     MainActivity.Companion.ImageFilter.Median -> {
-                        BoxBlur.doImageFilter(pixelDataClone)
+                        Smooth.doHitsFilter(pixelDataClone)
                     }
                 }
+
+                pixelDataClone.calcTangentScale()
 
                 setSeekbarProgressAndMax()
 
                 doFilter = false
+            }
+
+            if (doUndoChanges){
+                pixelDataClone = pixelData.clone()
+                //pixelDataClone.recalcScaledHitStats()
+                pixelDataClone.calcTangentScale()
+
+                setSeekbarProgressAndMax()
+
+                doUndoChanges = false
             }
 
             setSeekbarBitmapColors()
@@ -215,9 +232,7 @@ class DataFragment : Fragment() {
             if (doSetTileView) {
                 calcActive = true
 
-                pixelDataClone.recalcScaledHitsArray(mSeekbarProgess)
-
-                setTileViewBitmap(pixelDataClone)
+                setTileViewBitmap(pixelDataClone, true)
 
                 calcActive = false
             }
@@ -226,66 +241,31 @@ class DataFragment : Fragment() {
 
     private fun setSeekbarProgressAndMax(){
         mMaxSeekbarHit = pixelDataClone.mMaxHits
-        mSeekbarProgess = (mMaxSeekbarHit * MainActivity.dataFragmentSeekbarProgress).toInt()
+        mSeekbarProgess = (mMaxSeekbarHit * (1.0f - MainActivity.dataFragmentSeekbarProgress)).toInt()
         seekbar.max = mMaxSeekbarHit
         seekbar.progress = mSeekbarProgess
     }
 
 
     private fun setSeekbarBitmapColors(){
-        val maxAngle = 0.4 + (1.1707 * (mSeekbarProgess / mMaxSeekbarHit.toDouble()))
-        val maxTan = Math.tan(maxAngle)
-        val mult = maxTan / seekbarBitmapWidth
-        val colmult = 255.0 / maxAngle
+        val maxAngle = 0.4 + (1.15 * MainActivity.dataFragmentSeekbarProgress)
+        val mult = Math.tan(maxAngle) / (seekbarBitmapWidth - 1)
+        val colmult = 240.0 / maxAngle
         var r : Int
 
         for (i in 0 until seekbarBitmapWidth) {
-            r = (Math.atan(i * mult) * colmult).toInt()
+            r = (atan(i * mult) * colmult).toInt()
 
-            aBitmapColors[i] = Color.argb(255, r, r, r)
+            aBitmapColors[i] = Color.argb(255, 15 + r, 15 + r, r)
         }
 
         seekbarBitmap.setPixels(aBitmapColors, 0, seekbarBitmapWidth, 0, 0, seekbarBitmapWidth, 1)
         seekbarBackground.setDrawableByLayerId(R.id.layer_bitmap, seekbarBitmap.toDrawable(resources))
     }
 
-
-    private fun setSeekbarBitmapColors2(){
-        val aPercentOfTotalHits = IntArray(pixelDataClone.mMaxHits + 1)
-        val mTotal = 255.0f / pixelDataClone.arraySize
-
-        var mRunningTotal = 0
-
-        for (i in 0..pixelDataClone.mMaxHits){
-            mRunningTotal += pixelDataClone.aHitStats[i]
-            aPercentOfTotalHits[i] = (mRunningTotal * mTotal).toInt()
-        }
-
-        var iscaled : Int
-        var alpha = 255
-        var r : Int
-        val mult = pixelDataClone.mMaxHits / (seekbarBitmapWidth - 1).toFloat()
-
-        for (i in 0 until seekbarBitmapWidth) {
-            iscaled = (i * mult).toInt()
-
-            if (iscaled >= mSeekbarProgess) {
-                alpha = 160
-            }
-
-            r = (aPercentOfTotalHits[iscaled]).and(248)
-
-            aBitmapColors[i] = Color.argb(alpha, r, r, 255)
-        }
-
-        seekbarBitmap.setPixels(aBitmapColors, 0, seekbarBitmapWidth, 0, 0, seekbarBitmapWidth, 1)
-        seekbarBackground.setDrawableByLayerId(R.id.layer_bitmap, seekbarBitmap.toDrawable(resources))
-    }
 
     override fun onResume() {
         super.onResume()
-
-       // val filters = resources.getStringArray(R.array.filter_types)
 
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_filter, filters)
 
@@ -309,10 +289,10 @@ class DataFragment : Fragment() {
         */
 
         binding.autotextview.setOnItemClickListener {
-            parent: AdapterView<*>?,
-            view: View?,
+            _: AdapterView<*>?,
+            _: View?,
             position: Int,
-            id: Long ->
+            _: Long ->
                 filter = MainActivity.Companion.ImageFilter.values()[position]
 
                 filterId = position
@@ -323,7 +303,7 @@ class DataFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        MainActivity.dataFragmentSeekbarProgress = mSeekbarProgess / mMaxSeekbarHit.toFloat()
+        MainActivity.dataFragmentSeekbarProgress = 1.0f - (mSeekbarProgess / mMaxSeekbarHit.toFloat())
 
         _fragmentDataBinding = null
     }

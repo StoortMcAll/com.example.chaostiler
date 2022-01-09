@@ -30,6 +30,8 @@ class TabbedFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        MainActivity.mCurrentPageID = mThisPageID
+
         if ((this.activity as AppCompatActivity).supportActionBar?.isShowing == false)
             (this.activity as AppCompatActivity).supportActionBar?.show()
 
@@ -47,8 +49,8 @@ class TabbedFragment : Fragment() {
         if (MainActivity.mEnableDataClone) {
             pixelDataClone = pixelData.clone()
 
-            pixelDataClone.recalcScaledHitsArray(
-                (MainActivity.dataFragmentSeekbarProgress * pixelDataClone.mMaxHits).toInt())
+            //pixelDataClone.recalcScaledHitStats()
+            pixelDataClone.calcTangentScale()
 
             MainActivity.mEnableDataClone = false
         }
@@ -84,8 +86,9 @@ class TabbedFragment : Fragment() {
 
         setTileImageView(tileImageView)// Set reference to MyImageView in RunGenTasks
 
-        //updateTextures(false)
-        setTileViewBitmap(pixelDataClone)
+        pixelDataClone.calcTangentScale()
+
+        setTileViewBitmap(pixelDataClone, true)
 
         view.findViewById<Button>(R.id.backto_firstfragment).setOnClickListener {
             findNavController().navigate(R.id.action_TabbedFragment_to_FirstFragment)

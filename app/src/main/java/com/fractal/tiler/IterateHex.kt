@@ -41,13 +41,15 @@ class HexValues @JvmOverloads constructor(squareVals: SquareValues, randomLevel:
         k21 = sk21 //if (randomLevel == 0 && square.headOrTails() == false) sk21 else square.getRand(0.0, 1.0)
         el11 = sel11 //if (randomLevel == 0 && square.headOrTails() == false) sel11 else square.getRand(0.0, 1.0)
         el21 = sel21 //if (randomLevel == 0 && square.headOrTails() == false) sel21 else square.getRand(0.0, 1.0)
-        if (square.headOrTails()) square.alpha = square.getRand(-1.0, 1.0)
-        if (square.headOrTails()) square.beta = square.getRand(-1.0, 1.0)
-        if (square.headOrTails()) square.gamma = square.getRand(-1.0, 1.0)
-        if (square.headOrTails()) square.delta = square.getRand(-1.0, 1.0)
-        if (square.headOrTails()) square.ma = square.getRand(-1.0, 1.0)
-        if (square.headOrTails()) square.omega = square.getRand(-1.0, 1.0)
-        if (square.headOrTails()) square.shift = square.getRand(-1.0, 1.0)
+
+        val mult = if (square.headOrTails() == true)  1.0 else 2.0
+        if (square.headOrTails()) square.alpha += square.getRand(-0.5, 0.5) * mult
+        if (square.headOrTails()) square.beta = square.getRand(-0.5, 0.5) * mult
+        if (square.headOrTails()) square.gamma = square.getRand(-0.25, 0.25) * mult
+        if (square.headOrTails()) square.delta = square.getRand(-0.5, 0.5) * mult
+        if (square.headOrTails()) square.ma = square.getRand(-0.25, 0.25) * mult
+        if (square.headOrTails()) square.omega = square.getRand(-0.5, 0.5) * mult
+        if (square.headOrTails()) square.shift = square.getRand(-1.0, 1.0) * mult
         k22 = sq3 / 2.0
         el12 = -1.0 / sq3
         el22 = 2.0 / sq3
@@ -74,13 +76,13 @@ class HexValues @JvmOverloads constructor(squareVals: SquareValues, randomLevel:
         a11 = square.beta
         a12 = square.gamma
         a21 = (-a11 - (sq3 * a12)) / 2.0
-        a22 = ((sq3 * a11) - a12) / 2
+        a22 = ((sq3 * a11) - a12) / 2.0
         a31 = -a11 - a21
         a32 = -a12 - a22
         ah11 = a11
         ah12 = -a12
-        ah21 = (-ah11 - (sq3 * ah12)) / 2
-        ah22 = ((sq3 * ah11) - ah12) / 2
+        ah21 = (-ah11 - (sq3 * ah12)) / 2.0
+        ah22 = ((sq3 * ah11) - ah12) / 2.0
         ah31 = -ah11 - ah21
         ah32 = -ah12 - ah22
     }

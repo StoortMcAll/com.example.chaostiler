@@ -3,6 +3,7 @@ package com.fractal.tiler
 // region Variable Declaration
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.fractal.tiler.MainActivity.Companion.colorClass
 import com.fractal.tiler.MainActivity.Companion.mEnableDataClone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,11 +29,14 @@ class ThirdFragment : Fragment() {
     val mThisPageID = 2
 
     lateinit var imageView : MyImageView
+    lateinit var shaderView : View
 
     var isBusy = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MainActivity.mCurrentPageID = mThisPageID
 
         (this.activity as AppCompatActivity).supportActionBar?.hide()
 
@@ -57,37 +62,87 @@ class ThirdFragment : Fragment() {
 
         mEnableDataClone = false
 
+        shaderView = view.findViewById<TextView>(R.id.shader)
+
         imageView = view.findViewById(R.id.fullscreenImageView)
 
         setTileImageView(imageView)
 
         imageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
 
-        view.findViewById<Button>(R.id.save_wallpaper).setOnClickListener {
-            val shaderView = view.findViewById<TextView>(R.id.shader)
+        val mainColor = colorClass.aCurrentRange.aRgbColorsList[0]
+        val hsvValues = FloatArray(3)
+        Color.colorToHSV(mainColor,hsvValues)
 
+        var useLightText = if(hsvValues[2] < 0.5f) false else true
+
+        val applySmooth : Button = view.findViewById(R.id.apply_smooth)
+        val saveWallpaper : Button = view.findViewById(R.id.save_wallpaper)
+        val saveImage : Button = view.findViewById(R.id.save_image)
+        val backtoSecond : Button = view.findViewById(R.id.back_to_secondFragment)
+
+        setButtonColors(applySmooth, useLightText)
+        setButtonColors(saveWallpaper, useLightText)
+        setButtonColors(saveImage, useLightText)
+        setButtonColors(backtoSecond, useLightText)
+
+        applySmooth.setOnClickListener {
             if (!isBusy) {
                 isBusy = true
+                CoroutineScope(Dispatchers.Main).launch {
 
-                shaderView.visibility = View.VISIBLE
-                shaderView.invalidate()
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    imageView.paintWallpaper(true)
-
-                    CoroutineScope(Dispatchers.Main).launch {
-                        shaderView.visibility = View.INVISIBLE
-                        shaderView.invalidate()
+                    when (MainActivity.filter) {
+                        MainActivity.Companion.ImageFilter.Blur -> {
+                            aColors = Blur.doImageFilter()
+                        }
+                        MainActivity.Companion.ImageFilter.Gaussian -> {
+                            aColors = Gaussian.doImageFilter()
+                        }
+                        MainActivity.Companion.ImageFilter.Motion -> {
+                            aColors = Motion.doImageFilter()
+                        }
+                        MainActivity.Companion.ImageFilter.BoxBlur -> {
+                            aColors = Sharpen.doImageFilter()
+                        }
+                        MainActivity.Companion.ImageFilter.Median -> {
+                            aColors = Smooth.doImageFilter()
+                        }
                     }
+
+                    bmTexture.setPixels(
+                        aColors, 0,
+                        MainActivity.width, 0, 0,
+                        MainActivity.width,
+                        MainActivity.height
+                    )
+
+                    imageView.setBitmap(bmTexture)
 
                     isBusy = false
                 }
+
             }
         }
 
-        view.findViewById<Button>(R.id.save_image).setOnClickListener {
-            val shaderView = view.findViewById<TextView>(R.id.shader)
+        saveWallpaper.setOnClickListener {
+            if (!isBusy) {
+                isBusy = true
+                shaderView.visibility = View.VISIBLE
+                shaderView.invalidate()
 
+                CoroutineScope(Dispatchers.Main).launch {
+                    imageView.paintWallpaper(true)
+
+                    shaderView.visibility = View.INVISIBLE
+                    shaderView.invalidate()
+
+                    isBusy = false
+                }
+
+            }
+        }
+
+        saveImage.setOnClickListener {
             if (!isBusy) {
                 isBusy = true
 
@@ -107,10 +162,28 @@ class ThirdFragment : Fragment() {
             }
         }
 
-        view.findViewById<Button>(R.id.back_to_secondFragment).setOnClickListener {
+        backtoSecond.setOnClickListener {
             if (!isBusy) {
                 findNavController().navigate(R.id.action_ThirdFragment_to_TabbedFragment)
             }
         }
+    }
+
+    private fun setButtonColors(button : Button, useLightText : Boolean){
+        val transCol : Int
+        val textCol : Int
+
+        if(useLightText){
+            transCol = Color.argb(64, 0,0,0)
+            textCol = Color.argb(255, 252,239,232)
+        } else{
+            transCol = Color.argb(64, 255,255,255)
+            textCol = Color.argb(255, 63,60,58)
+        }
+
+        button.setBackgroundColor(transCol)
+        button.setTextColor(textCol)
+
+        button.invalidate()
     }
 }

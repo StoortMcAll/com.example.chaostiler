@@ -4,12 +4,16 @@
     <item android:id="@+id/layer_color"
         android:bottom="2dp"
         android:top="2dp"
-        android:start="2dp"
-        android:end="1dp"
-        android:drawable="@drawable/gradient_hsv">
+        android:start="1dp"
+        android:end="2dp"
+        android:drawable="@drawable/gradient_hsv_add">
     </item>
 
     <item
+        android:bottom="4dp"
+        android:top="4dp"
+        android:start="44dp"
+        android:end="44dp"
         android:drawable="@drawable/ic_add_24">
     </item>
 

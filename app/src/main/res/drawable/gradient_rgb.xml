@@ -9,19 +9,13 @@
         android:type="linear"
         android:angle="0"
         android:centerX="0.5"
-        android:startColor="#ffaf0000"
-        android:centerColor="#ff00af00"
-        android:endColor="#ff0000af">
-
+        android:startColor="#ffafafaf"
+        android:centerColor="#ffafafaf"
+        android:endColor="#ffafafaf">
     </gradient>
 
     <corners
-        android:radius="4dp">
+        android:radius="6dp">
     </corners>
-
-    <stroke
-        android:width="2dp"
-        android:color="@color/button_stroke">
-    </stroke>
 
 </shape>

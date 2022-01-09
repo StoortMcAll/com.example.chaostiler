@@ -6,20 +6,19 @@
     android:shape="rectangle">
 
     <gradient
-        android:type="sweep"
-        android:startColor="#ffff0000"
-        android:centerColor="#ff00ff00"
-        android:endColor="#ff0000bb">
-
+        android:type="linear"
+        android:centerX="0.25"
+        android:startColor="#ff808080"
+        android:centerColor="#ff202020"
+        android:endColor="#ff808080">
     </gradient>
 
     <corners
-        android:radius="4dp">
+        android:radius="6sp">
     </corners>
 
     <stroke
         android:width="2dp"
-        android:color="@color/button_stroke">
-    </stroke>
+        android:color="@color/button_stroke"/>
 
 </shape>

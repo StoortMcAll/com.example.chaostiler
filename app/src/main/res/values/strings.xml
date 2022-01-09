@@ -4,8 +4,8 @@
         <item>Blur</item>
         <item>Gaussian</item>
         <item>Motion</item>
-        <item>BoxBlur</item>
-        <item>Median</item>
+        <item>Smooth</item>
+        <item>Smooth</item>
     </string-array>
 
     <string-array name="formula_types">
@@ -32,7 +32,7 @@
     <string name="content_description_hits">Most times any pixel in the Image Tile has been hit</string>
     <string name="hitsmax_string">Max - </string>
 
-    <string name="goto_tile_editor_left"><![CDATA[<— Tile Editor]]></string>
+    <string name="goto_tile_editor_left"><![CDATA[<—        Tile Editor]]></string>
     <string name="goto_tile_editor_right"><![CDATA[Tile Editor   —>]]></string>
     <string name="content_description_open_editor_frag">Switch to Image edit page</string>
 
@@ -54,7 +54,7 @@
     <string name="content_description_open_generate_frag">Switch to Generate Image page</string>
     <string name="undo_all_changes">Undo All Changes</string>
     <string name="third_fragment">Third Fragment</string>
-    <string name="save_wallpaper">Save Wallpaper</string>
+    <string name="save_wallpaper">Save    Wallpaper</string>
     <string name="goto_save_wallpaper"><![CDATA[Save Wallpaper —>]]></string>
     <string name="content_description_open_savewallpaper_frag">Switch to save Image to Wallpaper page</string>
     <string name="content_description_adjust_spread">Slider value affecting Colour selection</string>
@@ -65,7 +65,7 @@
     <string name="content_description_new_palette_b">Create new ColourRange using formula 2</string>
     <string name="fullscreen_image">Fullscreen Image</string>
     <string name="save_image">Save Image</string>
-    <string name="content_description_save_image">Save Image to Picture folder</string>
+    <string name="content_description_save_image">Save image to Pictures folder</string>
     <string name="set_to_zero">Set Upper Limit</string>
     <string name="linear">Linear</string>
     <string name="content_description_colour_distribution">How to apply ColourRange to generated results </string>
@@ -82,4 +82,5 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="smooth">Smooth</string>
+    <string name="choose_filter">Choose Filter</string>
 </resources>

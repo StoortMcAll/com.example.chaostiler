@@ -6,21 +6,16 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
 
-    <item android:id="@+id/layer_bitmap"
+    <item android:id="@+id/layer_rectangle"
         android:bottom="4dp"
         android:top="4dp"
-        android:start="3dp"
-        android:end="3dp"
-        android:drawable="@drawable/greyscale">
+        android:start="4dp"
+        android:end="4dp"
+        android:drawable="@drawable/shape_rectangle">
     </item>
 
-    <item android:id="@+id/layer_stroke"
-        android:bottom="2dp"
-        android:top="2dp"
-        android:start="1dp"
-        android:end="1dp"
+    <item
         android:drawable="@drawable/shape_stroke_blue">
     </item>
-
 
 </layer-list>

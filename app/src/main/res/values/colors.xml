@@ -11,9 +11,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="text_color">#a0c1c2</color>
     <color name="text_color_highlights">#ffd0f1f2</color>
-    <color name="constraint_background">#ff112111</color>
+    <color name="constraint_background">#FFf2efe9</color>
     <color name="button_background">#ff212171</color>
-    <color name="button_stroke">#ff4141a1</color>
+    <color name="button_stroke">#ff6f6f6f</color>
     <color name="my_yellow">#FFffff00</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
@@ -21,7 +21,7 @@
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
     <color name="light_grey">#ffa0a0a0</color>
-    <color name="dark_blue">#ffaac7f3</color>
+    <color name="dark_blue">#ff556375</color>
     <color name="transparent">#00000000</color>
     <color name="semi_trnspt">#3fffffff</color>
 </resources>
