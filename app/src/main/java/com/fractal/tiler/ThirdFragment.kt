@@ -20,6 +20,7 @@ import com.fractal.tiler.MainActivity.Companion.colorClass
 import com.fractal.tiler.MainActivity.Companion.mEnableDataClone
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 // endregion
@@ -62,9 +63,11 @@ class ThirdFragment : Fragment() {
 
         mEnableDataClone = false
 
-        shaderView = view.findViewById<TextView>(R.id.shader)
+        shaderView = view.findViewById(R.id.shader)
 
         imageView = view.findViewById(R.id.fullscreenImageView)
+
+        imageView.offsetForFullscreen(true)
 
         setTileImageView(imageView)
 
@@ -89,6 +92,10 @@ class ThirdFragment : Fragment() {
         applySmooth.setOnClickListener {
             if (!isBusy) {
                 isBusy = true
+
+                shaderView.visibility = View.VISIBLE
+                shaderView.invalidate()
+
                 CoroutineScope(Dispatchers.Main).launch {
 
                     when (MainActivity.filter) {
@@ -118,6 +125,9 @@ class ThirdFragment : Fragment() {
 
                     imageView.setBitmap(bmTexture)
 
+                    shaderView.visibility = View.INVISIBLE
+                    shaderView.invalidate()
+
                     isBusy = false
                 }
 
@@ -127,18 +137,24 @@ class ThirdFragment : Fragment() {
         saveWallpaper.setOnClickListener {
             if (!isBusy) {
                 isBusy = true
+
                 shaderView.visibility = View.VISIBLE
                 shaderView.invalidate()
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    imageView.paintWallpaper(true)
+                    val job: Job = CoroutineScope(Dispatchers.IO).launch {
+                        //for (i in 0..4) {
+                            imageView.paintWallpaper(true)
+                       // }
+
+                        isBusy = false
+                    }
+
+                    job.join()
 
                     shaderView.visibility = View.INVISIBLE
                     shaderView.invalidate()
-
-                    isBusy = false
                 }
-
             }
         }
 
@@ -164,6 +180,8 @@ class ThirdFragment : Fragment() {
 
         backtoSecond.setOnClickListener {
             if (!isBusy) {
+                imageView.offsetForFullscreen(false)
+
                 findNavController().navigate(R.id.action_ThirdFragment_to_TabbedFragment)
             }
         }

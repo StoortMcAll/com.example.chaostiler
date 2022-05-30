@@ -98,11 +98,11 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <!-- Start - Next ColorRange  -->
             <ImageButton
-                android:id="@+id/color_range_right"
+                android:id="@+id/color_range_prev"
                 style="@style/imageButton"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -123,17 +123,17 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/color_range_left"
+                app:layout_constraintEnd_toStartOf="@id/color_range_next"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@id/color_range_right"
+                app:layout_constraintStart_toEndOf="@id/color_range_prev"
                 app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="@string/content_description_icon"
-                android:foreground="@drawable/layer_bitmap_trans_stroke">
+                android:background="@drawable/layer_bitmap_trans_stroke">
             </ImageButton>
 
             <!-- Start - Previous ColorRange  -->
             <ImageButton
-                android:id="@+id/color_range_left"
+                android:id="@+id/color_range_next"
                 style="@style/imageButton"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -150,23 +150,23 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        </View>
-
         <!-- Start - Generation Info  -->
         <TextView
             android:id="@+id/first_maxhits"
             style="@style/outlineButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:contentDescription="@string/content_description_hits"
             android:gravity="bottom|center"
             android:text="@string/hitsmin_string">
         </TextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25">
+        </View>
 
         <!-- Start - Goto Editor Button -->
         <Button
@@ -175,9 +175,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:insetTop="2dp"
             android:text="@string/goto_tile_editor_right"
             android:contentDescription="@string/content_description_open_editor_frag"
-            android:visibility="invisible">
+            android:visibility="visible">
         </Button>
 
     </LinearLayout>

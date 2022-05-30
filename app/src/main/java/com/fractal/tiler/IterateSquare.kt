@@ -68,17 +68,17 @@ class SquareValues{
         return MainActivity.rand.nextDouble(min, max)
     }
     fun headOrTails() : Boolean{
-        return MainActivity.rand.nextInt(until = 4) == 3
+        return MainActivity.rand.nextBoolean()
     }
 }
 
-fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
+fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<HitCoord> {
 
     // region Variable Declaration
 
     maxCount.also { maxCounter = it }
 
-    val hits : ArrayList<Hit> = arrayListOf()
+    val hits : ArrayList<HitCoord> = arrayListOf()
 
     var x = square.x; var y = square.y
     var sx: Double; var sy: Double
@@ -115,7 +115,7 @@ fun runSquare(wide : Int, high : Int, square : SquareValues) :ArrayList<Hit> {
 
         x = xnew; y = ynew
 
-        hits.add(Hit((xnew * wide).toInt(), (ynew * high).toInt()))
+        hits.add(HitCoord((xnew * wide).toInt(), (ynew * high).toInt()))
 
     } while (++counter < maxCounter)
 

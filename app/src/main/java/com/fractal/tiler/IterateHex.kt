@@ -88,13 +88,13 @@ class HexValues @JvmOverloads constructor(squareVals: SquareValues, randomLevel:
     }
 }
 
-fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<Hit> {
+fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<HitCoord> {
 
     // region Variable Declaration
 
     maxCount.also { maxCounter = it }
 
-    val hits: ArrayList<Hit> = arrayListOf()
+    val hits: ArrayList<HitCoord> = arrayListOf()
 
     val hex = hexagon.square
 
@@ -149,7 +149,7 @@ fun runHexagon(wide : Int, high : Int, hexagon : HexValues) :ArrayList<Hit> {
         xnew = bx * hexagon.k11 + by * hexagon.k21
         ynew = bx * hexagon.k12 + by * hexagon.k22
 
-        hits.add(Hit((bx * wide).toInt(), (by * high).toInt()))
+        hits.add(HitCoord((bx * wide).toInt(), (by * high).toInt()))
 
     } while (++counter < maxCounter)
 

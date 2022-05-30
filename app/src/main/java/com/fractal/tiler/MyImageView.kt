@@ -179,6 +179,22 @@ class MyImageView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun offsetForFullscreen(toFullscreen : Boolean){
+        val textpos : PointF
+
+        if(toFullscreen) {
+            textpos = winPosToTextureCoord(PointF(0.0f,0.0f))
+
+            offset = calcOffset(PointF(0.0f,height / 2.0f), textpos)
+        }else{
+            textpos = winPosToTextureCoord(PointF(0.0f,height / 2.0f))
+
+            offset = calcOffset(PointF(0.0f,0.0f), textpos)
+        }
+
+        setOffsetScale()
+    }
+
     private fun setOffsetScale(){
         shaderMatrix.setTranslate(offset.x, offset.y)
 
@@ -194,7 +210,7 @@ class MyImageView @JvmOverloads constructor(
 
         setOffsetScale()
 
-        canvas.drawRect(0.0f, 0.0f, width.toFloat() - 1.0f, height.toFloat() - 1.0f, paint)
+        canvas.drawRect(0.0f, 0.0f, width.toFloat(), height.toFloat(), paint)
 
     }
 

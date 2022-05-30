@@ -8,5 +8,6 @@
       android:strokeWidth="0.4"
       android:strokeColor="@color/button_stroke"
       android:fillColor="@color/button_background"
-      android:pathData="M14,6L12.59,7.41 17.17,12l-4.58,4.59L14,18l6,-6z"/>
+      android:pathData="M10,6L8.59,7.41 13.17,12l-4.58,4.59L10,18l6,-6z"/>
+
 </vector>

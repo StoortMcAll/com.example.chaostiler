@@ -2,6 +2,7 @@ package com.fractal.tiler
 
 // region Variable Declaration
 
+import android.animation.ValueAnimator
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.*
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import android.widget.*
 import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
@@ -22,6 +24,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.fractal.tiler.MainActivity.Companion.mEnableDataClone
 import com.fractal.tiler.MainActivity.Companion.QuiltType
+import com.fractal.tiler.MainActivity.Companion.animColorSpread
+import com.fractal.tiler.MainActivity.Companion.colorClass
+import com.fractal.tiler.MainActivity.Companion.colorRangeChangeAnimInProgess
+import com.fractal.tiler.MainActivity.Companion.focusLost
 import com.fractal.tiler.MainActivity.Companion.quiltType
 import com.fractal.tiler.databinding.FragmentFirstBinding
 import kotlinx.coroutines.CoroutineScope
@@ -50,15 +56,24 @@ class FirstFragment : Fragment() {
     lateinit var tileImageView : MyImageView
     lateinit var hitsInfoTextView : TextView
 
-    var colorRangeRight : ImageButton? = null
+    var colorRangePrev : ImageButton? = null
     lateinit var colorRLayerPrev : LayerDrawable
+    val colorRangePrevBitmap = Bitmap.createBitmap(MainActivity.mColorRangeLastIndex + 1, 1, Bitmap.Config.ARGB_8888)
 
-    var colorRangeLeft : ImageButton? = null
+    var colorRangeNext : ImageButton? = null
     lateinit var colorRLayerNext : LayerDrawable
+    val colorRangeNextBitmap = Bitmap.createBitmap(MainActivity.mColorRangeLastIndex + 1, 1, Bitmap.Config.ARGB_8888)
 
     var colorRangeMid : ImageButton? = null
     lateinit var colorRLayerMid : LayerDrawable
-    lateinit var colorRDrawableMid : Drawable
+    val colorRangeMidBitmap = Bitmap.createBitmap(MainActivity.mColorRangeLastIndex + 1, 1, Bitmap.Config.ARGB_8888)
+
+    lateinit var colorRangesParent : ConstraintLayout
+    //var colorRangeAnimInProgess: Boolean = false
+
+    //var animColorSpread = IntArray(MainActivity.mColorRangeLastIndex + 1)
+    var animArray = IntArray(MainActivity.width * MainActivity.height)
+    var doTile = true
 
     var runSquare : Button? = null
     var runScratch : Button? = null
@@ -74,7 +89,6 @@ class FirstFragment : Fragment() {
     }
 
 // endregion
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,8 +121,12 @@ class FirstFragment : Fragment() {
         _fragmentFirstBinding = FragmentFirstBinding.inflate(inflater, container, false)
 
         MainActivity.mCurrentPageID = mThisPageID
+
         tileImageView = binding.tileImageGenerate.tileImageView
+
         tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+
+        colorRangesParent = binding.palLinearlayout!!
 
         colorRLayerPrev = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
        // colorRDrawableRight = MainActivity.colorClass.aPrevRange.colorRangeDrawable
@@ -119,14 +137,15 @@ class FirstFragment : Fragment() {
         colorRLayerNext = ResourcesCompat.getDrawable(resources, R.drawable.layer_bitmap_stroke, null) as LayerDrawable
         //colorRDrawableLeft = MainActivity.colorClass.aNextRange.colorRangeDrawable
 
-        colorRangeRight = binding.colorRangeRight
+        colorRangePrev = binding.colorRangePrev
         colorRangeMid = binding.colorRangeMid
-        colorRangeLeft = binding.colorRangeLeft
+        colorRangeNext = binding.colorRangeNext
+
         setAllColorRangeBackgrounds(false)
 
-        colorRangeRight?.setBackground(colorRLayerPrev)
-        colorRangeMid?.setForeground(colorRLayerMid)
-        colorRangeLeft?.setBackground(colorRLayerNext)
+        colorRangePrev?.setBackground(colorRLayerPrev)
+        colorRangeMid?.setBackground(colorRLayerMid)
+        colorRangeNext?.setBackground(colorRLayerNext)
 
         runSquare = binding.runSquare
         setRunStateBitmaps(runSquare, R.drawable.square_up, R.drawable.square_down)
@@ -167,6 +186,12 @@ class FirstFragment : Fragment() {
                 job = MainActivity.scopeIO.launch {
                     quiltType = QuiltType.SQUARE
                     startNewRunFormula(true)
+
+                    if (focusLost){
+                        focusLost = false
+                        CoroutineScope(Dispatchers.Main).launch {
+                        makeVisible(view)}
+                    }
                 }
             } else {
                 job?.cancel(null)
@@ -180,6 +205,12 @@ class FirstFragment : Fragment() {
                 job = MainActivity.scopeIO.launch {
                     quiltType = QuiltType.SCRATCH
                     startNewRunFormula(true)
+
+                    if (focusLost){
+                        focusLost = false
+                        CoroutineScope(Dispatchers.Main).launch {
+                            makeVisible(view)}
+                    }
                 }
             } else {
                 job?.cancel(null)
@@ -193,29 +224,61 @@ class FirstFragment : Fragment() {
                 job = MainActivity.scopeIO.launch {
                     quiltType = QuiltType.HEXAGONAL
                     startNewRunFormula(true)
+
+                    if (focusLost){
+                        focusLost = false
+                        CoroutineScope(Dispatchers.Main).launch {
+                            makeVisible(view)}
+                    }
                 }
             } else {
                 job?.cancel(null)
             }
         }
 
-        colorRangeRight?.setOnClickListener {
-            MainActivity.colorClass.selectPrevColorRange()
+        colorRangePrev?.setOnClickListener {
+            if (colorRangeChangeAnimInProgess) return@setOnClickListener
 
-            setAllColorRangeBackgrounds()
+            val leftFrom = colorClass.aPrevRange.copyColors()
+            val leftTo =  colorClass.getColorRangeFromIndex(colorClass.aPrevRange.mColorRangeID - 1).copyColors()
+
+            val midFrom = colorClass.aCurrentRange.copyColors()
+            val midTo = colorClass.aPrevRange.copyColors()
+
+            val rightFrom = colorClass.aNextRange.copyColors()
+            val rightTo = colorClass.aCurrentRange.copyColors()
+
+            animateColorRangeChange(leftFrom, leftTo, midFrom, midTo, rightFrom, rightTo)
+
+            colorClass.selectPrevColorRange()
+
+            //setAllColorRangeBackgrounds()
 
             if (!doingCalc) {
-                applyPaletteChangeToBitmap(pixelData)
+                //applyPaletteChangeToBitmap(pixelData)
             }
         }
 
-        colorRangeLeft?.setOnClickListener {
-            MainActivity.colorClass.selectNextColorRange()
+        colorRangeNext?.setOnClickListener {
+            if (colorRangeChangeAnimInProgess) return@setOnClickListener
 
-            setAllColorRangeBackgrounds()
+            val leftFrom = colorClass.aPrevRange.copyColors()
+            val leftTo =  colorClass.aCurrentRange.copyColors()
+
+            val midFrom = colorClass.aCurrentRange.copyColors()
+            val midTo = colorClass.aNextRange.copyColors()
+
+            val rightFrom = colorClass.aNextRange.copyColors()
+            val rightTo = colorClass.getColorRangeFromIndex(colorClass.aNextRange.mColorRangeID + 1).copyColors()
+
+            animateColorRangeChange(leftFrom, leftTo, midFrom, midTo, rightFrom, rightTo)
+
+            colorClass.selectNextColorRange()
+
+            //setAllColorRangeBackgrounds()
 
             if (!doingCalc) {
-                applyPaletteChangeToBitmap(pixelData)
+                //applyPaletteChangeToBitmap(pixelData)
             }
         }
 
@@ -231,6 +294,12 @@ class FirstFragment : Fragment() {
 
                 job = MainActivity.scopeIO.launch {
                     startNewRunFormula(false)
+
+                    if (focusLost){
+                        focusLost = false
+                        CoroutineScope(Dispatchers.Main).launch {
+                            makeVisible(view)}
+                    }
                 }
 
             }
@@ -269,13 +338,12 @@ class FirstFragment : Fragment() {
         )
 
         if (invalidate)
-            colorRangeRight?.invalidate()
+            colorRangePrev?.invalidate()
     }
     private fun setColorRangeMidBackground(invalidate : Boolean = true) {
-        //colorRDrawableMid = MainActivity.colorClass.aCurrentRange.colorRangeBitmap.toDrawable(resources)
         colorRLayerMid.setDrawableByLayerId(
             R.id.layer_bitmap,
-            getRoundedBitmap(MainActivity.colorClass.aCurrentRange.colorRangeBitmap)
+            getRoundedBitmap(colorClass.aCurrentRange.colorRangeBitmap)
         )
 
         if (invalidate)
@@ -289,7 +357,7 @@ class FirstFragment : Fragment() {
         )
 
         if (invalidate)
-            colorRangeLeft?.invalidate()
+            colorRangeNext?.invalidate()
     }
 
     private fun getRoundedBitmap(bitmap : Bitmap) : RoundedBitmapDrawable {
@@ -298,10 +366,97 @@ class FirstFragment : Fragment() {
 
         return roundedBitmapDrawable
     }
+
     private fun setAllColorRangeBackgrounds(invalidate : Boolean = true){
         setPrevColorRangeBackground(invalidate)
         setColorRangeMidBackground(invalidate)
         setNextColorRangeBackground(invalidate)
+
+    }
+
+    private fun animateColorRangeChange(
+        leftFrom : IntArray, leftTo : IntArray,
+        midFrom : IntArray, midTo : IntArray,
+        rightFrom : IntArray, rightTo : IntArray)
+    {
+        if (colorRangeChangeAnimInProgess) return
+
+        doTile = true
+
+        colorClass.blendColorRanges(midFrom, midTo, 0.0f)
+
+        colorRangeChangeAnimInProgess = true
+
+        val weightAnimation = ValueAnimator.ofFloat(0.0f, 1.0f)
+
+        weightAnimation.duration = 250
+        weightAnimation.interpolator = LinearInterpolator()
+
+        weightAnimation.addUpdateListener { animator: ValueAnimator ->
+            val animValue = animator.animatedValue as Float
+
+            colorRangePrevBitmap.setPixels(
+                colorClass.blendColorRanges(leftFrom, leftTo, animValue),
+                0, MainActivity.mColorRangeLastIndex + 1, 0, 0, MainActivity.mColorRangeLastIndex + 1, 1)
+
+            colorRLayerPrev.setDrawableByLayerId(
+                R.id.layer_bitmap,
+                getRoundedBitmap(colorRangePrevBitmap)
+            )
+            colorRangePrev?.invalidate()
+
+            colorClass.blendColorRanges(midFrom, midTo, animValue, true)
+
+            colorRangeMidBitmap.setPixels(
+                animColorSpread,
+                0, MainActivity.mColorRangeLastIndex + 1, 0, 0, MainActivity.mColorRangeLastIndex + 1, 1)
+
+            colorRLayerMid.setDrawableByLayerId(
+                R.id.layer_bitmap,
+                getRoundedBitmap(colorRangeMidBitmap)
+            )
+            colorRangeMid?.invalidate()
+
+            colorRangeNextBitmap.setPixels(
+                colorClass.blendColorRanges(rightFrom, rightTo, animValue),
+                0, MainActivity.mColorRangeLastIndex + 1, 0, 0, MainActivity.mColorRangeLastIndex + 1, 1)
+
+            colorRLayerNext.setDrawableByLayerId(
+                R.id.layer_bitmap,
+                getRoundedBitmap(colorRangeNextBitmap)
+            )
+            colorRangeNext?.invalidate()
+            //colorRangesParent.requestLayout()
+
+            if (animValue == 1.0f) {
+                doTile = true
+                colorRangeChangeAnimInProgess = false
+            }
+
+            if (doTile && !doingCalc) {
+                doTile = false
+
+                animArray = buildPixelArrayFromAnimColors(pixelData, animColorSpread.copyOf())
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    bmTexture.setPixels(
+                        animArray,
+                        0,
+                        MainActivity.width, 0, 0,
+                        MainActivity.width,
+                        MainActivity.height)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+
+                        doTile = true
+                    }
+                }
+            }
+
+        }
+
+        weightAnimation.start()
     }
 
     private fun applyPaletteChangeToBitmap(pixeldatacopy : PixelData){
@@ -320,6 +475,8 @@ class FirstFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             tileImageView.setBitmap(bmTexture.copy(Bitmap.Config.ARGB_8888, false))
+
+            doTile = true
         }
     }
 

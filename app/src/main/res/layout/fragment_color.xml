@@ -114,73 +114,109 @@
             style="@style/imageButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintWidth_percent="0.175"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintWidth_percent="0.17"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/color_0"
+            app:layout_constraintEnd_toStartOf="@id/spacer_0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/content_description_icon"
             android:background="@drawable/shape_rectangle"/>
+
+        <View
+            android:id="@+id/spacer_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.025"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_0"
+            app:layout_constraintStart_toEndOf="@id/start_color"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageButton
             android:id="@+id/color_0"
             style="@style/imageButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintWidth_percent="0.17"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/color_1"
-            app:layout_constraintWidth_percent="0.175"
-            app:layout_constraintStart_toEndOf="@id/start_color"
+            app:layout_constraintEnd_toStartOf="@id/spacer_1"
+            app:layout_constraintStart_toEndOf="@id/spacer_0"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/shape_rectangle"
             android:contentDescription="@string/content_description_hexagon"
             android:foreground="@drawable/color_button_states"
             android:longClickable="true" />
+
+        <View
+            android:id="@+id/spacer_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.025"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_1"
+            app:layout_constraintStart_toEndOf="@id/color_0"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageButton
             android:id="@+id/color_1"
             style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:layout_height="match_parent"
+            app:layout_constraintWidth_percent="0.17"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/color_2"
-            app:layout_constraintWidth_percent="0.175"
-            app:layout_constraintStart_toEndOf="@id/color_0"
+            app:layout_constraintEnd_toStartOf="@id/spacer_2"
+            app:layout_constraintStart_toEndOf="@id/spacer_1"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/shape_rectangle"
             android:contentDescription="@string/content_description_hexagon"
             android:foreground="@drawable/color_button_states"
             android:longClickable="true" />
+
+        <View
+            android:id="@+id/spacer_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.025"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color_2"
+            app:layout_constraintStart_toEndOf="@id/color_1"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageButton
             android:id="@+id/color_2"
             style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:layout_height="match_parent"
+            app:layout_constraintWidth_percent="0.17"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/end_color"
-            app:layout_constraintWidth_percent="0.175"
-            app:layout_constraintStart_toEndOf="@id/color_1"
+            app:layout_constraintEnd_toStartOf="@id/spacer_3"
+            app:layout_constraintStart_toEndOf="@id/spacer_2"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/shape_rectangle"
             android:contentDescription="@string/content_description_hexagon"
             android:foreground="@drawable/color_button_states"
             android:longClickable="true" />
 
+        <View
+            android:id="@+id/spacer_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.025"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/end_color"
+            app:layout_constraintStart_toEndOf="@id/color_2"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <ImageButton
             android:id="@+id/end_color"
             style="@style/imageButton"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:layout_height="match_parent"
+            app:layout_constraintWidth_percent="0.17"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="0.175"
-            app:layout_constraintStart_toEndOf="@id/color_2"
+            app:layout_constraintStart_toEndOf="@id/spacer_3"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/content_description_icon"
             android:background="@drawable/shape_rectangle"/>

@@ -67,14 +67,13 @@
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+    <View
         style="@style/outlineButton"
         android:layout_margin="2dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="bottom|center_horizontal"
-        android:text="@string/set_to_zero" />
+        android:gravity="bottom|center_horizontal"/>
 
     <com.fractal.tiler.MySeekbar
         android:id="@+id/maxhit_seeker"

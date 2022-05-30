@@ -49,7 +49,7 @@ class TabbedFragment : Fragment() {
         if (MainActivity.mEnableDataClone) {
             pixelDataClone = pixelData.clone()
 
-            //pixelDataClone.recalcScaledHitStats()
+
             pixelDataClone.calcTangentScale()
 
             MainActivity.mEnableDataClone = false

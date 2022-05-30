@@ -1,18 +1,14 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:height="24dp"
-    android:viewportHeight="24"
-    android:viewportWidth="24"
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
-    android:bottom="2dp"
-    android:top="2dp"
-    android:start="1dp"
-    android:end="1dp">
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24" >
 
-<path
-    android:strokeWidth="0.4"
-    android:strokeColor="@color/button_stroke"
-    android:fillColor="@color/button_background"
-    android:pathData="M7.41,12.59L12,17.17l4.59,-4.58L18,14l-6,6 -6,-6z"/>
+    <path
+        android:strokeWidth="0.4"
+        android:strokeColor="@color/button_strokepressed"
+        android:fillColor="@color/button_backgroundpressed"
+        android:pathData="M7.41,8.59L12,13.17l4.59,-4.58L18,10l-6,6 -6,-6 1.41,-1.41z" />
 
 </vector>
-

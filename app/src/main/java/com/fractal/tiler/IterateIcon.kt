@@ -72,13 +72,13 @@ fun initIcon() : IconValues {
     return IconValues(sqr, 24)
 }
 
-fun runIcon(wide : Int, high : Int, icon : IconValues) :ArrayList<Hit> {
+fun runIcon(wide : Int, high : Int, icon : IconValues) : ArrayList<HitCoord> {
 
     // region Variable Declaration
 
     maxCount.also { maxCounter = it }
 
-    val hits: ArrayList<Hit> = arrayListOf()
+    val hits: ArrayList<HitCoord> = arrayListOf()
 
     val sqr = icon.square
 
@@ -114,7 +114,7 @@ fun runIcon(wide : Int, high : Int, icon : IconValues) :ArrayList<Hit> {
         ynew = (ynew - ynew.toInt()) + 1
         ynew -= ynew.toInt()
 
-        hits.add(Hit((xnew * wide).toInt(), (ynew * high).toInt()))
+        hits.add(HitCoord((xnew * wide).toInt(), (ynew * high).toInt()))
 
     } while (++counter < maxCounter)
 

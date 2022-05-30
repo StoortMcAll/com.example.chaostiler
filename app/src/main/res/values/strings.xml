@@ -5,7 +5,7 @@
         <item>Gaussian</item>
         <item>Motion</item>
         <item>Smooth</item>
-        <item>Smooth</item>
+        <item>Average</item>
     </string-array>
 
     <string-array name="formula_types">
@@ -83,4 +83,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="smooth">Smooth</string>
     <string name="choose_filter">Choose Filter</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
 </resources>

@@ -6,6 +6,8 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.widget.TextView
 import com.fractal.tiler.MainActivity.Companion.DataProcess
+import com.fractal.tiler.MainActivity.Companion.colorClass
+import com.fractal.tiler.MainActivity.Companion.focusLost
 import com.fractal.tiler.MainActivity.Companion.height
 import com.fractal.tiler.MainActivity.Companion.mColorRangeLastIndex
 import com.fractal.tiler.MainActivity.Companion.quiltType
@@ -120,6 +122,8 @@ fun startNewRunFormula(isNewRun : Boolean) {
 
     maxCounter = maxCount
 
+    focusLost = false
+
     doingCalc = true
 
     do {
@@ -130,13 +134,14 @@ fun startNewRunFormula(isNewRun : Boolean) {
         }
 
         if (pixelData.addHitsToPixelArray(hits)) {
-            aColors =// if (MainActivity.colorClass.aCurrentRange.dataProcess == DataProcess.LINEAR) {
-                buildPixelArrayFromIncrementalColors(pixelData)
-           // } else {
-            //    buildPixelArrayFromSinwave(pixelData)
-           // }
-        }
-        else{
+            if (MainActivity.colorRangeChangeAnimInProgess) {
+                while (colorClass.mBlendingColors){ }
+
+                aColors = buildPixelArrayFromAnimColors(pixelData, MainActivity.animColorSpread.copyOf())
+            }
+            else
+                aColors =buildPixelArrayFromIncrementalColors(pixelData)
+        } else{
             prepareForNewRun()
         }
 
@@ -145,6 +150,8 @@ fun startNewRunFormula(isNewRun : Boolean) {
         CoroutineScope(Dispatchers.Main).launch {
             upDataUI()
         }
+
+        if (focusLost) doingCalc = false
 
     } while (doingCalc)
 }
@@ -192,6 +199,26 @@ fun buildPixelArrayFromIncrementalColors(pixeldata: PixelData) : IntArray {
     val curRange = MainActivity.colorClass.aCurrentRange
 
     val mColors = curRange.aColorSpread
+
+    val count = pixeldata.arraySize
+
+    val cols = IntArray(count)
+
+    val aScaleMaxHit = IntArray(pixeldata.mMaxHits + 1)
+
+    val scalar = mColorRangeLastIndex / pixeldata.mMaxHits.toFloat()
+    for (i in 0..pixeldata.mMaxHits)
+        aScaleMaxHit[i] = (i * scalar).toInt()
+
+    for (i in 0  until count){
+        cols[i] = mColors[aScaleMaxHit[pixeldata.aHitsArray[i]]]
+    }
+
+    return  cols
+}
+
+fun buildPixelArrayFromAnimColors(pixeldata: PixelData, mColors : IntArray) : IntArray {
+    val curRange = MainActivity.colorClass.aCurrentRange
 
     val count = pixeldata.arraySize
 

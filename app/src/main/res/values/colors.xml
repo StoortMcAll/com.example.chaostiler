@@ -13,7 +13,9 @@
     <color name="text_color_highlights">#ffd0f1f2</color>
     <color name="constraint_background">#FFf2efe9</color>
     <color name="button_background">#ff212171</color>
+    <color name="button_backgroundpressed">#ff4141d1</color>
     <color name="button_stroke">#ff6f6f6f</color>
+    <color name="button_strokepressed">#ffafafaf</color>
     <color name="my_yellow">#FFffff00</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>

@@ -12,8 +12,12 @@ import android.widget.*
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.RoundedBitmapDrawable
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.graphics.drawable.toDrawable
 import androidx.navigation.fragment.findNavController
+import com.fractal.tiler.MainActivity.Companion.colorClass
+import com.fractal.tiler.MainActivity.Companion.dpToPx
 import com.fractal.tiler.MainActivity.Companion.filter
 import com.fractal.tiler.databinding.FragmentDataBinding
 import kotlinx.coroutines.*
@@ -41,6 +45,7 @@ class DataFragment : Fragment() {
     private lateinit var seekbar: MySeekbar
     private lateinit var seekbarBackground : LayerDrawable
     private val seekbarBitmap : Bitmap = Bitmap.createBitmap(seekbarBitmapWidth, 1, Bitmap.Config.ARGB_8888)
+    private lateinit var roundedBitmapDrawable : RoundedBitmapDrawable
 
     private var mMaxSeekbarHit = 0
     private var mSeekbarProgess = 0
@@ -250,19 +255,25 @@ class DataFragment : Fragment() {
     private fun setSeekbarBitmapColors(){
         val maxAngle = 0.4 + (1.15 * MainActivity.dataFragmentSeekbarProgress)
         val mult = Math.tan(maxAngle) / (seekbarBitmapWidth - 1)
-        val colmult = 240.0 / maxAngle
-        var r : Int
+        val colmult = MainActivity.mColorRangeLastIndex / maxAngle
 
+        var r : Int
         for (i in 0 until seekbarBitmapWidth) {
             r = (atan(i * mult) * colmult).toInt()
 
-            aBitmapColors[i] = Color.argb(255, 15 + r, 15 + r, r)
+            aBitmapColors[i] = colorClass.aCurrentRange.aColorSpread[r]//Color.argb(255, 15 + r, 15 + r, r)
         }
 
         seekbarBitmap.setPixels(aBitmapColors, 0, seekbarBitmapWidth, 0, 0, seekbarBitmapWidth, 1)
-        seekbarBackground.setDrawableByLayerId(R.id.layer_bitmap, seekbarBitmap.toDrawable(resources))
+        seekbarBackground.setDrawableByLayerId(R.id.layer_bitmap, getRoundedBitmap(seekbarBitmap))
     }
 
+    private fun getRoundedBitmap(bitmap : Bitmap) : RoundedBitmapDrawable {
+        roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(resources, bitmap)
+        roundedBitmapDrawable.cornerRadius = dpToPx
+
+        return roundedBitmapDrawable
+    }
 
     override fun onResume() {
         super.onResume()
@@ -298,6 +309,7 @@ class DataFragment : Fragment() {
                 filterId = position
         }
 
+        setSeekbarBitmapColors()
     }
 
     override fun onDestroyView() {

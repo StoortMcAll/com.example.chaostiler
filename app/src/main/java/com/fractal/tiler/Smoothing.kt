@@ -4,6 +4,32 @@ import android.graphics.Color
 import com.fractal.tiler.MainActivity.Companion.colorClass
 
 
+val Blur = Filter(16.0F, 0, arrayOf(
+    intArrayOf(1, 2, 1),
+    intArrayOf(2, 4, 2),
+    intArrayOf(1, 2, 1)))
+val Gaussian = Filter(0, arrayOf(
+    intArrayOf(2, 4, 5, 4, 2),
+    intArrayOf(4, 9, 12, 9, 4),
+    intArrayOf(5, 12, 15, 12, 5),
+    intArrayOf(4, 9, 12, 9, 4),
+    intArrayOf(2, 4, 5, 4, 2)))
+val Motion = Filter(9.0F, 0, arrayOf(
+    intArrayOf(1, 0, 0, 0, 1),
+    intArrayOf(0, 1, 0, 1, 0),
+    intArrayOf(0, 0, 1, 0, 0),
+    intArrayOf(0, 1, 0, 1, 0),
+    intArrayOf(1, 0, 0, 0, 1)))
+val Sharpen = Filter(-8.0F, 0, arrayOf(
+    intArrayOf(1, 1, 1),
+    intArrayOf(1, 0, 1),
+    intArrayOf(1, 1, 1)))
+val Smooth = Filter(-9.0F, 0, arrayOf(
+    intArrayOf(1, 1, 1),
+    intArrayOf(1, 1, 1),
+    intArrayOf(1, 1, 1)))
+
+
 class Filter(val kernel : Array<IntArray>) {
 
     // region Variable Declaration
@@ -125,21 +151,40 @@ fun Filter.performFunction(wideArray: Array<IntArray>) : IntArray{
 
     var hits : Int
 
+    var center : Int
     var i = 0
 
-    if (weight == -1) { // Smooth Filter
-        for (y in 0 until MainActivity.height) {
-            for (x in 0 until MainActivity.width) {
-                hits = 0
-                for (ky in 0 until kernHit) {
-                    for (kx in 0 until kernWid) {
-                        if (kernel[ky][kx] == 1) {
+    if (weight < 0) { // Smooth Filter MUST BE kernel values of 0 or 1
+        val wt = -1.0F / weight
+        if (weight == -8) {
+            for (y in 0 until MainActivity.height) {
+                for (x in 0 until MainActivity.width) {
+                    hits = 0
+                    center = 0
+                    for (ky in 0 until kernHit) {
+                        for (kx in 0 until kernWid) {
+                            if (kernel[ky][kx] == 1)
+                              hits += wideArray[y + ky][x + kx]
+                            else center = wideArray[y + ky][x + kx]
+                           // hits += (wideArray[y + ky][x + kx] * kernel[ky][kx])
+                        }
+                    }
+
+                    array[i++] = center + (((hits * wt) - center) * 0.5f).toInt()
+                }
+            }
+        } else{//weight == -9
+            for (y in 0 until MainActivity.height) {
+                for (x in 0 until MainActivity.width) {
+                    hits = 0
+                    for (ky in 0 until kernHit) {
+                        for (kx in 0 until kernWid) {
                             hits += wideArray[y + ky][x + kx]
                         }
                     }
-                }
 
-                array[i++] = (hits * 0.125f).toInt()
+                    array[i++] = (hits * wt) .toInt()
+                }
             }
         }
     } else {

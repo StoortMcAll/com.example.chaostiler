@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         var rand  = Random(0)
 
-        const val width = 768; const val height = 768
+        const val width = 1024; const val height = 1024
 
         const val mColorRangeLastIndex = 511
 
@@ -54,6 +54,9 @@ class MainActivity : AppCompatActivity() {
         var bmImage : Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
         lateinit var colorClass : ColorClass
+
+        var colorRangeChangeAnimInProgess: Boolean = false
+        var animColorSpread = IntArray(mColorRangeLastIndex + 1)
 
         var mScaleFactor = 1.0f
 
@@ -68,6 +71,10 @@ class MainActivity : AppCompatActivity() {
         var dpToPx = 0.0f
 
         var scopeIO = CoroutineScope(Dispatchers.IO)
+
+        var focusLost = false
+
+      //  var doingCalc = false
     }
 
     // endregion
@@ -75,6 +82,8 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //todo Save permissions
 
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
@@ -129,6 +138,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
+
+        focusLost = (!hasFocus && doingCalc)
 
         hideSystemUI()
     }
